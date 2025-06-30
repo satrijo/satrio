@@ -1,0 +1,60 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "blog"
+    label: "Blog"
+    folder: "content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Category", name: "category", widget: "string" }
+      - label: "Article Language"
+        name: "article_language"
+        widget: "select"
+        options:
+          - { label: "Indonesian", value: "indonesian" }
+          - { label: "English", value: "english" }
+      - label: "Programming Language"
+        name: "programming_language"
+        widget: "select"
+        required: false
+        options:
+          - { label: "", value: "" }
+          - { label: "JavaScript", value: "javascript" }
+          - { label: "Python", value: "python" }
+          - { label: "PHP", value: "php" }
+          - { label: "TypeScript", value: "typescript" }
+          - { label: "Go", value: "go" }
+          - { label: "Java", value: "java" }
+          - { label: "Other", value: "other" }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "work"
+    label: "Work Experience"
+    folder: "content/work"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Company", name: "company", widget: "string" }
+      - { label: "Position", name: "position", widget: "string" }
+      - { label: "Start Date", name: "start_date", widget: "datetime" }
+      - { label: "End Date", name: "end_date", widget: "datetime", required: false }
+      - { label: "Description", name: "body", widget: "markdown" }
+
+  - name: "projects"
+    label: "Projects"
+    folder: "content/projects"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Project Name", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Description", name: "body", widget: "markdown" }
+      - { label: "Link", name: "link", widget: "string", required: false } 
