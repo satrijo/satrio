@@ -5,7 +5,7 @@
         <NuxtLink to="/">satrio.dev</NuxtLink>
       </h1>
       <div class="flex items-center gap-2 cursor-pointer">
-        <NuxtLink to="/" class="underline-link">blog</NuxtLink> /
+        <NuxtLink to="/blog" class="underline-link">blog</NuxtLink> /
         <NuxtLink to="/work" class="underline-link">work</NuxtLink> /
         <NuxtLink to="/projects" class="underline-link">projects</NuxtLink>
       </div>
