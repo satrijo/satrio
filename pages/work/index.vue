@@ -29,9 +29,16 @@
 
 <script setup>
 import { useHead } from '@unhead/vue'
-const { data: workExperiences } = await useAsyncData('work-experiences', () =>
-  queryCollection('work').order('start_date', 'DESC').all()
-)
+const { data: workExperiences } = await useAsyncData('work-experiences', async () => {
+  const all = await queryCollection('work').all()
+  // Sort: current (tanpa end_date) dulu, lalu berdasarkan end_date DESC
+  return all.sort((a, b) => {
+    if (!a.end_date && b.end_date) return -1
+    if (a.end_date && !b.end_date) return 1
+    if (!a.end_date && !b.end_date) return new Date(b.start_date) - new Date(a.start_date)
+    return new Date(b.end_date) - new Date(a.end_date)
+  })
+})
 
 useHead({
   title: 'Work Experience | Satrio',
