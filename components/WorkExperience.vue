@@ -20,26 +20,12 @@
 </template>
 
 <script setup>
-import { useHead } from '@unhead/vue'
 const { data: workExperience } = await useAsyncData('work-experience', () =>
   queryCollection('work')
   .order('start_date', 'DESC')
   .limit(3)
   .all()
 )
-
-useHead({
-  title: 'Work Experience | Satrio',
-  meta: [
-    { name: 'description', content: 'Highlight of Satrio\'s recent work experience and professional journey.' },
-    { property: 'og:title', content: 'Work Experience | Satrio' },
-    { property: 'og:description', content: 'Highlight of Satrio\'s recent work experience and professional journey.' },
-    { property: 'og:type', content: 'website' },
-    { name: 'twitter:card', content: 'summary' },
-    { name: 'twitter:title', content: 'Work Experience | Satrio' },
-    { name: 'twitter:description', content: 'Highlight of Satrio\'s recent work experience and professional journey.' }
-  ]
-})
 
 const formatDateRange = (startDate, endDate) => {
   if (!startDate) return ''
