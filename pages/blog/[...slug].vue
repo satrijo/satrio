@@ -16,7 +16,7 @@
     <header class="mb-12">
       <div class="flex flex-wrap items-center gap-2 mb-4 justify-center">
         <span v-if="post.programming_language" class="bg-gray-800 px-3 py-1 rounded-full text-sm flex items-center gap-1">
-          <Icon :name="languageIcons[post.programming_language] || languageIcons.other" class="w-4 h-4" />
+          <Icon :name="languageIcons[post.programming_language.toLowerCase()] || languageIcons.other" class="w-4 h-4" />
           {{ post.programming_language }}
         </span>
         <span v-if="post.article_language === 'indonesian'" class="bg-gray-800 px-3 py-1 rounded-full text-sm flex items-center gap-1">
@@ -27,6 +27,15 @@
         </span>
         <span v-if="post.category" class="bg-blue-900 text-blue-200 px-3 py-1 rounded-full text-sm">
           {{ post.category }}
+        </span>
+        <span v-if="post.ai_generated === 'ai'" class="bg-purple-900 text-purple-200 px-3 py-1 rounded-full text-sm">
+          AI Generated
+        </span>
+        <span v-else-if="post.ai_generated === 'human'" class="bg-green-900 text-green-200 px-3 py-1 rounded-full text-sm">
+          Human Generated
+        </span>
+        <span v-else-if="post.ai_generated === 'hybrid'" class="bg-yellow-900 text-yellow-200 px-3 py-1 rounded-full text-sm">
+          Hybrid
         </span>
       </div>
       

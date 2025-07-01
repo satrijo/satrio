@@ -10,7 +10,7 @@ collections:
     label: "Blog"
     folder: "content/blog"
     create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    slug: "{{slug}}"
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Date", name: "date", widget: "datetime" }
@@ -22,19 +22,26 @@ collections:
         options:
           - { label: "Indonesian", value: "indonesian" }
           - { label: "English", value: "english" }
+      - label: "AI Generated"
+        name: "ai_generated"
+        widget: "select"
+        options:
+          - { label: "AI Generated", value: "ai" }
+          - { label: "Human Generated", value: "human" }
+          - { label: "Hybrid", value: "hybrid" }
       - label: "Programming Language"
         name: "programming_language"
         widget: "select"
         required: false
         options:
           - { label: "", value: "" }
-          - { label: "JavaScript", value: "javascript" }
-          - { label: "Python", value: "python" }
-          - { label: "PHP", value: "php" }
-          - { label: "TypeScript", value: "typescript" }
-          - { label: "Go", value: "go" }
-          - { label: "Java", value: "java" }
-          - { label: "Other", value: "other" }
+          - { label: "JavaScript", value: "JavaScript" }
+          - { label: "Python", value: "Python" }
+          - { label: "PHP", value: "PHP" }
+          - { label: "TypeScript", value: "Typescript" }
+          - { label: "Go", value: "Go" }
+          - { label: "Java", value: "Java" }
+          - { label: "Other", value: "Other" }
       - { label: "Body", name: "body", widget: "markdown" }
 
   - name: "work"

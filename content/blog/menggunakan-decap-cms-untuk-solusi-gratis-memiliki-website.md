@@ -7,8 +7,8 @@ description: Di era digital ini, memiliki website adalah sebuah keharusan, baik
   hosting, hingga pemeliharaan. Bagaimana jika ada cara untuk memiliki website
   yang profesional, cepat, dan aman, namun dengan biaya mendekati nol?
 category: Decap CMS
-article_language: indonesian
-programming_language: javascript
+article_language: Indonesian
+programming_language: JavaScript
 ---
 Di era digital ini, memiliki website adalah sebuah keharusan, baik untuk bisnis, portofolio pribadi, maupun organisasi nirlaba. Namun, kendala utama yang sering dihadapi adalah biaya—mulai dari biaya langganan platform, hosting, hingga pemeliharaan. Bagaimana jika ada cara untuk memiliki website yang profesional, cepat, dan aman, namun dengan biaya mendekati nol?
 
