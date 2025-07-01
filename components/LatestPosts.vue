@@ -5,17 +5,21 @@
             <NuxtLink to="/blog" class="underline-link">See all posts</NuxtLink>
         </div>
         <div class="w-full space-y-4 text-gray-400">
-            <div
+            <NuxtLink
                 v-for="post in posts"
                 :key="post._path"
-                class="group border border-gray-400 p-3 rounded-lg shadow-md hover:bg-gray-700 hover:text-white transition-colors duration-300 cursor-pointer"
-                @click="navigateTo(post._path)"
+                :to="post.path"
+                class="group block border border-gray-400 p-3 rounded-lg shadow-md hover:bg-gray-700 hover:text-white transition-colors duration-300"
             >
                 <div class="flex justify-between items-center">
                     <div>
                         <h3 class="font-bold">{{ post.title }}</h3>
+                        <div class="text-xs text-gray-500 group-hover:text-gray-400 mb-1 flex items-center gap-1">
+                            <Icon name="mdi:calendar" class="w-3 h-3" />
+                            {{ formatDate(post.date) }}
+                        </div>
                         <p class="text-gray-500 group-hover:text-gray-300 text-sm transition-colors duration-300">
-                            {{ post.body.value[0][2].substring(0,150) }}...</p>
+                            {{ post.description || (post.body && post.body.value ? post.body.value[0][2].substring(0,150) + '...' : '') }}</p>
                     </div>
                     <div class="relative w-6 h-6">
                         <div
@@ -28,7 +32,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </NuxtLink>
         </div>
     </section>
 </template>
@@ -45,15 +49,18 @@ const languageIcons = {
 }
 
 const { data: posts } = await useAsyncData('blog', () => 
-    queryCollection('blog').all()
+    queryCollection('blog')
+    .order('date', 'DESC')
+    .limit(3)
+    .all()
 )
 
 
 const formatDate = (date) => {
     if (!date) return ''
-    return new Date(date).toLocaleDateString('en-US', {
+    return new Date(date).toLocaleDateString('id-ID', {
         year: 'numeric',
-        month: 'short',
+        month: 'long',
         day: 'numeric'
     })
 }

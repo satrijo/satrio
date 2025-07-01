@@ -6,13 +6,21 @@
     </div>
 
     <div class="space-y-6">
-      <article v-for="post in posts" :key="post._path"
-        class="border border-gray-400 p-6 rounded-lg hover:bg-gray-700 transition-colors duration-300 cursor-pointer group">
+      <NuxtLink 
+        v-for="post in posts" 
+        :key="post._path"
+        :to="post.path"
+        class="block border border-gray-400 p-6 rounded-lg hover:bg-gray-700 transition-colors duration-300 cursor-pointer group"
+      >
         <div class="flex justify-between items-center">
           <div>
             <h3 class="font-bold">{{ post.title }}</h3>
+            <div class="text-xs text-gray-500 group-hover:text-gray-400 mb-1 flex items-center gap-1">
+              <Icon name="mdi:calendar" class="w-3 h-3" />
+              {{ formatDate(post.date) }}
+            </div>
             <p class="text-gray-500 group-hover:text-gray-300 text-sm transition-colors duration-300">
-              {{ post.body.value[0][2].substring(0, 150) }}...</p>
+              {{ post.description || (post.body && post.body.value ? post.body.value[0][2].substring(0, 150) + '...' : '') }}</p>
           </div>
           <div class="relative w-6 h-6">
             <div class="absolute inset-0 transition-opacity duration-300 opacity-100 group-hover:opacity-0">
@@ -23,12 +31,20 @@
             </div>
           </div>
         </div>
-      </article>
+      </NuxtLink>
     </div>
   </div>
 </template>
 
 <script setup>
+// SEO metadata
+useHead({
+  title: 'Blog | Satrio',
+  meta: [
+    { name: 'description', content: 'Articles and tutorials about web development, programming, and technology.' }
+  ]
+})
+
 const languageIcons = {
   javascript: 'logos:javascript',
   python: 'logos:python',
@@ -39,12 +55,13 @@ const languageIcons = {
   other: 'mdi:code-tags'
 }
 
-const { data: posts } = await useAsyncData('blog', () =>
+const { data: posts } = await useAsyncData('blog-list', () =>
   queryCollection('blog').all()
 )
 
 const formatDate = (date) => {
-  return new Date(date).toLocaleDateString('en-US', {
+  if (!date) return ''
+  return new Date(date).toLocaleDateString('id-ID', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
