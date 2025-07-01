@@ -208,15 +208,16 @@ const shareArticle = (platform) => {
   border: 1px solid #334155;
 }
 
+
 .prose a {
-  color: #60a5fa;
-  text-decoration: none;
-  border-bottom: 1px dashed rgba(96, 165, 250, 0.4);
+  color: #e5e7eb;
+  text-decoration: underline;
+  border-bottom: 1px dashed #444;
   transition: all 0.2s ease;
 }
 
 .prose a:hover {
-  color: #93c5fd;
+  color: #fff;
   border-bottom-style: solid;
 }
 
@@ -227,9 +228,10 @@ const shareArticle = (platform) => {
   line-height: 1.3;
 }
 
+
 .prose h2 {
   font-size: 1.75em;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  border-bottom: 1px solid #222;
   padding-bottom: 0.5em;
 }
 
@@ -241,12 +243,13 @@ const shareArticle = (platform) => {
   font-size: 1.25em;
 }
 
+
 .prose blockquote {
-  border-left: 4px solid #60a5fa;
+  border-left: 4px solid #444;
   padding-left: 1em;
   font-style: italic;
   margin: 1.5em 0;
-  color: #94a3b8;
+  color: #bcbcbc;
 }
 
 .prose ul, .prose ol {

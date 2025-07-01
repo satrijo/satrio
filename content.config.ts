@@ -18,11 +18,10 @@ export default defineContentConfig({
             source: 'work/*.md',
             type: 'page',
             schema: z.object({
-                title: z.string().min(1).max(100),
-                start_date: z.date(),
-                end_date: z.date().optional(),
                 company: z.string().min(1),
                 position: z.string().min(1),
+                start_date: z.date(),
+                end_date: z.date().optional(),
                 body: z.string().optional(),
             }),
         }),
@@ -32,10 +31,7 @@ export default defineContentConfig({
             schema: z.object({
                 title: z.string().min(1).max(100),
                 date: z.date(),
-                description: z.string().optional(),
-                tech_stack: z.string().optional(),
-                link: z.string().url().optional(),
-                body: z.string().optional(),
+                link: z.string().optional(),
             }),
         })
     }

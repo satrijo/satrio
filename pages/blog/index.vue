@@ -10,7 +10,7 @@
         v-for="post in posts" 
         :key="post._path"
         :to="post.path"
-        class="block border border-gray-400 p-6 rounded-lg hover:bg-gray-700 transition-colors duration-300 cursor-pointer group"
+        class="block border border-gray-800 p-6 rounded-lg hover:bg-gray-700 transition-colors duration-300 cursor-pointer group"
       >
         <div class="flex justify-between items-center">
           <div>
@@ -22,7 +22,7 @@
             <p class="text-gray-500 group-hover:text-gray-300 text-sm transition-colors duration-300">
               {{ post.description || (post.body && post.body.value ? post.body.value[0][2].substring(0, 150) + '...' : '') }}</p>
           </div>
-          <div class="relative w-6 h-6">
+          <div class="relative w-6 h-6 flex-shrink-0">
             <div class="absolute inset-0 transition-opacity duration-300 opacity-100 group-hover:opacity-0">
               <Icon name="ep:arrow-right" class="w-6 h-6" />
             </div>

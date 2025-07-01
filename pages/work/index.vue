@@ -6,7 +6,7 @@
     </div>
     
     <div class="space-y-8">
-      <article v-for="work in workExperiences" :key="work._path" class="border border-gray-400 p-6 rounded-lg">
+      <article v-for="work in workExperiences" :key="work._path" class="border border-gray-800 p-6 rounded-lg">
         <div class="flex justify-between items-start mb-4">
           <div>
             <h2 class="text-xl font-bold">{{ work.position }}</h2>
