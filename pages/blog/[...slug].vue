@@ -19,7 +19,7 @@
 
 <script setup>
 const route = useRoute()
-const { data: post } = await useAsyncData(`blog-${route.params.slug}`, () =>
+const { data: post } = await useAsyncData(`blog-detail-${route.params.slug}`, () =>
   queryContent('blog', route.params.slug).findOne()
 )
 

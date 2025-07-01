@@ -8,23 +8,14 @@
             <div
                 v-for="post in posts"
                 :key="post._path"
-                class="group border border-gray-400 p-2 rounded-lg shadow-md hover:bg-gray-700 hover:text-white transition-colors duration-300 cursor-pointer"
+                class="group border border-gray-400 p-3 rounded-lg shadow-md hover:bg-gray-700 hover:text-white transition-colors duration-300 cursor-pointer"
                 @click="navigateTo(post._path)"
             >
                 <div class="flex justify-between items-center">
                     <div>
-                        <div class="flex items-center gap-2 mb-1">
-                            <span v-if="post.programming_language">
-                                <Icon :name="languageIcons[post.programming_language] || languageIcons.other" class="w-5 h-5" />
-                            </span>
-                            <span v-if="post.article_language === 'indonesian'">🇮🇩</span>
-                            <span v-else-if="post.article_language === 'english'">🇬🇧</span>
-                            <span v-if="post.category" class="ml-2 text-xs text-blue-400">{{ post.category }}</span>
-                        </div>
                         <h3 class="font-bold">{{ post.title }}</h3>
-                        <span class="text-gray-500 group-hover:text-gray-300 text-sm transition-colors duration-300">
-                            {{ formatDate(post.date) }}
-                        </span>
+                        <p class="text-gray-500 group-hover:text-gray-300 text-sm transition-colors duration-300">
+                            {{ post.body.value[0][2].substring(0,150) }}...</p>
                     </div>
                     <div class="relative w-6 h-6">
                         <div
@@ -53,9 +44,10 @@ const languageIcons = {
     other: 'mdi:code-tags'
 }
 
-const { data: posts } = await useAsyncData('latest-posts', () =>
-    queryContent('blog').sort({ date: -1 }).limit(3).find()
+const { data: posts } = await useAsyncData('blog', () => 
+    queryCollection('blog').all()
 )
+
 
 const formatDate = (date) => {
     if (!date) return ''
