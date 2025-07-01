@@ -15,7 +15,7 @@
         <div class="flex justify-between items-center">
           <div>
             <h3 class="font-bold">{{ post.title }}</h3>
-            <div class="text-xs text-gray-500 group-hover:text-gray-400 mb-1 flex items-center gap-1">
+            <div class="text-xs text-gray-500 group-hover:text-gray-400 mb-3 flex items-center gap-1">
               <Icon name="mdi:calendar" class="w-3 h-3" />
               {{ formatDate(post.date) }}
             </div>
