@@ -17,6 +17,14 @@
                         <div class="text-xs text-gray-500 group-hover:text-gray-400 mb-3 flex items-center gap-1">
                             <Icon name="mdi:calendar" class="w-3 h-3" />
                             {{ formatDate(post.date) }}
+                            <div class="flex items-center">
+                                <Icon v-if="post.article_language === 'indonesian'" name="circle-flags:id" class="ml-2 w-3 h-3 items-center" />
+                                <Icon v-else-if="post.article_language === 'english'" name="circle-flags:uk" class="ml-2 w-3 h-3 items-center" />
+                                <Icon :name="languageIcons[post.programming_language.toLowerCase()] || languageIcons.other" class="w-5 h-5 items-center" />
+                                <Icon v-if="post.ai_generated === 'ai'" name="openmoji:robot" class="w-5 h-5 items-center" />
+                                <Icon v-else-if="post.ai_generated === 'human'" name="openmoji:account" class="w-5 h-5 items-center" />
+                                <Icon v-else-if="post.ai_generated === 'hybrid'" name="openmoji:handshake" class="w-5 h-5 items-center" />
+                            </div>
                         </div>
                         <p class="text-gray-500 group-hover:text-gray-300 text-sm transition-colors duration-300">
                             {{ post.description.substring(0,150) + '...' || (post.body && post.body.value ? post.body.value[0][2].substring(0,150) + '...' : '') }}</p>
@@ -39,13 +47,13 @@
 
 <script setup>
 const languageIcons = {
-    javascript: 'logos:javascript',
-    python: 'logos:python',
-    php: 'logos:php',
-    typescript: 'logos:typescript-icon',
-    go: 'logos:go',
-    java: 'logos:java',
-    other: 'mdi:code-tags'
+    javascript: 'openmoji:javascript',
+    python: 'openmoji:python',
+    php: 'openmoji:php',
+    typescript: 'openmoji:typescript-icon',
+    go: 'openmoji:go',
+    java: 'openmoji:java',
+    other: 'openmoji:code-editor'
 }
 
 const { data: posts } = await useAsyncData('blog', () => 

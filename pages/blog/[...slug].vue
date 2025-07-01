@@ -29,7 +29,7 @@
           {{ post.category }}
         </span>
         <span v-if="post.ai_generated === 'ai'" class="bg-purple-900 text-purple-200 px-3 py-1 rounded-full text-sm flex items-center gap-1">
-          <Icon name="mdi:robot" class="w-4 h-4" />
+          <Icon name="openmoji:robot" class="w-5 h-5" />
           AI Generated
         </span>
         <span v-else-if="post.ai_generated === 'human'" class="bg-green-900 text-green-200 px-3 py-1 rounded-full text-sm flex items-center gap-1">
