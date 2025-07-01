@@ -11,36 +11,51 @@
                     <h3 class="font-bold text-base">{{ work.company }}</h3>
                     <span>{{ work.position }}</span>
                 </div>
-                <p>{{ work.body }}</p>
+                <div class="prose prose-invert max-w-none">
+                    <ContentRenderer :value="work" />
+                </div>
             </div>
         </div>
     </section>
 </template>
 
 <script setup>
+import { useHead } from '@unhead/vue'
 const { data: workExperience } = await useAsyncData('work-experience', () =>
-  queryContent('work').sort({ start_date: -1 }).limit(2).find()
+  queryCollection('work')
+  .order('start_date', 'DESC')
+  .limit(3)
+  .all()
 )
+
+useHead({
+  title: 'Work Experience | Satrio',
+  meta: [
+    { name: 'description', content: 'Highlight of Satrio\'s recent work experience and professional journey.' },
+    { property: 'og:title', content: 'Work Experience | Satrio' },
+    { property: 'og:description', content: 'Highlight of Satrio\'s recent work experience and professional journey.' },
+    { property: 'og:type', content: 'website' },
+    { name: 'twitter:card', content: 'summary' },
+    { name: 'twitter:title', content: 'Work Experience | Satrio' },
+    { name: 'twitter:description', content: 'Highlight of Satrio\'s recent work experience and professional journey.' }
+  ]
+})
 
 const formatDateRange = (startDate, endDate) => {
   if (!startDate) return ''
-  
   const start = new Date(startDate)
   const startFormatted = start.toLocaleDateString('en-US', { 
     year: 'numeric', 
     month: 'short' 
   })
-  
   if (!endDate) {
     return `${startFormatted} - Current`
   }
-  
   const end = new Date(endDate)
   const endFormatted = end.toLocaleDateString('en-US', { 
     year: 'numeric', 
     month: 'short' 
   })
-  
   return `${startFormatted} - ${endFormatted}`
 }
-</script> 
+</script>

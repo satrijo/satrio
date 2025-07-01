@@ -22,7 +22,6 @@ export default defineContentConfig({
                 position: z.string().min(1),
                 start_date: z.date(),
                 end_date: z.date().optional(),
-                body: z.string().optional(),
             }),
         }),
         projects: defineCollection({
