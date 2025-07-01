@@ -1,5 +1,5 @@
 ---
-company: Badan Meteorologi Klimatologi dan Geofisika (BMKG)
+company: Badan Meteorologi Klimatologi dan Geofisika
 position: Software Developer
 start_date: 2020-01-01T00:00:00.000Z
 ---
@@ -9,4 +9,5 @@ start_date: 2020-01-01T00:00:00.000Z
   performance for end-users.
 * Collaborated with a team to implement new features using Node.js and JavaScript,
   enhancing system functionality.
-* Contributed to frontend development using
+* Contributed to frontend development using JavaScript and its ecosystem, improving user
+  experience and interface responsiveness.
