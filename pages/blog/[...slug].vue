@@ -28,13 +28,16 @@
         <span v-if="post.category" class="bg-blue-900 text-blue-200 px-3 py-1 rounded-full text-sm">
           {{ post.category }}
         </span>
-        <span v-if="post.ai_generated === 'ai'" class="bg-purple-900 text-purple-200 px-3 py-1 rounded-full text-sm">
+        <span v-if="post.ai_generated === 'ai'" class="bg-purple-900 text-purple-200 px-3 py-1 rounded-full text-sm flex items-center gap-1">
+          <Icon name="mdi:robot" class="w-4 h-4" />
           AI Generated
         </span>
-        <span v-else-if="post.ai_generated === 'human'" class="bg-green-900 text-green-200 px-3 py-1 rounded-full text-sm">
-          Human Generated
+        <span v-else-if="post.ai_generated === 'human'" class="bg-green-900 text-green-200 px-3 py-1 rounded-full text-sm flex items-center gap-1">
+          <Icon name="mdi:account" class="w-4 h-4" />
+          Human
         </span>
-        <span v-else-if="post.ai_generated === 'hybrid'" class="bg-yellow-900 text-yellow-200 px-3 py-1 rounded-full text-sm">
+        <span v-else-if="post.ai_generated === 'hybrid'" class="bg-yellow-900 text-yellow-200 px-3 py-1 rounded-full text-sm flex items-center gap-1">
+          <Icon name="mdi:handshake" class="w-4 h-4" />
           Hybrid
         </span>
       </div>
