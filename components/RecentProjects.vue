@@ -15,7 +15,7 @@
                     <div>
                         <h3 class="font-bold">{{ project.title }}</h3>
                         <span class="text-gray-500 group-hover:text-gray-300 text-sm transition-colors duration-300">
-                            {{ formatDate(project.date) }}
+                            {{ project.description ? project.description.substring(0, 150) + '...' : '' }}
                         </span>
                     </div>
                     <div class="relative w-6 h-6">
@@ -36,15 +36,9 @@
 
 <script setup>
 const { data: projects } = await useAsyncData('recent-projects', () =>
-    queryContent('projects').sort({ date: -1 }).limit(2).find()
+    queryCollection('projects')
+        .order('date', 'DESC')
+        .limit(2)
+        .all()
 )
-
-const formatDate = (date) => {
-    if (!date) return ''
-    return new Date(date).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-    })
-}
 </script> 

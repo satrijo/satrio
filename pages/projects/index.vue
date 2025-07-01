@@ -5,29 +5,41 @@
       <p class="text-gray-400">A collection of my work and projects.</p>
     </div>
     
-    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      <article v-for="project in projects" :key="project._path" class="border border-gray-400 p-6 rounded-lg hover:bg-gray-700 transition-colors duration-300">
-        <div class="flex justify-between items-start mb-4">
-          <h2 class="text-xl font-bold">{{ project.title }}</h2>
-          <time class="text-sm text-gray-500">{{ formatDate(project.date) }}</time>
-        </div>
-        <p class="text-gray-400 mb-4">{{ project.body }}</p>
-        <div class="flex justify-between items-center">
-          <NuxtLink :to="project._path" class="text-blue-400 hover:text-blue-300 transition-colors">
-            View details →
-          </NuxtLink>
-          <a v-if="project.link" :href="project.link" target="_blank" rel="noopener" class="text-green-400 hover:text-green-300 transition-colors">
-            Live demo →
-          </a>
-        </div>
-      </article>
+    <div class="space-y-6">
+      <div
+                v-for="project in projects"
+                :key="project._path"
+                class="group border border-gray-400 p-2 rounded-lg shadow-md hover:bg-gray-700 hover:text-white transition-colors duration-300 cursor-pointer"
+                @click="navigateTo(project.path)"
+            >
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="font-bold">{{ project.title }}</h3>
+                        <span class="text-gray-500 group-hover:text-gray-300 text-sm transition-colors duration-300">
+                            {{ project.description ? project.description.substring(0, 150) + '...' : '' }}
+                        </span>
+                    </div>
+                    <div class="relative w-6 h-6">
+                        <div
+                            class="absolute inset-0 transition-opacity duration-300 opacity-100 group-hover:opacity-0">
+                            <Icon name="ep:arrow-right" class="w-6 h-6" />
+                        </div>
+                        <div
+                            class="absolute inset-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100">
+                            <Icon name="line-md:arrow-right-circle" class="w-6 h-6" />
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
   </div>
 </template>
 
 <script setup>
 const { data: projects } = await useAsyncData('projects', () =>
-  queryContent('projects').sort({ date: -1 }).find()
+  queryCollection('projects')
+    .order('date', 'DESC')
+    .all()
 )
 
 const formatDate = (date) => {

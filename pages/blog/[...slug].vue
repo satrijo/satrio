@@ -11,7 +11,7 @@
     </NuxtLink>
   </div>
   
-  <article v-else class="max-w-4xl mx-auto py-8 px-4 sm:px-6">
+  <article v-else class="max-w-4xl mx-auto py-8 px-2 sm:px-0">
     <!-- Header section with metadata -->
     <header class="mb-12">
       <div class="flex flex-wrap items-center gap-2 mb-4 justify-center">
