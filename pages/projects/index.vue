@@ -36,11 +36,19 @@
 </template>
 
 <script setup>
+import { useHead } from '@unhead/vue'
 const { data: projects } = await useAsyncData('projects', () =>
   queryCollection('projects')
     .order('date', 'DESC')
     .all()
 )
+
+useHead({
+  title: 'Projects | Satrio',
+  meta: [
+    { name: 'description', content: 'A collection of Satrio\'s work, portfolio, and projects.' }
+  ]
+})
 
 const formatDate = (date) => {
   return new Date(date).toLocaleDateString('en-US', {

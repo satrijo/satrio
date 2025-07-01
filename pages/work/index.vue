@@ -28,9 +28,17 @@
 </template>
 
 <script setup>
+import { useHead } from '@unhead/vue'
 const { data: workExperiences } = await useAsyncData('work-experiences', () =>
   queryContent('work').sort({ start_date: -1 }).find()
 )
+
+useHead({
+  title: 'Work Experience | Satrio',
+  meta: [
+    { name: 'description', content: 'Professional journey, work experience, and career history of Satrio.' }
+  ]
+})
 
 const formatDate = (date) => {
   return new Date(date).toLocaleDateString('en-US', {

@@ -36,12 +36,29 @@
 </template>
 
 <script setup>
+import { useHead } from '@unhead/vue'
 const route = useRoute()
 const { data: project, pending } = await useAsyncData(route.path, () => {
   return queryCollection('projects').path(route.path).first()
 })
 
-console.log(project.value)
+watchEffect(() => {
+  if (project.value) {
+    useHead({
+      title: project.value.title,
+      meta: [
+        { name: 'description', content: project.value.description || '' },
+        { property: 'og:title', content: project.value.title },
+        { property: 'og:description', content: project.value.description || '' },
+        { property: 'og:type', content: 'article' },
+        { property: 'og:url', content: typeof window !== 'undefined' ? window.location.href : '' },
+        { name: 'twitter:card', content: 'summary' },
+        { name: 'twitter:title', content: project.value.title },
+        { name: 'twitter:description', content: project.value.description || '' },
+      ]
+    })
+  }
+})
 
 const formatDate = (date) => {
   if (!date) return ''

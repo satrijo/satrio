@@ -102,9 +102,29 @@
 </template>
 
 <script setup>
+import { useHead } from '@unhead/vue'
 const route = useRoute()
 const { data: post, pending } = await useAsyncData(route.path, () => {
   return queryCollection('blog').path(route.path).first()
+})
+
+// SEO meta tags
+watchEffect(() => {
+  if (post.value) {
+    useHead({
+      title: post.value.title,
+      meta: [
+        { name: 'description', content: post.value.description || '' },
+        { property: 'og:title', content: post.value.title },
+        { property: 'og:description', content: post.value.description || '' },
+        { property: 'og:type', content: 'article' },
+        { property: 'og:url', content: typeof window !== 'undefined' ? window.location.href : '' },
+        { name: 'twitter:card', content: 'summary' },
+        { name: 'twitter:title', content: post.value.title },
+        { name: 'twitter:description', content: post.value.description || '' },
+      ]
+    })
+  }
 })
 
 // Kalkukasi estimasi waktu baca
