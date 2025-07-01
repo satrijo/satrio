@@ -20,7 +20,7 @@
               {{ formatDate(post.date) }}
             </div>
             <p class="text-gray-500 group-hover:text-gray-300 text-sm transition-colors duration-300">
-              {{ post.description || (post.body && post.body.value ? post.body.value[0][2].substring(0, 150) + '...' : '') }}</p>
+              {{ post.description.substring(0, 150) + '...' || (post.body && post.body.value ? post.body.value[0][2].substring(0, 150) + '...' : '') }}</p>
           </div>
           <div class="relative w-6 h-6 flex-shrink-0">
             <div class="absolute inset-0 transition-opacity duration-300 opacity-100 group-hover:opacity-0">

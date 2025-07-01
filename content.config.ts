@@ -10,6 +10,7 @@ export default defineContentConfig({
                 date: z.date(),
                 description: z.string().optional(),
                 category: z.string().optional(),
+                ai_generated: z.string().optional(),
                 article_language: z.string().optional(),
                 programming_language: z.string().optional(),
             }),
