@@ -1,6 +1,6 @@
 
 <template>
-  <div>
+  <div class="text-white">
     <div v-if="pending" class="flex justify-center items-center min-h-[60vh]">
       <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2"></div>
     </div>

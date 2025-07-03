@@ -1,5 +1,5 @@
 <template>
-  <header class="sticky top-0 z-10 bg-black mb-10">
+  <header class="sticky top-0 z-10 bg-black mb-10 text-white">
     <div class="flex justify-between items-center py-4">
       <h1 class="text-lg font-bold">
         <NuxtLink to="/">satrio.dev</NuxtLink>

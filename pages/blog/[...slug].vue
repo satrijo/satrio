@@ -1,17 +1,17 @@
 <template>
-  <div v-if="pending" class="flex justify-center items-center min-h-[60vh]">
-    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+  <div v-if="pending" class="flex justify-center items-center min-h-[60vh] text-white mx-auto">
+    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
   </div>
   
   <div v-else-if="!post" class="max-w-4xl mx-auto py-12 text-center">
-    <h1 class="text-3xl font-bold text-red-500 mb-4">Artikel tidak ditemukan</h1>
+    <h1 class="text-3xl font-bold text-white mb-4">Artikel tidak ditemukan</h1>
     <p class="mb-6">Maaf, artikel yang Anda cari tidak tersedia.</p>
     <NuxtLink to="/blog" class="text-blue-400 hover:text-blue-300 transition-colors">
       ← Kembali ke Blog
     </NuxtLink>
   </div>
   
-  <article v-else class="max-w-4xl mx-auto py-8 px-2 sm:px-0">
+  <article v-else class="max-w-4xl mx-auto py-8 px-2 sm:px-0 text-white">
     <!-- Header section with metadata -->
     <header class="mb-12">
       <div class="flex flex-wrap items-center gap-2 mb-4 justify-center">

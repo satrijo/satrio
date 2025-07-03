@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-8">
+  <div class="space-y-8 text-white">
     <div class="text-center">
       <h1 class="text-3xl font-bold mb-4">Projects</h1>
       <p class="text-gray-400">A collection of my work and projects.</p>

@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-8">
+  <div class="space-y-8 text-white">
     <div class="text-center">
       <h1 class="text-3xl font-bold mb-4">Blog</h1>
       <p class="text-gray-400">Thoughts, ideas, and insights about technology and development.</p>

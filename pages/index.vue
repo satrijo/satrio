@@ -1,5 +1,5 @@
 <template>
-  <main class="space-y-16 mt-16">
+  <main class="space-y-16 mt-16 text-white">
     <HeroSection />
     <LatestPosts />
     <WorkExperience />
