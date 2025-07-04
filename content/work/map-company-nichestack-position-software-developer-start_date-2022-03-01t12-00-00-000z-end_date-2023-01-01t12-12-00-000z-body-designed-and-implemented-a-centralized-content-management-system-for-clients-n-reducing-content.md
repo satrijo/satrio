@@ -1,5 +1,5 @@
 ---
-company: NicheStack
+company: NicheStack (Freelance)
 position: Software Developer
 start_date: 2022-03-01T12:00:00.000Z
 end_date: 2023-01-01T12:12:00.000Z
