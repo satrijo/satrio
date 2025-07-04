@@ -1,5 +1,5 @@
 ---
-company: MoVision UG (haftungsbeschränkt)
+company: MoVision UG - haftungsbeschränkt (Freelance)
 position: Software Developer
 start_date: 2023-02-01T12:00:00.000Z
 end_date: 2023-04-01T19:07:00.000Z
