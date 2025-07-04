@@ -1,5 +1,5 @@
 ---
-company: PT Cargonesia Utama Trans
+company: PT Cargonesia Utama Trans (Freelance)
 position: Search Engine Optimization Analyst
 start_date: 2015-05-01T15:58:00.000Z
 end_date: 2016-10-01T15:58:00.000Z
