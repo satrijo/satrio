@@ -10,7 +10,7 @@
         <NuxtLink to="/work" class="underline-link font-medium">work</NuxtLink>
         <span class="text-gray-600">/</span>
         <NuxtLink to="/projects" class="underline-link font-medium">projects</NuxtLink>
-      </div>
+      </nav>
     </div>
   </header>
 </template> 
