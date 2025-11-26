@@ -1,7 +1,8 @@
 ---
-company: Badan Meteorologi Klimatologi dan Geofisika (Full-time)
+company: Indonesian Agency for Meteorology, Climatology, and Geophysics (BMKG)
+  (Full-time)
 position: Software Developer
-start_date: 2020-01-01T00:00:00.000Z
+start_date: 2022-01-01T07:00:00.000+07:00
 ---
 * Developed and maintained a flight weather information system using Laravel and Node.js,
   reducing data retrieval time by 30%.
