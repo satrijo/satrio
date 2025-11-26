@@ -5,7 +5,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      disqusShortname: process.env.DISQUS_SHORTNAME || ''
+      disqusShortname: process.env.DISQUS_SHORTNAME || 'satriodev-1'
     }
   },
 
