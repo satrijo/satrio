@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-8 text-white">
     <div class="text-center">
-      <h1 class="text-3xl font-bold mb-4">Projects</h1>
+            <h1 class="text-3xl font-bold mb-4">Projects</h1>
       <p class="text-gray-400">A collection of my work and projects.</p>
     </div>
     
@@ -29,7 +29,7 @@
         <div class="flex justify-between items-center">
           <div>
             <h3 class="font-bold">{{ project.title }}</h3>
-            <span class="text-gray-500 group-hover:text-gray-300 text-sm transition-colors duration-300">
+            <span class="text-gray-500 group-hover:text-gray-300 text-sm leading-relaxed transition-colors duration-300">
               {{ project.description ? project.description.substring(0, 150) + '...' : '' }}
             </span>
           </div>

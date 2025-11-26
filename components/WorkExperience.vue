@@ -6,10 +6,10 @@
         </div>
         <div class="w-full space-y-7 text-gray-400">
             <div v-for="work in workExperience" :key="work._path" class="py-1">
-                <div class="mb-3 text-sm">
-                    <span>{{ formatDateRange(work.start_date, work.end_date) }}</span>
-                    <h3 class="font-bold text-base">{{ work.company }}</h3>
-                    <span>{{ work.position }}</span>
+                <div class="mb-3 text-sm space-y-1">
+                    <span class="text-gray-500">{{ formatDateRange(work.start_date, work.end_date) }}</span>
+                    <h3 class="font-bold text-base text-gray-100">{{ work.company }}</h3>
+                    <span class="text-gray-300">{{ work.position }}</span>
                 </div>
                 <div class="prose prose-invert max-w-none">
                     <ContentRenderer :value="work" />

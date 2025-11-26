@@ -28,7 +28,7 @@
                 <div class="flex justify-between items-center">
                     <div>
                         <h3 class="font-bold">{{ project.title }}</h3>
-                        <span class="text-gray-500 group-hover:text-gray-300 text-sm transition-colors duration-300">
+                        <span class="text-gray-500 group-hover:text-gray-300 text-sm leading-relaxed transition-colors duration-300">
                             {{ project.description ? project.description.substring(0, 150) + '...' : '' }}
                         </span>
                     </div>

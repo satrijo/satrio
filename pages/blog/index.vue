@@ -29,7 +29,7 @@
         <div class="flex justify-between items-center">
           <div>
             <h3 class="font-bold">{{ post.title }}</h3>
-            <div class="text-xs text-gray-500 group-hover:text-gray-400 mb-3 flex items-center gap-1">
+            <div class="text-xs text-gray-500 group-hover:text-gray-400 mb-3 flex flex-wrap items-center gap-1">
               <Icon name="mdi:calendar" class="w-3 h-3" />
               {{ formatDate(post.date) }}
               <Icon v-if="post.article_language === 'indonesian'" name="circle-flags:id" class="ml-2 w-3 h-3 items-center" />
@@ -39,7 +39,7 @@
               <Icon v-else-if="post.ai_generated === 'human'" name="openmoji:account" class="w-5 h-5 items-center" />
               <Icon v-else-if="post.ai_generated === 'hybrid'" name="openmoji:handshake" class="w-5 h-5 items-center" />
             </div>
-            <p class="text-gray-500 group-hover:text-gray-300 text-sm transition-colors duration-300">
+            <p class="text-gray-500 group-hover:text-gray-300 text-sm leading-relaxed transition-colors duration-300">
               {{ post.description.substring(0, 150) + '...' || (post.body && post.body.value ? post.body.value[0][2].substring(0, 150) + '...' : '') }}</p>
           </div>
           <div class="relative w-6 h-6 flex-shrink-0">
