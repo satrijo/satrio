@@ -4,11 +4,18 @@
     <p v-if="!shortname" class="text-sm text-red-400 mb-4">
       Disqus belum dikonfigurasi. Setel variabel lingkungan `DISQUS_SHORTNAME`.
     </p>
-    <div v-else id="disqus_thread" class="bg-gray-900 border border-gray-800 rounded-xl p-4" />
+    <div
+      v-else
+      ref="threadRef"
+      id="disqus_thread"
+      class="border border-gray-800 rounded-xl p-4 bg-transparent"
+    />
   </section>
 </template>
 
 <script setup lang="ts">
+const threadRef = ref<HTMLElement | null>(null)
+
 const props = defineProps<{
   identifier?: string
   title?: string
@@ -18,40 +25,43 @@ const route = useRoute()
 const config = useRuntimeConfig()
 const shortname = config.public.disqusShortname
 
-const configureDisqus = () => {
+const injectDisqus = () => {
   if (typeof window === 'undefined' || !shortname) {
     return
   }
 
-  const configFn = function configFn(this: DisqusJSConfig) {
+  window.disqus_config = function configFn(this: DisqusJSConfig) {
     this.page.url = window.location.href
     this.page.identifier = props.identifier || route.fullPath
     this.page.title = props.title || document.title
   }
 
-  if (window.DISQUS) {
-    window.DISQUS.reset({
-      reload: true,
-      config: configFn
-    })
-  } else {
-    window.disqus_config = configFn
-    const d = document
-    const s = d.createElement('script')
-    s.src = `https://${shortname}.disqus.com/embed.js`
-    s.setAttribute('data-timestamp', Date.now().toString())
-    ;(d.head || d.body).appendChild(s)
+  const existingScript = document.getElementById('dsq-embed-scr')
+  if (existingScript) {
+    existingScript.remove()
   }
+
+  if (threadRef.value) {
+    threadRef.value.innerHTML = ''
+  }
+
+  const d = document
+  const s = d.createElement('script')
+  s.id = 'dsq-embed-scr'
+  s.src = `https://${shortname}.disqus.com/embed.js`
+  s.setAttribute('data-timestamp', Date.now().toString())
+  s.async = true
+  ;(d.head || d.body).appendChild(s)
 }
 
-onMounted(configureDisqus)
-watch(() => route.fullPath, () => configureDisqus())
+onMounted(() => {
+  injectDisqus()
+})
+watch(() => route.fullPath, () => {
+  injectDisqus()
+})
 
 declare global {
-  interface DisqusInstance {
-    reset?: (args: { reload: boolean; config: () => void }) => void
-  }
-
   interface DisqusJSConfig {
     page: {
       url: string
@@ -61,7 +71,6 @@ declare global {
   }
 
   interface Window {
-    DISQUS?: DisqusInstance
     disqus_config?: () => void
   }
 }
