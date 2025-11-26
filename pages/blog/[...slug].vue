@@ -62,6 +62,13 @@
       <ContentRenderer :value="post" />
     </div>
     
+    <!-- Comments -->
+    <DisqusComments
+      v-if="post"
+      :identifier="post._path"
+      :title="post.title"
+    />
+
     <!-- Footer section -->
     <footer class="border-t border-gray-700 pt-8 mt-16">
       <div class="flex flex-col sm:flex-row justify-between items-center gap-6">

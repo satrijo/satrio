@@ -3,6 +3,12 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: false },
 
+  runtimeConfig: {
+    public: {
+      disqusShortname: process.env.DISQUS_SHORTNAME || ''
+    }
+  },
+
   // --- BAGIAN INI SUDAH ADA DI KONFIGURASI ANDA ---
   modules: [
     '@nuxt/eslint',
