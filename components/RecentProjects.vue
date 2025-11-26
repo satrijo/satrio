@@ -5,11 +5,25 @@
             <NuxtLink to="/projects" class="underline-link">See all projects</NuxtLink>
         </div>
         <div class="w-full space-y-4 text-gray-400">
+            <div v-if="pending" class="space-y-4">
+                <div
+                    v-for="n in 2"
+                    :key="n"
+                    class="animate-pulse border border-gray-800 p-6 rounded-lg bg-gray-900/40"
+                >
+                    <div class="h-5 bg-gray-800 rounded w-2/3 mb-3" />
+                    <div class="h-3 bg-gray-800 rounded w-1/2 mb-2" />
+                    <div class="h-3 bg-gray-800 rounded w-full mb-1" />
+                    <div class="h-3 bg-gray-800 rounded w-4/5" />
+                </div>
+            </div>
+
             <div
-                v-for="project in projects"
+                v-for="project in projects || []"
                 :key="project._path"
                 class="group border border-gray-800 p-6 rounded-lg shadow-md hover:bg-gray-700 hover:text-white transition-colors duration-300 cursor-pointer"
                 @click="navigateTo(project.path)"
+                v-else
             >
                 <div class="flex justify-between items-center">
                     <div>
@@ -35,10 +49,15 @@
 </template>
 
 <script setup>
-const { data: projects } = await useAsyncData('recent-projects', () =>
-    queryCollection('projects')
-        .order('date', 'DESC')
-        .limit(2)
-        .all()
+const { data: projects, pending } = await useAsyncData(
+    'recent-projects',
+    () =>
+        queryCollection('projects')
+            .order('date', 'DESC')
+            .limit(2)
+            .all(),
+    {
+        lazy: true
+    }
 )
 </script> 

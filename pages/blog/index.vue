@@ -6,11 +6,25 @@
     </div>
 
     <div class="space-y-6">
+      <div v-if="pending" class="space-y-4">
+        <div
+          v-for="n in 3"
+          :key="n"
+          class="animate-pulse border border-gray-800 p-6 rounded-lg bg-gray-900/40"
+        >
+          <div class="h-5 bg-gray-800 rounded w-2/3 mb-3" />
+          <div class="h-3 bg-gray-800 rounded w-1/3 mb-2" />
+          <div class="h-3 bg-gray-800 rounded w-full mb-1" />
+          <div class="h-3 bg-gray-800 rounded w-5/6" />
+        </div>
+      </div>
+
       <NuxtLink 
-        v-for="post in posts" 
+        v-for="post in posts || []" 
         :key="post._path"
         :to="post.path"
         class="block border border-gray-800 p-6 rounded-lg hover:bg-gray-700 transition-colors duration-300 cursor-pointer group"
+        v-else
       >
         <div class="flex justify-between items-center">
           <div>
@@ -61,8 +75,12 @@ const languageIcons = {
   other: 'mdi:code-tags'
 }
 
-const { data: posts } = await useAsyncData('blog-list', () =>
-  queryCollection('blog').all()
+const { data: posts, pending } = await useAsyncData(
+  'blog-list',
+  () => queryCollection('blog').all(),
+  {
+    lazy: true
+  }
 )
 
 const formatDate = (date) => {

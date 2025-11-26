@@ -26,16 +26,6 @@ export default defineNuxtConfig({
   // --- END BAGIAN YANG SUDAH ADA ---
 
 
-  // +++ TAMBAHKAN BAGIAN INI +++
-  // Menambahkan skrip Netlify Identity ke <head> di semua halaman
-  // Ini diperlukan agar Decap CMS bisa melakukan otentikasi
-  app: {
-    head: {
-      script: [
-        {
-          src: 'https://identity.netlify.com/v1/netlify-identity-widget.js'
-        }
-      ]
-    }
-  }
+  // Script Netlify Identity sudah dimuat khusus di `public/admin/index.html`
+  // sehingga tidak perlu di-load global di semua halaman Nuxt
 })
