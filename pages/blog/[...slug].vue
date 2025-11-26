@@ -102,7 +102,7 @@
           <NuxtLink 
             v-for="relatedPost in relatedPosts" 
             :key="relatedPost._path" 
-            :to="relatedPost.path"
+            :to="relatedPost._path"
             class="border border-gray-700 p-4 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer"
           >
             <h4 class="font-bold mb-2">{{ relatedPost.title }}</h4>
@@ -188,7 +188,7 @@ const relatedPosts = computed(() => {
   
   // Ambil artikel dengan kategori atau bahasa pemrograman yang sama, kecuali artikel saat ini
   return allPosts.value
-    .filter(p => p._path !== route.path)
+    .filter(p => p._path !== post.value._path && p.path !== post.value._path)
     .filter(p => 
       (post.value.category && p.category === post.value.category) || 
       (post.value.programming_language && p.programming_language === post.value.programming_language)
