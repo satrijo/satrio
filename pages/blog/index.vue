@@ -58,10 +58,26 @@
 
 <script setup>
 // SEO metadata
+const baseUrl = 'https://satrio.dev'
+
 useHead({
-  title: 'Blog | Satrio',
+  title: 'Blog | Satrio - Articles about Web Development & Technology',
   meta: [
-    { name: 'description', content: 'Articles and tutorials about web development, programming, and technology.' }
+    { 
+      name: 'description', 
+      content: 'Articles and tutorials about web development, programming, and technology. Learn from a Full-Stack Engineer with years of experience.' 
+    },
+    { name: 'keywords', content: 'web development, programming, tutorials, blog, technology, software engineering' },
+    { property: 'og:title', content: 'Blog | Satrio - Articles about Web Development & Technology' },
+    { property: 'og:description', content: 'Articles and tutorials about web development, programming, and technology.' },
+    { property: 'og:url', content: `${baseUrl}/blog` },
+    { property: 'og:type', content: 'website' },
+    { name: 'twitter:card', content: 'summary' },
+    { name: 'twitter:title', content: 'Blog | Satrio' },
+    { name: 'twitter:description', content: 'Articles and tutorials about web development, programming, and technology.' }
+  ],
+  link: [
+    { rel: 'canonical', href: `${baseUrl}/blog` }
   ]
 })
 

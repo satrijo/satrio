@@ -7,7 +7,7 @@
     <article v-else-if="project" class="max-w-4xl mx-auto space-y-10 rounded-2xl shadow-2xl p-8 border border-gray-800">
       <header class="text-center space-y-3">
         <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-100 mb-2 drop-shadow-lg">{{ project.title }}</h1>
-        <time class="text-gray-500 text-sm flex items-center justify-center gap-2">
+        <time :datetime="project.date ? new Date(project.date).toISOString() : ''" class="text-gray-500 text-sm flex items-center justify-center gap-2">
           <Icon name="mdi:calendar" class="w-4 h-4" />
           {{ formatDate(project.date) }}
         </time>
@@ -42,19 +42,51 @@ const { data: project, pending } = await useAsyncData(route.path, () => {
   return queryCollection('projects').path(route.path).first()
 })
 
+const baseUrl = 'https://satrio.dev'
+const route = useRoute()
+
 watchEffect(() => {
   if (project.value) {
+    const projectUrl = `${baseUrl}${project.value._path || route.path}`
+    const projectDate = project.value.date ? new Date(project.value.date).toISOString() : ''
+    const description = project.value.description || `Project: ${project.value.title}`
+    
     useHead({
-      title: project.value.title,
+      title: `${project.value.title} | Satrio's Projects`,
       meta: [
-        { name: 'description', content: project.value.description || '' },
+        { name: 'description', content: description },
         { property: 'og:title', content: project.value.title },
-        { property: 'og:description', content: project.value.description || '' },
+        { property: 'og:description', content: description },
         { property: 'og:type', content: 'article' },
-        { property: 'og:url', content: typeof window !== 'undefined' ? window.location.href : '' },
-        { name: 'twitter:card', content: 'summary' },
+        { property: 'og:url', content: projectUrl },
+        { property: 'og:image', content: `${baseUrl}/og-image.jpg` },
+        { property: 'article:published_time', content: projectDate },
+        { property: 'article:author', content: 'Satrio' },
+        { name: 'twitter:card', content: 'summary_large_image' },
         { name: 'twitter:title', content: project.value.title },
-        { name: 'twitter:description', content: project.value.description || '' },
+        { name: 'twitter:description', content: description },
+        { name: 'twitter:image', content: `${baseUrl}/og-image.jpg` },
+      ],
+      link: [
+        { rel: 'canonical', href: projectUrl }
+      ],
+      script: [
+        {
+          type: 'application/ld+json',
+          children: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'CreativeWork',
+            name: project.value.title,
+            description: description,
+            datePublished: projectDate,
+            creator: {
+              '@type': 'Person',
+              name: 'Satrio',
+              url: baseUrl
+            },
+            url: projectUrl
+          })
+        }
       ]
     })
   }

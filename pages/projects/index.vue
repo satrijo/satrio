@@ -62,10 +62,26 @@ const { data: projects, pending } = await useAsyncData(
   }
 )
 
+const baseUrl = 'https://satrio.dev'
+
 useHead({
-  title: 'Projects | Satrio',
+  title: 'Projects | Satrio - Portfolio & Work Showcase',
   meta: [
-    { name: 'description', content: 'A collection of Satrio\'s work, portfolio, and projects.' }
+    { 
+      name: 'description', 
+      content: 'A collection of Satrio\'s work, portfolio, and projects. Full-stack web applications built with modern technologies.' 
+    },
+    { name: 'keywords', content: 'portfolio, projects, web development, software projects, full-stack development' },
+    { property: 'og:title', content: 'Projects | Satrio - Portfolio & Work Showcase' },
+    { property: 'og:description', content: 'A collection of Satrio\'s work, portfolio, and projects.' },
+    { property: 'og:url', content: `${baseUrl}/projects` },
+    { property: 'og:type', content: 'website' },
+    { name: 'twitter:card', content: 'summary' },
+    { name: 'twitter:title', content: 'Projects | Satrio' },
+    { name: 'twitter:description', content: 'A collection of Satrio\'s work, portfolio, and projects.' }
+  ],
+  link: [
+    { rel: 'canonical', href: `${baseUrl}/projects` }
   ]
 })
 

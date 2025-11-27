@@ -16,10 +16,48 @@ import WorkExperience from '~/components/WorkExperience.vue'
 import RecentProjects from '~/components/RecentProjects.vue'
 import ConnectSection from '~/components/ConnectSection.vue'
 
+const baseUrl = 'https://satrio.dev'
+
 useHead({
-  title: 'Home | Satrio',
+  title: 'Satrio - Full-Stack Engineer & Lead Developer',
   meta: [
-    { name: 'description', content: 'Personal website and portfolio of Satrio. Web developer, projects, blog, and more.' }
+    { 
+      name: 'description', 
+      content: 'Full-Stack Engineer with over three years of experience at Indonesia\'s national meteorological agency (BMKG) and currently serving as the Lead Software Developer for the Open Knowledge Association (OKA). Portfolio, blog, and projects.' 
+    },
+    { name: 'keywords', content: 'full-stack developer, web developer, software engineer, portfolio, blog, Python, PHP, Node.js, React, Laravel' },
+    { property: 'og:title', content: 'Satrio - Full-Stack Engineer & Lead Developer' },
+    { property: 'og:description', content: 'Full-Stack Engineer with over three years of experience. Portfolio, blog, and projects showcasing web development expertise.' },
+    { property: 'og:url', content: baseUrl },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:image', content: `${baseUrl}/og-image.jpg` },
+    { name: 'twitter:title', content: 'Satrio - Full-Stack Engineer & Lead Developer' },
+    { name: 'twitter:description', content: 'Full-Stack Engineer with over three years of experience. Portfolio, blog, and projects.' },
+    { name: 'twitter:image', content: `${baseUrl}/og-image.jpg` }
+  ],
+  link: [
+    { rel: 'canonical', href: baseUrl }
+  ],
+  script: [
+    {
+      type: 'application/ld+json',
+      children: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: 'Satrio',
+        url: baseUrl,
+        jobTitle: 'Full-Stack Engineer & Lead Software Developer',
+        worksFor: {
+          '@type': 'Organization',
+          name: 'Open Knowledge Association (OKA)'
+        },
+        sameAs: [
+          'https://www.threads.net/@lensatrio',
+          'https://www.linkedin.com/in/satriyounggulwicaksono/'
+        ],
+        email: 'mail@satrio.dev'
+      })
+    }
   ]
 })
 </script>

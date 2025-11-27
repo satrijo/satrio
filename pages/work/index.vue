@@ -65,10 +65,26 @@ const { data: workExperiences, pending } = await useAsyncData(
   }
 )
 
+const baseUrl = 'https://satrio.dev'
+
 useHead({
-  title: 'Work Experience | Satrio',
+  title: 'Work Experience | Satrio - Professional Journey',
   meta: [
-    { name: 'description', content: 'Professional journey, work experience, and career history of Satrio.' }
+    { 
+      name: 'description', 
+      content: 'Professional journey, work experience, and career history of Satrio. Full-Stack Engineer at BMKG and Lead Developer at Open Knowledge Association.' 
+    },
+    { name: 'keywords', content: 'work experience, career, professional history, software engineer, developer' },
+    { property: 'og:title', content: 'Work Experience | Satrio - Professional Journey' },
+    { property: 'og:description', content: 'Professional journey, work experience, and career history of Satrio.' },
+    { property: 'og:url', content: `${baseUrl}/work` },
+    { property: 'og:type', content: 'website' },
+    { name: 'twitter:card', content: 'summary' },
+    { name: 'twitter:title', content: 'Work Experience | Satrio' },
+    { name: 'twitter:description', content: 'Professional journey, work experience, and career history of Satrio.' }
+  ],
+  link: [
+    { rel: 'canonical', href: `${baseUrl}/work` }
   ]
 })
 

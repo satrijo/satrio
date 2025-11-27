@@ -45,7 +45,7 @@
       <h1 class="text-4xl sm:text-5xl font-bold text-center mb-6">{{ post.title }}</h1>
       
       <div class="flex items-center justify-center gap-3 text-gray-400">
-        <time class="flex items-center gap-1">
+        <time :datetime="post.date ? new Date(post.date).toISOString() : ''" class="flex items-center gap-1">
           <Icon name="mdi:calendar" class="w-4 h-4" />
           {{ formatDate(post.date) }}
         </time>
@@ -128,19 +128,63 @@ const { data: post, pending } = await useAsyncData(route.path, () => {
 })
 
 // SEO meta tags
+const baseUrl = 'https://satrio.dev'
+const route = useRoute()
+
 watchEffect(() => {
   if (post.value) {
+    const postUrl = `${baseUrl}${post.value._path || route.path}`
+    const postDate = post.value.date ? new Date(post.value.date).toISOString() : ''
+    const description = post.value.description || (post.value.body?.value?.[0]?.[2]?.substring(0, 160) || '')
+    
     useHead({
-      title: post.value.title,
+      title: `${post.value.title} | Satrio's Blog`,
       meta: [
-        { name: 'description', content: post.value.description || '' },
+        { name: 'description', content: description },
+        { name: 'keywords', content: post.value.category || post.value.programming_language || '' },
         { property: 'og:title', content: post.value.title },
-        { property: 'og:description', content: post.value.description || '' },
+        { property: 'og:description', content: description },
         { property: 'og:type', content: 'article' },
-        { property: 'og:url', content: typeof window !== 'undefined' ? window.location.href : '' },
-        { name: 'twitter:card', content: 'summary' },
+        { property: 'og:url', content: postUrl },
+        { property: 'og:image', content: `${baseUrl}/og-image.jpg` },
+        { property: 'article:published_time', content: postDate },
+        { property: 'article:author', content: 'Satrio' },
+        { property: 'article:section', content: post.value.category || 'Blog' },
+        { name: 'twitter:card', content: 'summary_large_image' },
         { name: 'twitter:title', content: post.value.title },
-        { name: 'twitter:description', content: post.value.description || '' },
+        { name: 'twitter:description', content: description },
+        { name: 'twitter:image', content: `${baseUrl}/og-image.jpg` },
+      ],
+      link: [
+        { rel: 'canonical', href: postUrl }
+      ],
+      script: [
+        {
+          type: 'application/ld+json',
+          children: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BlogPosting',
+            headline: post.value.title,
+            description: description,
+            image: `${baseUrl}/og-image.jpg`,
+            datePublished: postDate,
+            dateModified: postDate,
+            author: {
+              '@type': 'Person',
+              name: 'Satrio',
+              url: baseUrl
+            },
+            publisher: {
+              '@type': 'Person',
+              name: 'Satrio',
+              url: baseUrl
+            },
+            mainEntityOfPage: {
+              '@type': 'WebPage',
+              '@id': postUrl
+            }
+          })
+        }
       ]
     })
   }

@@ -28,4 +28,26 @@ export default defineNuxtConfig({
 
   // Script Netlify Identity sudah dimuat khusus di `public/admin/index.html`
   // sehingga tidak perlu di-load global di semua halaman Nuxt
+
+  // SEO Configuration
+  app: {
+    head: {
+      htmlAttrs: {
+        lang: 'en'
+      },
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'format-detection', content: 'telephone=no' },
+        { name: 'author', content: 'Satrio' },
+        { property: 'og:site_name', content: 'Satrio.dev' },
+        { property: 'og:type', content: 'website' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:creator', content: '@lensatrio' }
+      ],
+      link: [
+        { rel: 'canonical', href: 'https://satrio.dev' }
+      ]
+    }
+  }
 })
