@@ -121,7 +121,6 @@
 </template>
 
 <script setup>
-import { useHead } from '@unhead/vue'
 const route = useRoute()
 const { data: post, pending } = await useAsyncData(route.path, () => {
   return queryCollection('blog').path(route.path).first()
@@ -129,7 +128,6 @@ const { data: post, pending } = await useAsyncData(route.path, () => {
 
 // SEO meta tags
 const baseUrl = 'https://satrio.dev'
-const route = useRoute()
 
 watchEffect(() => {
   if (post.value) {

@@ -9,7 +9,6 @@
 </template>
 
 <script setup>
-import { useHead } from '@unhead/vue'
 import HeroSection from '~/components/HeroSection.vue'
 import LatestPosts from '~/components/LatestPosts.vue'
 import WorkExperience from '~/components/WorkExperience.vue'

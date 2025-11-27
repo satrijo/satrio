@@ -50,7 +50,6 @@
 </template>
 
 <script setup>
-import { useHead } from '@unhead/vue'
 const { data: projects, pending } = await useAsyncData(
   'projects',
   () =>

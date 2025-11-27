@@ -47,7 +47,6 @@
 </template>
 
 <script setup>
-import { useHead } from '@unhead/vue'
 const { data: workExperiences, pending } = await useAsyncData(
   'work-experiences',
   async () => {

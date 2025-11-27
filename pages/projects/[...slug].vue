@@ -36,14 +36,12 @@
 </template>
 
 <script setup>
-import { useHead } from '@unhead/vue'
 const route = useRoute()
 const { data: project, pending } = await useAsyncData(route.path, () => {
   return queryCollection('projects').path(route.path).first()
 })
 
 const baseUrl = 'https://satrio.dev'
-const route = useRoute()
 
 watchEffect(() => {
   if (project.value) {
