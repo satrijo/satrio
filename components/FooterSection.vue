@@ -6,7 +6,5 @@
         <div class="text-center sm:text-right">
             <p>Made with 🏋️‍♂️ by Satrio</p>
         </div>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4268093070731551"
-     crossorigin="anonymous"></script>
     </footer>
 </template> 
