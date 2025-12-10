@@ -8,70 +8,73 @@
       v-else
       ref="threadRef"
       id="disqus_thread"
-      class="border border-gray-800 rounded-xl p-4 bg-transparent"
+      class="border border-gray-700 rounded-xl p-6 bg-gray-800/50"
     />
   </section>
 </template>
 
 <script setup lang="ts">
-const threadRef = ref<HTMLElement | null>(null)
+const threadRef = ref<HTMLElement | null>(null);
 
 const props = defineProps<{
-  identifier?: string
-  title?: string
-}>()
+  identifier?: string;
+  title?: string;
+}>();
 
-const route = useRoute()
-const config = useRuntimeConfig()
-const shortname = config.public.disqusShortname
+const route = useRoute();
+const config = useRuntimeConfig();
+const shortname = config.public.disqusShortname;
 
 const injectDisqus = () => {
-  if (typeof window === 'undefined' || !shortname) {
-    return
+  if (typeof window === "undefined" || !shortname) {
+    return;
   }
 
   window.disqus_config = function configFn(this: DisqusJSConfig) {
-    this.page.url = window.location.href
-    this.page.identifier = props.identifier || route.fullPath
-    this.page.title = props.title || document.title
-  }
+    this.page.url = window.location.href;
+    this.page.identifier = props.identifier || route.fullPath;
+    this.page.title = props.title || document.title;
+  };
 
-  const existingScript = document.getElementById('dsq-embed-scr')
+  const existingScript = document.getElementById("dsq-embed-scr");
   if (existingScript) {
-    existingScript.remove()
+    existingScript.remove();
   }
 
   if (threadRef.value) {
-    threadRef.value.innerHTML = ''
+    threadRef.value.innerHTML = "";
   }
 
-  const d = document
-  const s = d.createElement('script')
-  s.id = 'dsq-embed-scr'
-  s.src = `https://${shortname}.disqus.com/embed.js`
-  s.setAttribute('data-timestamp', Date.now().toString())
-  s.async = true
-  ;(d.head || d.body).appendChild(s)
-}
+  const d = document;
+  const s = d.createElement("script");
+  s.id = "dsq-embed-scr";
+  s.src = `https://${shortname}.disqus.com/embed.js`;
+  s.setAttribute("data-timestamp", Date.now().toString());
+  s.async = true;
+  (d.head || d.body).appendChild(s);
+};
 
 onMounted(() => {
-  injectDisqus()
-})
-watch(() => route.fullPath, () => {
-  injectDisqus()
-})
+  injectDisqus();
+});
+watch(
+  () => route.fullPath,
+  () => {
+    injectDisqus();
+  },
+);
 
 declare global {
   interface DisqusJSConfig {
     page: {
-      url: string
-      identifier: string
-      title: string
-    }
+      url: string;
+      identifier: string;
+      title: string;
+    };
   }
 
   interface Window {
-    disqus_config?: () => void
+    disqus_config?: () => void;
   }
 }
 </script>
@@ -79,6 +82,10 @@ declare global {
 <style scoped>
 #disqus_thread {
   min-height: 200px;
+  color-scheme: dark;
+}
+
+:deep(#disqus_thread iframe) {
+  color-scheme: dark;
 }
 </style>
-
