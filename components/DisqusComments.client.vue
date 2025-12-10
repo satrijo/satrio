@@ -3,7 +3,7 @@
     <h3 class="text-xl font-bold mb-4">Komentar</h3>
     <div
       id="disqus_thread"
-      class="border border-gray-600 rounded-xl bg-white p-6 min-h-[200px]"
+      class="border border-gray-600 rounded-xl p-6 min-h-[200px]"
     ></div>
     <noscript
       >Please enable JavaScript to view the
