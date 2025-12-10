@@ -127,7 +127,9 @@ useHead({
     },
     { property: "og:url", content: `${baseUrl}/blog` },
     { property: "og:type", content: "website" },
+    { property: "og:image", content: `${baseUrl}/og-image.jpg` },
     { name: "twitter:card", content: "summary" },
+    { name: "twitter:image", content: `${baseUrl}/og-image.jpg` },
     { name: "twitter:title", content: "Blog | Satrio" },
     {
       name: "twitter:description",
@@ -150,7 +152,7 @@ const languageIcons = {
 
 const { data: posts, pending } = await useAsyncData(
   "blog-list",
-  () => queryCollection("blog").all(),
+  () => queryCollection("blog").order("date", "DESC").all(),
   {
     lazy: true,
   },
