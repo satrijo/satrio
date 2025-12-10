@@ -1,6 +1,22 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 @import "tailwindcss";
-@import "@nuxt/ui";
+
+/* Disqus dark mode compatibility: override any OKLCH colors with hex/rgb */
+#disqus_thread {
+  --tw-bg-opacity: 1;
+  background-color: rgb(31 41 55) !important; /* gray-800 */
+  color: rgb(229 231 235) !important; /* gray-200 */
+  border-radius: 0.75rem;
+  border: 1px solid rgb(75 85 99); /* gray-600 */
+}
+
+#disqus_thread * {
+  color: rgb(229 231 235) !important;
+}
+
+#disqus_thread a {
+  color: rgb(96 165 250) !important; /* blue-400 */
+}
 
 @layer components {
   .prose-like > p {

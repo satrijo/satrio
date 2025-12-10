@@ -1,10 +1,7 @@
 <template>
   <section class="mt-16">
     <h3 class="text-xl font-bold mb-4">Komentar</h3>
-    <div
-      id="disqus_thread"
-      class="border border-gray-600 rounded-xl p-6 min-h-[200px]"
-    ></div>
+    <div id="disqus_thread" class="rounded-xl p-6 min-h-[200px]"></div>
     <noscript
       >Please enable JavaScript to view the
       <a href="https://disqus.com/?ref_noscript"
