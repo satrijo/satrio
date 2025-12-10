@@ -263,7 +263,7 @@ watchEffect(() => {
 const readingTime = computed(() => {
   if (!post.value || !post.value.body || !post.value.body.value) return 1;
   // Ambil teks dari konten
-  const text = post.value.body.value[0][2] || "";
+  const text = post.value.body?.value?.[0]?.[2] || post.value.description || "";
   // Estimasi: 200 kata per menit
   const wordCount = text.trim().split(/\s+/).length;
   const time = Math.ceil(wordCount / 200);

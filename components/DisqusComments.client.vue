@@ -8,7 +8,7 @@
       v-else
       ref="threadRef"
       id="disqus_thread"
-      class="border border-gray-700 rounded-xl p-6 bg-gray-800/50"
+      class="border border-gray-700 rounded-xl p-6 bg-white"
     />
   </section>
 </template>
@@ -82,10 +82,10 @@ declare global {
 <style scoped>
 #disqus_thread {
   min-height: 200px;
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 :deep(#disqus_thread iframe) {
-  color-scheme: dark;
+  color-scheme: light;
 }
 </style>
