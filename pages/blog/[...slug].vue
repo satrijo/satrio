@@ -8,7 +8,7 @@
     ></div>
   </div>
 
-  <div v-else-if="!post" class="max-w-4xl mx-auto py-12 text-center">
+  <div v-else-if="!post" class="mx-auto py-12 text-center">
     <h1 class="text-3xl font-bold text-white mb-4">Artikel tidak ditemukan</h1>
     <p class="mb-6">Maaf, artikel yang Anda cari tidak tersedia.</p>
     <NuxtLink
@@ -19,7 +19,7 @@
     </NuxtLink>
   </div>
 
-  <article v-else class="max-w-4xl mx-auto py-8 px-2 sm:px-0 text-white">
+  <article v-else class="mx-auto py-8 text-white">
     <!-- Header section with metadata -->
     <header class="mb-12">
       <div class="flex flex-wrap items-center gap-2 mb-4 justify-center">
@@ -168,9 +168,8 @@
             <p class="text-gray-400 text-sm line-clamp-2">
               {{
                 relatedPost.description ||
-                (relatedPost.body && relatedPost.body.value
-                  ? relatedPost.body.value[0][2].substring(0, 120) + "..."
-                  : "")
+                relatedPost.body?.value?.[0]?.[2]?.substring(0, 120) + "..." ||
+                ""
               }}
             </p>
           </NuxtLink>
@@ -261,10 +260,16 @@ watchEffect(() => {
 
 // Kalkukasi estimasi waktu baca
 const readingTime = computed(() => {
-  if (!post.value || !post.value.body || !post.value.body.value) return 1;
+  if (!post.value) return 1;
   // Ambil teks dari konten
-  const text = post.value.body?.value?.[0]?.[2] || post.value.description || "";
+  let text = "";
+  if (post.value.body?.value?.[0]?.[2]) {
+    text = String(post.value.body.value[0][2]);
+  } else if (post.value.description) {
+    text = String(post.value.description);
+  }
   // Estimasi: 200 kata per menit
+  if (!text) return 1;
   const wordCount = text.trim().split(/\s+/).length;
   const time = Math.ceil(wordCount / 200);
   return time > 0 ? time : 1;
@@ -359,7 +364,7 @@ const shareArticle = (platform) => {
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   margin-left: auto;
   margin-right: auto;
-  max-width: 100%;
+  width: 100%;
   height: auto;
   display: block;
 }

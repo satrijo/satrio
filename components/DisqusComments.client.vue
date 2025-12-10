@@ -1,91 +1,37 @@
 <template>
   <section class="mt-16">
-    <h3 class="text-xl font-bold mb-4">Tinggalkan Komentar</h3>
-    <p v-if="!shortname" class="text-sm text-red-400 mb-4">
-      Disqus belum dikonfigurasi. Setel variabel lingkungan `DISQUS_SHORTNAME`.
-    </p>
+    <h3 class="text-xl font-bold mb-4">Komentar</h3>
     <div
-      v-else
-      ref="threadRef"
       id="disqus_thread"
-      class="border border-gray-700 rounded-xl p-6 bg-white"
-    />
+      class="border border-gray-600 rounded-xl bg-white p-6 min-h-[200px]"
+    ></div>
+    <noscript
+      >Please enable JavaScript to view the
+      <a href="https://disqus.com/?ref_noscript"
+        >comments powered by Disqus.</a
+      ></noscript
+    >
   </section>
 </template>
 
 <script setup lang="ts">
-const threadRef = ref<HTMLElement | null>(null);
-
 const props = defineProps<{
   identifier?: string;
   title?: string;
 }>();
 
-const route = useRoute();
-const config = useRuntimeConfig();
-const shortname = config.public.disqusShortname;
-
-const injectDisqus = () => {
-  if (typeof window === "undefined" || !shortname) {
-    return;
-  }
-
-  window.disqus_config = function configFn(this: DisqusJSConfig) {
+onMounted(() => {
+  var disqus_config = function () {
     this.page.url = window.location.href;
-    this.page.identifier = props.identifier || route.fullPath;
-    this.page.title = props.title || document.title;
+    this.page.identifier = props.identifier || window.location.pathname;
   };
 
-  const existingScript = document.getElementById("dsq-embed-scr");
-  if (existingScript) {
-    existingScript.remove();
-  }
-
-  if (threadRef.value) {
-    threadRef.value.innerHTML = "";
-  }
-
-  const d = document;
-  const s = d.createElement("script");
-  s.id = "dsq-embed-scr";
-  s.src = `https://${shortname}.disqus.com/embed.js`;
-  s.setAttribute("data-timestamp", Date.now().toString());
-  s.async = true;
-  (d.head || d.body).appendChild(s);
-};
-
-onMounted(() => {
-  injectDisqus();
+  (function () {
+    var d = document,
+      s = d.createElement("script");
+    s.src = "https://satriodev-1.disqus.com/embed.js";
+    s.setAttribute("data-timestamp", +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
 });
-watch(
-  () => route.fullPath,
-  () => {
-    injectDisqus();
-  },
-);
-
-declare global {
-  interface DisqusJSConfig {
-    page: {
-      url: string;
-      identifier: string;
-      title: string;
-    };
-  }
-
-  interface Window {
-    disqus_config?: () => void;
-  }
-}
 </script>
-
-<style scoped>
-#disqus_thread {
-  min-height: 200px;
-  color-scheme: light;
-}
-
-:deep(#disqus_thread iframe) {
-  color-scheme: light;
-}
-</style>

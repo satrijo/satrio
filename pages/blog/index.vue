@@ -74,8 +74,10 @@
               class="text-gray-500 group-hover:text-gray-300 text-sm leading-relaxed transition-colors duration-300"
             >
               {{
-                post.description.substring(0, 150) + "..." ||
-                (post.body && post.body.value
+                (post.description
+                  ? post.description.substring(0, 150) + "..."
+                  : "") ||
+                (post.body?.value?.[0]?.[2]
                   ? post.body.value[0][2].substring(0, 150) + "..."
                   : "")
               }}
