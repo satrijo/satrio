@@ -2,7 +2,9 @@
   <div class="space-y-8 text-white">
     <div class="text-center">
       <h1 class="text-3xl font-bold mb-4">Blog</h1>
-      <p class="text-gray-400">Thoughts, ideas, and insights about technology and development.</p>
+      <p class="text-gray-400">
+        Thoughts, ideas, and insights about technology and development.
+      </p>
     </div>
 
     <div class="space-y-6">
@@ -19,8 +21,8 @@
         </div>
       </div>
 
-      <NuxtLink 
-        v-for="post in posts || []" 
+      <NuxtLink
+        v-for="post in posts || []"
         :key="post._path"
         :to="post.path"
         class="block border border-gray-800 p-6 rounded-lg hover:bg-gray-700 transition-colors duration-300 cursor-pointer group"
@@ -29,24 +31,65 @@
         <div class="flex justify-between items-center">
           <div>
             <h3 class="font-bold">{{ post.title }}</h3>
-            <div class="text-xs text-gray-500 group-hover:text-gray-400 mb-3 flex flex-wrap items-center gap-1">
+            <div
+              class="text-xs text-gray-500 group-hover:text-gray-400 mb-3 flex flex-wrap items-center gap-1"
+            >
               <Icon name="mdi:calendar" class="w-3 h-3" />
               {{ formatDate(post.date) }}
-              <Icon v-if="post.article_language === 'indonesian'" name="circle-flags:id" class="ml-2 w-3 h-3 items-center" />
-              <Icon v-else-if="post.article_language === 'english'" name="circle-flags:uk" class="ml-2 w-3 h-3 items-center" />
-              <Icon :name="languageIcons[post.programming_language.toLowerCase()] || languageIcons.other" class="w-3 h-3 items-center" />
-              <Icon v-if="post.ai_generated === 'ai'" name="openmoji:robot" class="w-5 h-5 items-center" />
-              <Icon v-else-if="post.ai_generated === 'human'" name="openmoji:account" class="w-5 h-5 items-center" />
-              <Icon v-else-if="post.ai_generated === 'hybrid'" name="openmoji:handshake" class="w-5 h-5 items-center" />
+              <Icon
+                v-if="post.article_language === 'indonesian'"
+                name="circle-flags:id"
+                class="ml-2 w-3 h-3 items-center"
+              />
+              <Icon
+                v-else-if="post.article_language === 'english'"
+                name="circle-flags:uk"
+                class="ml-2 w-3 h-3 items-center"
+              />
+              <Icon
+                v-if="post.programming_language"
+                :name="
+                  languageIcons[post.programming_language.toLowerCase()] ||
+                  languageIcons.other
+                "
+                class="w-3 h-3 items-center"
+              />
+              <Icon
+                v-if="post.ai_generated === 'ai'"
+                name="openmoji:robot"
+                class="w-5 h-5 items-center"
+              />
+              <Icon
+                v-else-if="post.ai_generated === 'human'"
+                name="openmoji:account"
+                class="w-5 h-5 items-center"
+              />
+              <Icon
+                v-else-if="post.ai_generated === 'hybrid'"
+                name="openmoji:handshake"
+                class="w-5 h-5 items-center"
+              />
             </div>
-            <p class="text-gray-500 group-hover:text-gray-300 text-sm leading-relaxed transition-colors duration-300">
-              {{ post.description.substring(0, 150) + '...' || (post.body && post.body.value ? post.body.value[0][2].substring(0, 150) + '...' : '') }}</p>
+            <p
+              class="text-gray-500 group-hover:text-gray-300 text-sm leading-relaxed transition-colors duration-300"
+            >
+              {{
+                post.description.substring(0, 150) + "..." ||
+                (post.body && post.body.value
+                  ? post.body.value[0][2].substring(0, 150) + "..."
+                  : "")
+              }}
+            </p>
           </div>
           <div class="relative w-6 h-6 flex-shrink-0">
-            <div class="absolute inset-0 transition-opacity duration-300 opacity-100 group-hover:opacity-0">
+            <div
+              class="absolute inset-0 transition-opacity duration-300 opacity-100 group-hover:opacity-0"
+            >
               <Icon name="ep:arrow-right" class="w-6 h-6" />
             </div>
-            <div class="absolute inset-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100">
+            <div
+              class="absolute inset-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+            >
               <Icon name="line-md:arrow-right-circle" class="w-6 h-6" />
             </div>
           </div>
@@ -58,53 +101,67 @@
 
 <script setup>
 // SEO metadata
-const baseUrl = 'https://satrio.dev'
+const baseUrl = "https://satrio.dev";
 
 useHead({
-  title: 'Blog | Satrio - Articles about Web Development & Technology',
+  title: "Blog | Satrio - Articles about Web Development & Technology",
   meta: [
-    { 
-      name: 'description', 
-      content: 'Articles and tutorials about web development, programming, and technology. Learn from a Full-Stack Engineer with years of experience.' 
+    {
+      name: "description",
+      content:
+        "Articles and tutorials about web development, programming, and technology. Learn from a Full-Stack Engineer with years of experience.",
     },
-    { name: 'keywords', content: 'web development, programming, tutorials, blog, technology, software engineering' },
-    { property: 'og:title', content: 'Blog | Satrio - Articles about Web Development & Technology' },
-    { property: 'og:description', content: 'Articles and tutorials about web development, programming, and technology.' },
-    { property: 'og:url', content: `${baseUrl}/blog` },
-    { property: 'og:type', content: 'website' },
-    { name: 'twitter:card', content: 'summary' },
-    { name: 'twitter:title', content: 'Blog | Satrio' },
-    { name: 'twitter:description', content: 'Articles and tutorials about web development, programming, and technology.' }
+    {
+      name: "keywords",
+      content:
+        "web development, programming, tutorials, blog, technology, software engineering",
+    },
+    {
+      property: "og:title",
+      content: "Blog | Satrio - Articles about Web Development & Technology",
+    },
+    {
+      property: "og:description",
+      content:
+        "Articles and tutorials about web development, programming, and technology.",
+    },
+    { property: "og:url", content: `${baseUrl}/blog` },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary" },
+    { name: "twitter:title", content: "Blog | Satrio" },
+    {
+      name: "twitter:description",
+      content:
+        "Articles and tutorials about web development, programming, and technology.",
+    },
   ],
-  link: [
-    { rel: 'canonical', href: `${baseUrl}/blog` }
-  ]
-})
+  link: [{ rel: "canonical", href: `${baseUrl}/blog` }],
+});
 
 const languageIcons = {
-  javascript: 'logos:javascript',
-  python: 'logos:python',
-  php: 'logos:php',
-  typescript: 'logos:typescript-icon',
-  go: 'logos:go',
-  java: 'logos:java',
-  other: 'mdi:code-tags'
-}
+  javascript: "logos:javascript",
+  python: "logos:python",
+  php: "logos:php",
+  typescript: "logos:typescript-icon",
+  go: "logos:go",
+  java: "logos:java",
+  other: "mdi:code-tags",
+};
 
 const { data: posts, pending } = await useAsyncData(
-  'blog-list',
-  () => queryCollection('blog').all(),
+  "blog-list",
+  () => queryCollection("blog").all(),
   {
-    lazy: true
-  }
-)
+    lazy: true,
+  },
+);
 
 const formatDate = (date) => {
-  if (!date) return ''
-  return new Date(date).toLocaleDateString('id-ID', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  })
-}
+  if (!date) return "";
+  return new Date(date).toLocaleDateString("id-ID", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
 </script>
