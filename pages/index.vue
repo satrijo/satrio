@@ -1,5 +1,5 @@
 <template>
-  <main class="space-y-16 mt-16 text-white">
+  <main class="space-y-20 py-8">
     <HeroSection />
     <LatestPosts />
     <WorkExperience />

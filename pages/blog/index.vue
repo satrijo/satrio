@@ -1,171 +1,158 @@
 <template>
-  <div class="space-y-8 text-white">
-    <div class="text-center">
-      <h1 class="text-3xl font-bold mb-4">Blog</h1>
-      <p class="text-gray-400">
-        Thoughts, ideas, and insights about technology and development.
-      </p>
+  <div>
+    <!-- Page header -->
+    <PageHeader
+      title="Blog"
+      subtitle="Thoughts, ideas, and insights about technology, development, and the intersection of meteorology with software."
+    />
+    
+    <!-- Loading skeleton -->
+    <div v-if="pending" class="space-y-4">
+      <SkeletonCard v-for="n in 5" :key="n" show-tags />
     </div>
-
-    <div class="space-y-6">
-      <div v-if="pending" class="space-y-4">
-        <div
-          v-for="n in 3"
-          :key="n"
-          class="animate-pulse border border-gray-800 p-6 rounded-lg bg-gray-900/40"
-        >
-          <div class="h-5 bg-gray-800 rounded w-2/3 mb-3" />
-          <div class="h-3 bg-gray-800 rounded w-1/3 mb-2" />
-          <div class="h-3 bg-gray-800 rounded w-full mb-1" />
-          <div class="h-3 bg-gray-800 rounded w-5/6" />
-        </div>
-      </div>
-
-      <NuxtLink
-        v-for="post in posts || []"
-        :key="post._path"
-        :to="post.path"
-        class="block border border-gray-800 p-6 rounded-lg hover:bg-gray-700 transition-colors duration-300 cursor-pointer group"
-        v-else
-      >
-        <div class="flex justify-between items-center">
-          <div>
-            <h3 class="font-bold">{{ post.title }}</h3>
-            <div
-              class="text-xs text-gray-500 group-hover:text-gray-400 mb-3 flex flex-wrap items-center gap-1"
-            >
-              <Icon name="mdi:calendar" class="w-3 h-3" />
-              {{ formatDate(post.date) }}
-              <Icon
-                v-if="post.article_language === 'indonesian'"
-                name="circle-flags:id"
-                class="ml-2 w-3 h-3 items-center"
-              />
-              <Icon
-                v-else-if="post.article_language === 'english'"
-                name="circle-flags:uk"
-                class="ml-2 w-3 h-3 items-center"
-              />
-              <Icon
-                v-if="post.programming_language"
-                :name="
-                  languageIcons[post.programming_language.toLowerCase()] ||
-                  languageIcons.other
-                "
-                class="w-3 h-3 items-center"
-              />
-              <Icon
-                v-if="post.ai_generated === 'ai'"
-                name="openmoji:robot"
-                class="w-5 h-5 items-center"
-              />
-              <Icon
-                v-else-if="post.ai_generated === 'human'"
-                name="openmoji:account"
-                class="w-5 h-5 items-center"
-              />
-              <Icon
-                v-else-if="post.ai_generated === 'hybrid'"
-                name="openmoji:handshake"
-                class="w-5 h-5 items-center"
-              />
-            </div>
-            <p
-              class="text-gray-500 group-hover:text-gray-300 text-sm leading-relaxed transition-colors duration-300"
-            >
-              {{
-                (post.description
-                  ? post.description.substring(0, 150) + "..."
-                  : "") ||
-                (post.body?.value?.[0]?.[2]
-                  ? post.body.value[0][2].substring(0, 150) + "..."
-                  : "")
-              }}
-            </p>
-          </div>
-          <div class="relative w-6 h-6 flex-shrink-0">
-            <div
-              class="absolute inset-0 transition-opacity duration-300 opacity-100 group-hover:opacity-0"
-            >
-              <Icon name="ep:arrow-right" class="w-6 h-6" />
-            </div>
-            <div
-              class="absolute inset-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
-            >
-              <Icon name="line-md:arrow-right-circle" class="w-6 h-6" />
-            </div>
-          </div>
-        </div>
-      </NuxtLink>
+    
+    <!-- Empty state -->
+    <div v-else-if="!posts?.length" class="text-center py-16">
+      <Icon name="mdi:file-document-outline" class="w-16 h-16 text-muted mx-auto mb-4" />
+      <h3 class="text-heading text-lg font-semibold mb-2">No posts yet</h3>
+      <p class="text-muted">Check back soon for new content.</p>
+    </div>
+    
+    <!-- Posts list -->
+    <div v-else class="space-y-4">
+       <ContentCard
+         v-for="post in posts"
+         :key="post._path"
+         :title="post.title"
+         :description="getDescription(post)"
+         :date="formatDate(post.date)"
+         :to="post._path"
+       >
+        <template #meta>
+          <span class="flex items-center gap-1">
+            <Icon name="mdi:calendar-outline" class="w-3.5 h-3.5" />
+            {{ formatDate(post.date) }}
+          </span>
+          <Icon
+            v-if="post.article_language === 'indonesian'"
+            name="circle-flags:id"
+            class="w-4 h-4"
+            title="Indonesian"
+          />
+          <Icon
+            v-else-if="post.article_language === 'english'"
+            name="circle-flags:uk"
+            class="w-4 h-4"
+            title="English"
+          />
+        </template>
+        
+        <template #badges>
+          <Badge 
+            v-if="post.programming_language" 
+            variant="primary"
+            :icon="getLanguageIcon(post.programming_language)"
+          >
+            {{ post.programming_language }}
+          </Badge>
+          <Badge v-if="post.category" variant="surface">
+            {{ post.category }}
+          </Badge>
+          <Badge 
+            v-if="post.ai_generated === 'ai'" 
+            variant="purple"
+            icon="mdi:robot-outline"
+          >
+            AI Generated
+          </Badge>
+          <Badge 
+            v-else-if="post.ai_generated === 'human'" 
+            variant="success"
+            icon="mdi:account-outline"
+          >
+            Human Written
+          </Badge>
+          <Badge 
+            v-else-if="post.ai_generated === 'hybrid'" 
+            variant="warning"
+            icon="mdi:account-sync-outline"
+          >
+            AI-Assisted
+          </Badge>
+        </template>
+      </ContentCard>
     </div>
   </div>
 </template>
 
-<script setup>
-// SEO metadata
-const baseUrl = "https://satrio.dev";
+<script setup lang="ts">
+import PageHeader from '~/components/ui/PageHeader.vue'
+import SkeletonCard from '~/components/ui/SkeletonCard.vue'
+import ContentCard from '~/components/ui/ContentCard.vue'
+import Badge from '~/components/ui/Badge.vue'
+
+const baseUrl = 'https://satrio.dev'
 
 useHead({
-  title: "Blog | Satrio - Articles about Web Development & Technology",
+  title: 'Blog | Satrio - Articles about Web Development & Technology',
   meta: [
     {
-      name: "description",
-      content:
-        "Articles and tutorials about web development, programming, and technology. Learn from a Full-Stack Engineer with years of experience.",
+      name: 'description',
+      content: 'Articles and tutorials about web development, programming, and technology. Learn from a Full-Stack Engineer with years of experience.'
     },
-    {
-      name: "keywords",
-      content:
-        "web development, programming, tutorials, blog, technology, software engineering",
-    },
-    {
-      property: "og:title",
-      content: "Blog | Satrio - Articles about Web Development & Technology",
-    },
-    {
-      property: "og:description",
-      content:
-        "Articles and tutorials about web development, programming, and technology.",
-    },
-    { property: "og:url", content: `${baseUrl}/blog` },
-    { property: "og:type", content: "website" },
-    { property: "og:image", content: `${baseUrl}/og-image.jpg` },
-    { name: "twitter:card", content: "summary" },
-    { name: "twitter:image", content: `${baseUrl}/og-image.jpg` },
-    { name: "twitter:title", content: "Blog | Satrio" },
-    {
-      name: "twitter:description",
-      content:
-        "Articles and tutorials about web development, programming, and technology.",
-    },
+    { name: 'keywords', content: 'web development, programming, tutorials, blog, technology, software engineering' },
+    { property: 'og:title', content: 'Blog | Satrio - Articles about Web Development & Technology' },
+    { property: 'og:description', content: 'Articles and tutorials about web development, programming, and technology.' },
+    { property: 'og:url', content: `${baseUrl}/blog` },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:image', content: `${baseUrl}/og-image.jpg` },
+    { name: 'twitter:card', content: 'summary' },
+    { name: 'twitter:image', content: `${baseUrl}/og-image.jpg` },
+    { name: 'twitter:title', content: 'Blog | Satrio' },
+    { name: 'twitter:description', content: 'Articles and tutorials about web development, programming, and technology.' }
   ],
-  link: [{ rel: "canonical", href: `${baseUrl}/blog` }],
-});
+  link: [{ rel: 'canonical', href: `${baseUrl}/blog` }]
+})
 
-const languageIcons = {
-  javascript: "logos:javascript",
-  python: "logos:python",
-  php: "logos:php",
-  typescript: "logos:typescript-icon",
-  go: "logos:go",
-  java: "logos:java",
-  other: "mdi:code-tags",
-};
+const languageIcons: Record<string, string> = {
+  javascript: 'logos:javascript',
+  python: 'logos:python',
+  php: 'logos:php',
+  typescript: 'logos:typescript-icon',
+  go: 'logos:go',
+  java: 'logos:java',
+  other: 'mdi:code-tags'
+}
 
 const { data: posts, pending } = await useAsyncData(
-  "blog-list",
-  () => queryCollection("blog").order("date", "DESC").all(),
-  {
-    lazy: true,
-  },
-);
+  'blog-list',
+  () => queryCollection('blog').order('date', 'DESC').all(),
+  { lazy: true }
+)
 
-const formatDate = (date) => {
-  if (!date) return "";
-  return new Date(date).toLocaleDateString("id-ID", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-};
+const formatDate = (date: Date | string | undefined) => {
+  if (!date) return ''
+  return new Date(date).toLocaleDateString('id-ID', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
+}
+
+const getDescription = (post: any) => {
+  if (post.description) {
+    return post.description.length > 150 
+      ? post.description.substring(0, 150) + '...' 
+      : post.description
+  }
+  if (post.body?.value?.[0]?.[2]) {
+    const text = post.body.value[0][2]
+    return text.length > 150 ? text.substring(0, 150) + '...' : text
+  }
+  return ''
+}
+
+const getLanguageIcon = (lang: string) => {
+  return languageIcons[lang.toLowerCase()] || languageIcons.other
+}
 </script>

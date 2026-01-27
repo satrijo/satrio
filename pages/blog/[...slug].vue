@@ -1,441 +1,301 @@
 <template>
-  <div
-    v-if="pending"
-    class="flex justify-center items-center min-h-[60vh] text-white mx-auto"
-  >
-    <div
-      class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"
-    ></div>
+  <!-- Loading state -->
+  <div v-if="pending" class="py-8">
+    <LoadingSpinner text="Loading article..." />
   </div>
 
-  <div v-else-if="!post" class="mx-auto py-12 text-center">
-    <h1 class="text-3xl font-bold text-white mb-4">Artikel tidak ditemukan</h1>
-    <p class="mb-6">Maaf, artikel yang Anda cari tidak tersedia.</p>
-    <NuxtLink
-      to="/blog"
-      class="text-blue-400 hover:text-blue-300 transition-colors"
-    >
-      ← Kembali ke Blog
+  <!-- Not found state -->
+  <div v-else-if="!post" class="text-center py-16">
+    <Icon name="mdi:file-alert-outline" class="w-20 h-20 text-muted mx-auto mb-4" />
+    <h1 class="text-heading text-2xl font-bold mb-2">Article Not Found</h1>
+    <p class="text-muted mb-6">The article you're looking for doesn't exist or has been moved.</p>
+    <NuxtLink to="/blog" class="btn btn-primary">
+      <Icon name="heroicons:arrow-left-20-solid" class="w-4 h-4" />
+      Back to Blog
     </NuxtLink>
   </div>
 
-  <article v-else class="mx-auto py-8 text-white">
-    <!-- Header section with metadata -->
-    <header class="mb-12">
-      <div class="flex flex-wrap items-center gap-2 mb-4 justify-center">
-        <span
-          v-if="post.programming_language"
-          class="bg-gray-800 px-3 py-1 rounded-full text-sm flex items-center gap-1"
+  <!-- Article content -->
+  <article v-else class="py-8">
+    <!-- Article header -->
+    <header class="mb-10 text-center">
+      <!-- Badges -->
+      <div class="flex flex-wrap justify-center gap-2 mb-4">
+        <Badge 
+          v-if="post.programming_language" 
+          variant="primary"
+          :icon="getLanguageIcon(post.programming_language)"
         >
-          <Icon
-            :name="
-              languageIcons[post.programming_language.toLowerCase()] ||
-              languageIcons.other
-            "
-            class="w-4 h-4"
-          />
           {{ post.programming_language }}
-        </span>
-        <span
-          v-if="post.article_language === 'indonesian'"
-          class="bg-gray-800 px-3 py-1 rounded-full text-sm flex items-center gap-1"
-        >
-          🇮🇩 Indonesia
-        </span>
-        <span
-          v-else-if="post.article_language === 'english'"
-          class="bg-gray-800 px-3 py-1 rounded-full text-sm flex items-center gap-1"
-        >
-          🇬🇧 English
-        </span>
-        <span
-          v-if="post.category"
-          class="bg-blue-900 text-blue-200 px-3 py-1 rounded-full text-sm"
-        >
+        </Badge>
+        <Badge v-if="post.category" variant="surface">
           {{ post.category }}
-        </span>
-        <span
-          v-if="post.ai_generated === 'ai'"
-          class="bg-purple-900 text-purple-200 px-3 py-1 rounded-full text-sm flex items-center gap-1"
+        </Badge>
+        <Badge 
+          v-if="post.article_language === 'indonesian'" 
+          variant="surface"
+          icon="circle-flags:id"
         >
-          <Icon name="openmoji:robot" class="w-5 h-5" />
+          Indonesia
+        </Badge>
+        <Badge 
+          v-else-if="post.article_language === 'english'" 
+          variant="surface"
+          icon="circle-flags:uk"
+        >
+          English
+        </Badge>
+        <Badge 
+          v-if="post.ai_generated === 'ai'" 
+          variant="purple"
+          icon="mdi:robot-outline"
+        >
           AI Generated
-        </span>
-        <span
-          v-else-if="post.ai_generated === 'human'"
-          class="bg-green-900 text-green-200 px-3 py-1 rounded-full text-sm flex items-center gap-1"
+        </Badge>
+        <Badge 
+          v-else-if="post.ai_generated === 'human'" 
+          variant="success"
+          icon="mdi:account-outline"
         >
-          <Icon name="mdi:account" class="w-4 h-4" />
-          Human
-        </span>
-        <span
-          v-else-if="post.ai_generated === 'hybrid'"
-          class="bg-yellow-900 text-yellow-200 px-3 py-1 rounded-full text-sm flex items-center gap-1"
+          Human Written
+        </Badge>
+        <Badge 
+          v-else-if="post.ai_generated === 'hybrid'" 
+          variant="warning"
+          icon="mdi:account-sync-outline"
         >
-          <Icon name="mdi:handshake" class="w-4 h-4" />
-          Hybrid
-        </span>
+          AI-Assisted
+        </Badge>
       </div>
 
-      <h1 class="text-4xl sm:text-5xl font-bold text-center mb-6">
+      <!-- Title -->
+      <h1 class="text-heading text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
         {{ post.title }}
       </h1>
 
-      <div class="flex items-center justify-center gap-3 text-gray-400">
-        <time
+      <!-- Meta info -->
+      <div class="flex items-center justify-center gap-4 text-muted text-sm">
+        <time 
           :datetime="post.date ? new Date(post.date).toISOString() : ''"
-          class="flex items-center gap-1"
+          class="flex items-center gap-1.5"
         >
-          <Icon name="mdi:calendar" class="w-4 h-4" />
+          <Icon name="mdi:calendar-outline" class="w-4 h-4" />
           {{ formatDate(post.date) }}
         </time>
-        <span class="text-gray-500">•</span>
-        <span class="flex items-center gap-1">
+        <span class="text-[var(--color-border)]">|</span>
+        <span class="flex items-center gap-1.5">
           <Icon name="mdi:clock-outline" class="w-4 h-4" />
           {{ readingTime }} min read
         </span>
       </div>
     </header>
 
-    <!-- Content section -->
-    <div class="prose prose-invert prose-lg max-w-none mb-12">
+    <!-- Article content -->
+    <div class="prose prose-lg max-w-none mb-12">
       <ContentRenderer :value="post" />
+    </div>
+
+    <!-- Share section -->
+    <div class="surface-card p-6 mb-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <p class="text-muted text-sm">Share this article:</p>
+        <div class="flex gap-2">
+          <button
+            v-for="share in shareButtons"
+            :key="share.platform"
+            @click="shareArticle(share.platform)"
+            class="btn btn-ghost !p-2.5"
+            :title="`Share on ${share.label}`"
+          >
+            <Icon :name="share.icon" class="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related posts -->
+    <div v-if="relatedPosts.length > 0" class="mb-12">
+      <h3 class="section-title mb-4">Related Articles</h3>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <ContentCard
+          v-for="relatedPost in relatedPosts"
+          :key="relatedPost._path"
+          :title="relatedPost.title"
+          :date="formatDate(relatedPost.date)"
+          :to="relatedPost._path"
+        />
+      </div>
     </div>
 
     <!-- Comments -->
     <DisqusComments v-if="post" :identifier="post._path" :title="post.title" />
 
-    <!-- Footer section -->
-    <footer class="border-t border-gray-700 pt-8 mt-16">
-      <div class="flex flex-col sm:flex-row justify-between items-center gap-6">
-        <NuxtLink
-          to="/blog"
-          class="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1"
-        >
-          <Icon name="heroicons:arrow-left" class="w-5 h-5" />
-          Kembali ke Blog
-        </NuxtLink>
-
-        <div class="flex flex-col items-center sm:items-end gap-2">
-          <div class="text-sm text-gray-400">Bagikan artikel ini:</div>
-          <div class="flex gap-2">
-            <button
-              @click="shareArticle('twitter')"
-              class="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
-              title="Share on Twitter"
-            >
-              <Icon name="mdi:twitter" class="w-5 h-5" />
-            </button>
-            <button
-              @click="shareArticle('facebook')"
-              class="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
-              title="Share on Facebook"
-            >
-              <Icon name="mdi:facebook" class="w-5 h-5" />
-            </button>
-            <button
-              @click="shareArticle('linkedin')"
-              class="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
-              title="Share on LinkedIn"
-            >
-              <Icon name="mdi:linkedin" class="w-5 h-5" />
-            </button>
-            <button
-              @click="shareArticle('link')"
-              class="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
-              title="Copy Link"
-            >
-              <Icon name="heroicons:link" class="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div v-if="relatedPosts.length > 0" class="mt-12">
-        <h3 class="text-xl font-bold mb-6">Artikel Terkait</h3>
-        <div class="grid sm:grid-cols-2 gap-6">
-          <NuxtLink
-            v-for="relatedPost in relatedPosts"
-            :key="relatedPost._path"
-            :to="relatedPost._path"
-            class="border border-gray-700 p-4 rounded-lg hover:bg-gray-800 transition-colors cursor-pointer"
-          >
-            <h4 class="font-bold mb-2">{{ relatedPost.title }}</h4>
-            <div class="text-xs text-gray-500 mb-1 flex items-center gap-1">
-              <Icon name="mdi:calendar" class="w-3 h-3" />
-              {{ formatDate(relatedPost.date) }}
-            </div>
-            <p class="text-gray-400 text-sm line-clamp-2">
-              {{
-                relatedPost.description ||
-                relatedPost.body?.value?.[0]?.[2]?.substring(0, 120) + "..." ||
-                ""
-              }}
-            </p>
-          </NuxtLink>
-        </div>
-      </div>
-    </footer>
+    <!-- Back button -->
+    <div class="mt-12 pt-8 border-t border-[var(--color-border)]">
+      <NuxtLink to="/blog" class="link-primary inline-flex items-center gap-2">
+        <Icon name="heroicons:arrow-left-20-solid" class="w-4 h-4" />
+        Back to Blog
+      </NuxtLink>
+    </div>
   </article>
 </template>
 
-<script setup>
-const route = useRoute();
+<script setup lang="ts">
+import Badge from '~/components/ui/Badge.vue'
+import ContentCard from '~/components/ui/ContentCard.vue'
+import LoadingSpinner from '~/components/ui/LoadingSpinner.vue'
+
+const route = useRoute()
+const baseUrl = 'https://satrio.dev'
 
 // Fetch current post
 const { data: post, pending } = await useAsyncData(
   `blog-${route.path}`,
-  () => queryCollection("blog").path(route.path).first()
-);
+  () => queryCollection('blog').path(route.path).first()
+)
 
 // Fetch all posts for related posts (lazy load)
 const { data: allPosts } = await useAsyncData(
-  "all-blog-posts",
-  () => queryCollection("blog").all(),
+  'all-blog-posts',
+  () => queryCollection('blog').all(),
   { lazy: true }
-);
+)
+
+// Language icons
+const languageIcons: Record<string, string> = {
+  javascript: 'logos:javascript',
+  python: 'logos:python',
+  php: 'logos:php',
+  typescript: 'logos:typescript-icon',
+  go: 'logos:go',
+  java: 'logos:java',
+  other: 'mdi:code-tags'
+}
+
+// Share buttons
+const shareButtons = [
+  { platform: 'twitter', icon: 'mdi:twitter', label: 'Twitter' },
+  { platform: 'facebook', icon: 'mdi:facebook', label: 'Facebook' },
+  { platform: 'linkedin', icon: 'mdi:linkedin', label: 'LinkedIn' },
+  { platform: 'link', icon: 'mdi:link-variant', label: 'Copy Link' }
+]
 
 // SEO meta tags
-const baseUrl = "https://satrio.dev";
-
 watchEffect(() => {
   if (post.value) {
-    const postUrl = `${baseUrl}${post.value._path || route.path}`;
-    const postDate = post.value.date
-      ? new Date(post.value.date).toISOString()
-      : "";
-    const description =
-      post.value.description ||
-      post.value.body?.value?.[0]?.[2]?.substring(0, 160) ||
-      "";
+    const postUrl = `${baseUrl}${post.value._path || route.path}`
+    const postDate = post.value.date ? new Date(post.value.date).toISOString() : ''
+    const description = post.value.description || post.value.body?.value?.[0]?.[2]?.substring(0, 160) || ''
 
     useHead({
       title: `${post.value.title} | Satrio's Blog`,
       meta: [
-        { name: "description", content: description },
-        {
-          name: "keywords",
-          content: post.value.category || post.value.programming_language || "",
-        },
-        { property: "og:title", content: post.value.title },
-        { property: "og:description", content: description },
-        { property: "og:type", content: "article" },
-        { property: "og:url", content: postUrl },
-        { property: "og:image", content: `${baseUrl}/og-image.jpg` },
-        { property: "article:published_time", content: postDate },
-        { property: "article:author", content: "Satrio" },
-        { property: "article:section", content: post.value.category || "Blog" },
-        {
-          property: "article:tag",
-          content: post.value.programming_language || post.value.category || "",
-        },
-        { name: "twitter:card", content: "summary_large_image" },
-        { name: "author", content: "Satrio" },
-        { name: "twitter:title", content: post.value.title },
-        { name: "twitter:description", content: description },
-        { name: "twitter:image", content: `${baseUrl}/og-image.jpg` },
+        { name: 'description', content: description },
+        { name: 'keywords', content: post.value.category || post.value.programming_language || '' },
+        { property: 'og:title', content: post.value.title },
+        { property: 'og:description', content: description },
+        { property: 'og:type', content: 'article' },
+        { property: 'og:url', content: postUrl },
+        { property: 'og:image', content: `${baseUrl}/og-image.jpg` },
+        { property: 'article:published_time', content: postDate },
+        { property: 'article:author', content: 'Satrio' },
+        { property: 'article:section', content: post.value.category || 'Blog' },
+        { property: 'article:tag', content: post.value.programming_language || post.value.category || '' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'author', content: 'Satrio' },
+        { name: 'twitter:title', content: post.value.title },
+        { name: 'twitter:description', content: description },
+        { name: 'twitter:image', content: `${baseUrl}/og-image.jpg` }
       ],
-      link: [{ rel: "canonical", href: postUrl }],
+      link: [{ rel: 'canonical', href: postUrl }],
       script: [
         {
-          type: "application/ld+json",
+          type: 'application/ld+json',
           children: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BlogPosting",
+            '@context': 'https://schema.org',
+            '@type': 'BlogPosting',
             headline: post.value.title,
             description: description,
             image: `${baseUrl}/og-image.jpg`,
             datePublished: postDate,
             dateModified: postDate,
-            author: {
-              "@type": "Person",
-              name: "Satrio",
-              url: baseUrl,
-            },
-            publisher: {
-              "@type": "Person",
-              name: "Satrio",
-              url: baseUrl,
-            },
-            mainEntityOfPage: {
-              "@type": "WebPage",
-              "@id": postUrl,
-            },
-          }),
-        },
-      ],
-    });
+            author: { '@type': 'Person', name: 'Satrio', url: baseUrl },
+            publisher: { '@type': 'Person', name: 'Satrio', url: baseUrl },
+            mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl }
+          })
+        }
+      ]
+    })
   }
-});
+})
 
-// Kalkukasi estimasi waktu baca
+// Reading time calculation
 const readingTime = computed(() => {
-  if (!post.value) return 1;
-  // Ambil teks dari konten
-  let text = "";
+  if (!post.value) return 1
+  let text = ''
   if (post.value.body?.value?.[0]?.[2]) {
-    text = String(post.value.body.value[0][2]);
+    text = String(post.value.body.value[0][2])
   } else if (post.value.description) {
-    text = String(post.value.description);
+    text = String(post.value.description)
   }
-  // Estimasi: 200 kata per menit
-  if (!text) return 1;
-  const wordCount = text.trim().split(/\s+/).length;
-  const time = Math.ceil(wordCount / 200);
-  return time > 0 ? time : 1;
-});
+  if (!text) return 1
+  const wordCount = text.trim().split(/\s+/).length
+  const time = Math.ceil(wordCount / 200)
+  return time > 0 ? time : 1
+})
 
-// Icon untuk bahasa pemrograman
-const languageIcons = {
-  javascript: "logos:javascript",
-  python: "logos:python",
-  php: "logos:php",
-  typescript: "logos:typescript-icon",
-  go: "logos:go",
-  java: "logos:java",
-  other: "mdi:code-tags",
-};
-
-// Format tanggal
-const formatDate = (date) => {
-  if (!date) return "";
-  return new Date(date).toLocaleDateString("id-ID", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-};
-
+// Related posts
 const relatedPosts = computed(() => {
-  if (!post.value || !allPosts.value?.length) return [];
-
-  // Ambil artikel dengan kategori atau bahasa pemrograman yang sama, kecuali artikel saat ini
+  if (!post.value || !allPosts.value?.length) return []
   return allPosts.value
-    .filter((p) => p._path !== post.value._path)
+    .filter((p) => p._path !== post.value!._path)
     .filter(
       (p) =>
-        (post.value.category && p.category === post.value.category) ||
-        (post.value.programming_language &&
-          p.programming_language === post.value.programming_language),
+        (post.value!.category && p.category === post.value!.category) ||
+        (post.value!.programming_language && p.programming_language === post.value!.programming_language)
     )
-    .slice(0, 2); // Ambil maksimal 2 artikel terkait
-});
+    .slice(0, 2)
+})
 
-// Fungsi berbagi artikel
-const shareArticle = (platform) => {
-  if (process.client) {
-    const url = window.location.href;
-    const title = post.value?.title || "Artikel Blog";
+// Format date
+const formatDate = (date: Date | string | undefined) => {
+  if (!date) return ''
+  return new Date(date).toLocaleDateString('id-ID', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
+}
+
+// Get language icon
+const getLanguageIcon = (lang: string) => {
+  return languageIcons[lang.toLowerCase()] || languageIcons.other
+}
+
+// Share article
+const shareArticle = (platform: string) => {
+  if (import.meta.client) {
+    const url = window.location.href
+    const title = post.value?.title || 'Blog Article'
 
     switch (platform) {
-      case "twitter":
-        window.open(
-          `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
-          "_blank",
-        );
-        break;
-      case "facebook":
-        window.open(
-          `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
-          "_blank",
-        );
-        break;
-      case "linkedin":
-        window.open(
-          `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
-          "_blank",
-        );
-        break;
-      case "link":
-        navigator.clipboard
-          .writeText(url)
-          .then(() => {
-            alert("Link artikel telah disalin!");
-          })
-          .catch((err) => {
-            console.error("Gagal menyalin link:", err);
-          });
-        break;
+      case 'twitter':
+        window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`, '_blank')
+        break
+      case 'facebook':
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank')
+        break
+      case 'linkedin':
+        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank')
+        break
+      case 'link':
+        navigator.clipboard.writeText(url).then(() => {
+          alert('Link copied to clipboard!')
+        }).catch((err) => {
+          console.error('Failed to copy link:', err)
+        })
+        break
     }
   }
-};
+}
 </script>
-
-<style>
-.prose img {
-  border-radius: 0.5rem;
-  box-shadow:
-    0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.prose pre {
-  border-radius: 0.5rem;
-  box-shadow:
-    0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  margin: 1.5em 0;
-  padding: 1.25em 1.5em;
-  overflow-x: auto;
-  background-color: #1e293b;
-  border: 1px solid #334155;
-}
-
-.prose a {
-  color: #e5e7eb;
-  text-decoration: underline;
-  border-bottom: 1px dashed #444;
-  transition: all 0.2s ease;
-}
-
-.prose a:hover {
-  color: #fff;
-  border-bottom-style: solid;
-}
-
-.prose h2,
-.prose h3,
-.prose h4 {
-  margin-top: 2em;
-  margin-bottom: 1em;
-  font-weight: 700;
-  line-height: 1.3;
-}
-
-.prose h2 {
-  font-size: 1.75em;
-  border-bottom: 1px solid #222;
-  padding-bottom: 0.5em;
-}
-
-.prose h3 {
-  font-size: 1.5em;
-}
-
-.prose h4 {
-  font-size: 1.25em;
-}
-
-.prose blockquote {
-  border-left: 4px solid #444;
-  padding-left: 1em;
-  font-style: italic;
-  margin: 1.5em 0;
-  color: #bcbcbc;
-}
-
-.prose ul,
-.prose ol {
-  padding-left: 1.5em;
-  margin: 1em 0;
-}
-
-.prose li {
-  margin: 0.5em 0;
-}
-</style>

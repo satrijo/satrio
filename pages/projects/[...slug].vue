@@ -1,48 +1,82 @@
-
 <template>
-  <div class="text-white">
-    <div v-if="pending" class="flex justify-center items-center min-h-[60vh]">
-      <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2"></div>
-    </div>
-    <article v-else-if="project" class="max-w-4xl mx-auto space-y-10 rounded-2xl shadow-2xl p-8 border border-gray-800">
-      <header class="text-center space-y-3">
-        <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-100 mb-2 drop-shadow-lg">{{ project.title }}</h1>
-        <time :datetime="project.date ? new Date(project.date).toISOString() : ''" class="text-gray-500 text-sm flex items-center justify-center gap-2">
-          <Icon name="mdi:calendar" class="w-4 h-4" />
+  <!-- Loading state -->
+  <div v-if="pending" class="py-8">
+    <LoadingSpinner text="Loading project..." />
+  </div>
+
+  <!-- Not found state -->
+  <div v-else-if="!project" class="text-center py-16">
+    <Icon name="mdi:folder-alert-outline" class="w-20 h-20 text-muted mx-auto mb-4" />
+    <h1 class="text-heading text-2xl font-bold mb-2">Project Not Found</h1>
+    <p class="text-muted mb-6">The project you're looking for doesn't exist or has been moved.</p>
+    <NuxtLink to="/projects" class="btn btn-primary">
+      <Icon name="heroicons:arrow-left-20-solid" class="w-4 h-4" />
+      Back to Projects
+    </NuxtLink>
+  </div>
+
+  <!-- Project content -->
+  <article v-else class="py-8">
+    <!-- Project header -->
+    <header class="mb-10 text-center">
+      <!-- Title -->
+      <h1 class="text-heading text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
+        {{ project.title }}
+      </h1>
+
+      <!-- Meta info -->
+      <div class="flex items-center justify-center gap-4 text-muted text-sm mb-6">
+        <time 
+          :datetime="project.date ? new Date(project.date).toISOString() : ''"
+          class="flex items-center gap-1.5"
+        >
+          <Icon name="mdi:calendar-outline" class="w-4 h-4" />
           {{ formatDate(project.date) }}
         </time>
-        <a v-if="project.link" :href="project.link" target="_blank" rel="noopener" class="inline-block mt-2 px-4 py-2 bg-gray-800 text-gray-200 border border-gray-600 rounded-full font-semibold hover:bg-gray-700 hover:text-white transition-colors">
-          <Icon name="mdi:laptop" class="w-5 h-5 inline-block mr-1" /> View Live Demo
-        </a>
-      </header>
-      <div class="prose prose-invert prose-lg max-w-none mx-auto bg-gray-900/80 rounded-xl p-6 shadow-inner">
+      </div>
+
+      <!-- Live demo button -->
+      <a 
+        v-if="project.link" 
+        :href="project.link" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="btn btn-primary"
+      >
+        <Icon name="mdi:open-in-new" class="w-4 h-4" />
+        View Live Demo
+      </a>
+    </header>
+
+    <!-- Project content -->
+    <div class="surface-card p-6 sm:p-8 mb-8">
+      <div class="prose prose-lg max-w-none">
         <ContentRenderer :value="project" />
       </div>
-      <div class="flex justify-between items-center border-t border-gray-800 pt-8 mt-8">
-        <NuxtLink to="/projects" class="text-gray-300 hover:text-white transition-colors flex items-center gap-1">
-          <Icon name="heroicons:arrow-left" class="w-5 h-5" />
-          Back to Projects
-        </NuxtLink>
-        <span class="text-xs text-gray-600">Project Detail</span>
-      </div>
-    </article>
-    <div v-else class="text-center py-20 text-red-400">
-      <h2 class="text-2xl font-bold mb-4">Project not found</h2>
-      <NuxtLink to="/projects" class="text-blue-400 hover:text-blue-300 transition-colors">
-        ← Back to Projects
+    </div>
+
+    <!-- Back button -->
+    <div class="pt-8 border-t border-[var(--color-border)]">
+      <NuxtLink to="/projects" class="link-primary inline-flex items-center gap-2">
+        <Icon name="heroicons:arrow-left-20-solid" class="w-4 h-4" />
+        Back to Projects
       </NuxtLink>
     </div>
-  </div>
+  </article>
 </template>
 
-<script setup>
-const route = useRoute()
-const { data: project, pending } = await useAsyncData(route.path, () => {
-  return queryCollection('projects').path(route.path).first()
-})
+<script setup lang="ts">
+import LoadingSpinner from '~/components/ui/LoadingSpinner.vue'
 
+const route = useRoute()
 const baseUrl = 'https://satrio.dev'
 
+const { data: project, pending } = await useAsyncData(
+  route.path,
+  () => queryCollection('projects').path(route.path).first()
+)
+
+// SEO meta tags
 watchEffect(() => {
   if (project.value) {
     const projectUrl = `${baseUrl}${project.value._path || route.path}`
@@ -63,11 +97,9 @@ watchEffect(() => {
         { name: 'twitter:card', content: 'summary_large_image' },
         { name: 'twitter:title', content: project.value.title },
         { name: 'twitter:description', content: description },
-        { name: 'twitter:image', content: `${baseUrl}/og-image.jpg` },
+        { name: 'twitter:image', content: `${baseUrl}/og-image.jpg` }
       ],
-      link: [
-        { rel: 'canonical', href: projectUrl }
-      ],
+      link: [{ rel: 'canonical', href: projectUrl }],
       script: [
         {
           type: 'application/ld+json',
@@ -77,11 +109,7 @@ watchEffect(() => {
             name: project.value.title,
             description: description,
             datePublished: projectDate,
-            creator: {
-              '@type': 'Person',
-              name: 'Satrio',
-              url: baseUrl
-            },
+            creator: { '@type': 'Person', name: 'Satrio', url: baseUrl },
             url: projectUrl
           })
         }
@@ -90,7 +118,7 @@ watchEffect(() => {
   }
 })
 
-const formatDate = (date) => {
+const formatDate = (date: Date | string | undefined) => {
   if (!date) return ''
   return new Date(date).toLocaleDateString('en-US', {
     year: 'numeric',

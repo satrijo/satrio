@@ -1,37 +1,55 @@
 <template>
-    <section class="space-y-6">
-        <h2 class="font-bold">Let's Connect</h2>
-        <p class="text-gray-400 leading-relaxed">
-            If you want to get in touch with me about something or just to say hi, reach out on social media or send me an email.
-        </p>
-        <div class="flex flex-wrap items-center gap-2">
-            <a
-                href="https://www.threads.net/@lensatrio"
-                target="_blank"
-                rel="noopener"
-                class="underline-link inline-flex items-center gap-1"
-            >
-                Threads
-                <Icon name="mdi:open-in-new" class="w-3 h-3" />
-            </a>
-            <span class="text-gray-600">/</span>
-            <a
-                href="https://www.linkedin.com/in/satriyounggulwicaksono/"
-                target="_blank"
-                rel="noopener"
-                class="underline-link inline-flex items-center gap-1"
-            >
-                LinkedIn
-                <Icon name="mdi:open-in-new" class="w-3 h-3" />
-            </a>
-            <span class="text-gray-600">/</span>
-            <a
-                href="mailto:mail@satrio.dev"
-                class="underline-link"
-            >
-                Email
-            </a>
-        </div>
-    </section>
+  <section class="surface-card p-6 sm:p-8">
+    <h2 class="section-title mb-4">Let's Connect</h2>
+    
+    <p class="text-body leading-relaxed mb-6 max-w-xl">
+      Got a project in mind or just want to say hello? Feel free to reach out through 
+      social media or drop me an email. I'm always open to discussing new opportunities 
+      and interesting ideas.
+    </p>
+    
+    <!-- Contact links -->
+    <div class="flex flex-wrap gap-3">
+      <a
+        v-for="link in contactLinks"
+        :key="link.href"
+        :href="link.href"
+        :target="link.external ? '_blank' : undefined"
+        :rel="link.external ? 'noopener noreferrer' : undefined"
+        class="btn btn-ghost"
+      >
+        <Icon :name="link.icon" class="w-5 h-5" />
+        {{ link.label }}
+      </a>
+    </div>
+  </section>
+</template>
 
-</template> 
+<script setup lang="ts">
+const contactLinks = [
+  {
+    href: 'https://www.threads.net/@lensatrio',
+    icon: 'simple-icons:threads',
+    label: 'Threads',
+    external: true
+  },
+  {
+    href: 'https://www.linkedin.com/in/satriyounggulwicaksono/',
+    icon: 'mdi:linkedin',
+    label: 'LinkedIn',
+    external: true
+  },
+  {
+    href: 'https://github.com/satrioow',
+    icon: 'mdi:github',
+    label: 'GitHub',
+    external: true
+  },
+  {
+    href: 'mailto:mail@satrio.dev',
+    icon: 'mdi:email-outline',
+    label: 'Email',
+    external: false
+  }
+]
+</script>

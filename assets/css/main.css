@@ -9,125 +9,481 @@
   font-display: swap;
   src: local('Inter');
 }
+
 @import "tailwindcss";
 
-/* Disqus dark mode compatibility: override any OKLCH colors with hex/rgb */
-#disqus_thread {
-  --tw-bg-opacity: 1;
-  background-color: rgb(31 41 55) !important; /* gray-800 */
-  color: rgb(229 231 235) !important; /* gray-200 */
-  border-radius: 0.75rem;
-  border: 1px solid rgb(75 85 99); /* gray-600 */
+/* ============================================
+   DESIGN TOKENS from styles.json
+   Personal branding: Satrio.dev
+   ============================================ */
+
+:root {
+  /* Colors - Dark theme optimized for personal branding */
+  --color-background: #0F172A;
+  --color-surface: #1E293B;
+  --color-surface-elevated: #334155;
+  --color-primary: #38BDF8;
+  --color-primary-hover: #7DD3FC;
+  --color-accent: #4F46E5;
+  --color-accent-hover: #6366F1;
+  
+  /* Text hierarchy */
+  --color-text-heading: #F8FAFC;
+  --color-text-body: #94A3B8;
+  --color-text-muted: #64748B;
+  
+  /* Borders */
+  --color-border: #334155;
+  --color-border-hover: #475569;
+  
+  /* Spacing */
+  --container-max: 1200px;
+  --gutter: 24px;
+  
+  /* Border radius */
+  --radius-card: 12px;
+  --radius-button: 8px;
+  --radius-badge: 9999px;
+  
+  /* Shadows */
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --shadow-card-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 200ms ease;
+  --transition-slow: 300ms ease;
 }
 
-#disqus_thread * {
-  color: rgb(229 231 235) !important;
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+html {
+  scroll-behavior: smooth;
 }
 
-#disqus_thread a {
-  color: rgb(96 165 250) !important; /* blue-400 */
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400;
+  background-color: var(--color-background);
+  color: var(--color-text-body);
+  line-height: 1.6;
 }
+
+/* ============================================
+   LAYOUT UTILITIES
+   ============================================ */
+
+@layer utilities {
+  .container-custom {
+    max-width: var(--container-max);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+  }
+}
+
+/* ============================================
+   COMPONENT STYLES
+   ============================================ */
 
 @layer components {
-  .prose-like > p {
-    @apply text-gray-300 leading-relaxed transition-colors duration-300;
+  /* Surface card - main card style */
+  .surface-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    transition: all var(--transition-normal);
   }
-
+  
+  .surface-card:hover {
+    border-color: var(--color-border-hover);
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-2px);
+  }
+  
+  /* Surface elevated - for modals, dropdowns */
+  .surface-elevated {
+    background-color: var(--color-surface-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+  }
+  
+  /* Text utilities */
+  .text-heading {
+    color: var(--color-text-heading);
+    font-weight: 700;
+  }
+  
+  .text-body {
+    color: var(--color-text-body);
+  }
+  
+  .text-muted {
+    color: var(--color-text-muted);
+  }
+  
+  /* Primary link */
+  .link-primary {
+    color: var(--color-primary);
+    transition: color var(--transition-fast);
+  }
+  
+  .link-primary:hover {
+    color: var(--color-primary-hover);
+  }
+  
+  /* Underline link - for navigation */
   .underline-link {
-    @apply text-gray-400 hover:text-gray-100 transition-colors duration-200 cursor-pointer underline underline-offset-2;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    position: relative;
+    transition: color var(--transition-fast);
+  }
+  
+  .underline-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-primary);
+    transition: width var(--transition-normal);
+  }
+  
+  .underline-link:hover {
+    color: var(--color-text-heading);
+  }
+  
+  .underline-link:hover::after {
+    width: 100%;
+  }
+  
+  .underline-link.active {
+    color: var(--color-primary);
+  }
+  
+  .underline-link.active::after {
+    width: 100%;
+  }
+  
+  /* Badge styles */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: var(--radius-badge);
+    transition: all var(--transition-fast);
+  }
+  
+  .badge-primary {
+    background-color: rgba(56, 189, 248, 0.15);
+    color: var(--color-primary);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+  }
+  
+   .badge-accent {
+     background-color: rgba(79, 70, 229, 0.15);
+     color: var(--color-accent);
+     border: 1px solid rgba(79, 70, 229, 0.3);
+   }
+  
+  .badge-surface {
+    background-color: var(--color-surface);
+    color: var(--color-text-body);
+    border: 1px solid var(--color-border);
+  }
+  
+  .badge-success {
+    background-color: rgba(34, 197, 94, 0.15);
+    color: #22C55E;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+  }
+  
+  .badge-warning {
+    background-color: rgba(234, 179, 8, 0.15);
+    color: #EAB308;
+    border: 1px solid rgba(234, 179, 8, 0.3);
+  }
+  
+  .badge-purple {
+    background-color: rgba(168, 85, 247, 0.15);
+    color: #A855F7;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+  }
+  
+  /* Button styles */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: var(--radius-button);
+    transition: all var(--transition-fast);
+    cursor: pointer;
+    border: none;
+  }
+  
+  .btn:active {
+    transform: scale(0.98);
+  }
+  
+  .btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--color-primary-hover);
+  }
+  
+  .btn-ghost {
+    background-color: transparent;
+    color: var(--color-text-body);
+    border: 1px solid var(--color-border);
+  }
+  
+  .btn-ghost:hover {
+    background-color: var(--color-surface);
+    border-color: var(--color-border-hover);
+    color: var(--color-text-heading);
+  }
+  
+  /* Section header */
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text-heading);
+  }
+  
+  /* Skeleton loading */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--color-surface) 25%,
+      var(--color-surface-elevated) 50%,
+      var(--color-surface) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s ease-in-out infinite;
+    border-radius: var(--radius-button);
+  }
+  
+  @keyframes skeleton-loading {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+  
+  /* Page header */
+  .page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .page-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--color-text-heading);
+    margin-bottom: 0.75rem;
+  }
+  
+  .page-subtitle {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  /* Prose - for markdown content */
+  .prose-like > p {
+    color: var(--color-text-body);
+    line-height: 1.75;
+    transition: color var(--transition-slow);
   }
 
-  /* Tambahan konfigurasi prose untuk artikel blog */
   .prose {
-    @apply text-gray-200;
+    color: var(--color-text-body);
   }
 
   .prose h1,
   .prose h2,
   .prose h3,
   .prose h4 {
-    @apply text-white font-bold;
+    color: var(--color-text-heading);
+    font-weight: 700;
   }
 
   .prose a {
-    @apply text-blue-400 no-underline border-b border-blue-400 opacity-80 hover:opacity-100 hover:text-blue-300;
+    color: var(--color-primary);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--transition-fast);
+  }
+  
+  .prose a:hover {
+    border-color: var(--color-primary);
   }
 
   .prose strong {
-    @apply text-white font-bold;
+    color: var(--color-text-heading);
+    font-weight: 600;
   }
 
   .prose blockquote {
-    @apply border-l-4 border-blue-500 pl-4 italic text-gray-300;
+    border-left: 4px solid var(--color-primary);
+    padding-left: 1rem;
+    font-style: italic;
+    color: var(--color-text-muted);
   }
 
   .prose code {
-    @apply bg-gray-800 px-1.5 py-0.5 rounded text-gray-200;
+    background-color: var(--color-surface);
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+    color: var(--color-accent);
+    font-size: 0.875em;
+  }
+  
+  .prose pre {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+  }
+  
+  .prose pre code {
+    background: none;
+    padding: 0;
+    color: var(--color-text-body);
   }
 
   .prose img {
-    @apply rounded-lg shadow-md mx-auto my-8;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    margin: 2rem auto;
   }
 
   .prose-lg p {
-    @apply mb-6 leading-relaxed;
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
   }
 
-  /* Tambahan styling untuk tabel */
   .prose table {
-    @apply w-full my-8 border-collapse;
+    width: 100%;
+    margin: 2rem 0;
+    border-collapse: collapse;
   }
 
   .prose thead {
-    @apply bg-gray-800;
+    background-color: var(--color-surface);
   }
 
   .prose th {
-    @apply py-3 px-4 text-left font-bold text-gray-200 border-b border-gray-700;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--color-text-heading);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .prose td {
-    @apply py-3 px-4 border-b border-gray-700 text-gray-300;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--color-border);
   }
 
-  /* Tambahan styling untuk list */
   .prose ul {
-    @apply list-disc pl-5 my-4 space-y-2;
+    list-style: disc;
+    padding-left: 1.5rem;
+    margin: 1rem 0;
   }
 
   .prose ol {
-    @apply list-decimal pl-5 my-4 space-y-2;
+    list-style: decimal;
+    padding-left: 1.5rem;
+    margin: 1rem 0;
+  }
+  
+  .prose li {
+    margin: 0.5rem 0;
   }
 }
 
-body {
-  font-family:
-    "Inter",
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    "Helvetica Neue",
-    Arial,
-    sans-serif;
-  font-weight: 400;
+/* ============================================
+   SPECIAL COMPONENTS
+   ============================================ */
+
+/* Disqus dark mode compatibility */
+#disqus_thread {
+  background-color: var(--color-surface) !important;
+  color: var(--color-text-body) !important;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  padding: 1.5rem;
 }
 
-.prose p {
-  font-family:
-    "Inter",
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    "Helvetica Neue",
-    Arial,
-    sans-serif;
-  font-weight: 400;
-  line-height: 1.75;
+#disqus_thread * {
+  color: var(--color-text-body) !important;
 }
 
+#disqus_thread a {
+  color: var(--color-primary) !important;
+}
+
+/* Nuxt UI App overrides */
 .u-app,
 .u-app > div {
   overflow: visible !important;
+}
+
+/* Focus states for accessibility */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Selection color */
+::selection {
+  background-color: rgba(56, 189, 248, 0.3);
+  color: var(--color-text-heading);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface-elevated);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-hover);
 }
