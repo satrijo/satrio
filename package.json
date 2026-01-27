@@ -25,6 +25,13 @@
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
+    "@iconify-json/circle-flags": "^1.2.10",
+    "@iconify-json/ep": "^1.2.4",
+    "@iconify-json/heroicons": "^1.2.3",
+    "@iconify-json/line-md": "^1.2.14",
+    "@iconify-json/logos": "^1.2.10",
+    "@iconify-json/mdi": "^1.2.3",
+    "@iconify-json/openmoji": "^1.2.21",
     "@tailwindcss/typography": "^0.5.16"
   }
 }

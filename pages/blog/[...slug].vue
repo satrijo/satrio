@@ -182,23 +182,18 @@
 <script setup>
 const route = useRoute();
 
-// Gabungkan kedua query dalam satu Promise.all untuk parallel fetching
-const { data: blogData, pending } = await useAsyncData(
+// Fetch current post
+const { data: post, pending } = await useAsyncData(
   `blog-${route.path}`,
-  async () => {
-    const [currentPost, allBlogPosts] = await Promise.all([
-      queryCollection("blog").path(route.path).first(),
-      queryCollection("blog")
-        .select("_path", "title", "date", "description", "category", "programming_language")
-        .all()
-    ]);
-    return { post: currentPost, allPosts: allBlogPosts };
-  }
+  () => queryCollection("blog").path(route.path).first()
 );
 
-// Computed untuk mengakses post
-const post = computed(() => blogData.value?.post);
-const allPosts = computed(() => blogData.value?.allPosts || []);
+// Fetch all posts for related posts (lazy load)
+const { data: allPosts } = await useAsyncData(
+  "all-blog-posts",
+  () => queryCollection("blog").all(),
+  { lazy: true }
+);
 
 // SEO meta tags
 const baseUrl = "https://satrio.dev";
@@ -316,7 +311,7 @@ const relatedPosts = computed(() => {
 
   // Ambil artikel dengan kategori atau bahasa pemrograman yang sama, kecuali artikel saat ini
   return allPosts.value
-    .filter((p) => p._path !== post.value._path && p.path !== post.value._path)
+    .filter((p) => p._path !== post.value._path)
     .filter(
       (p) =>
         (post.value.category && p.category === post.value.category) ||
