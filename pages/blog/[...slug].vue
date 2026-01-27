@@ -424,7 +424,11 @@ const shareArticle = (platform: string) => {
 }
 
 .action-btn {
-  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   color: var(--color-text-muted);
   transition: all 0.15s ease;
@@ -506,7 +510,11 @@ const shareArticle = (platform: string) => {
 }
 
 .share-btn {
-  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   color: var(--color-text-muted);
   border: 1px solid var(--color-border);
