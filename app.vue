@@ -10,7 +10,7 @@
     </Transition>
 
     <NuxtLayout>
-      <NuxtPage />
+      <NuxtPage :key="route.fullPath" />
     </NuxtLayout>
   </div>
 </template>
@@ -25,14 +25,26 @@ const isNavigating = ref(false);
 
 // Listen to navigation events
 const router = useRouter();
-router.beforeEach(() => {
+
+router.beforeEach((to, from) => {
   isNavigating.value = true;
+  // Force scroll to top on navigation
+  if (import.meta.client) {
+    window.scrollTo(0, 0);
+  }
 });
 
-router.afterEach(() => {
+router.afterEach((to, from) => {
+  // Small delay to show loading indicator
   setTimeout(() => {
     isNavigating.value = false;
   }, 300);
+});
+
+// Handle navigation errors
+router.onError((error) => {
+  console.error('Navigation error:', error);
+  isNavigating.value = false;
 });
 
 // Base URL untuk canonical dan og:url

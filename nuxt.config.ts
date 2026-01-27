@@ -64,6 +64,11 @@ export default defineNuxtConfig({
 
   // SEO Configuration
   app: {
+    // Add page transition for better navigation experience
+    pageTransition: { 
+      name: 'page', 
+      mode: 'out-in' 
+    },
     head: {
       htmlAttrs: {
         lang: 'en'
