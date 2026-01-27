@@ -3,12 +3,7 @@
     <div class="footer-container">
       <!-- Links -->
       <div class="footer-links">
-        <a 
-          href="https://help.medium.com" 
-          class="footer-link"
-          target="_blank"
-          rel="noopener"
-        >Help</a>
+        <span class="footer-copyright">© {{ new Date().getFullYear() }} Satrio</span>
         <NuxtLink to="/blog" class="footer-link">Blog</NuxtLink>
         <NuxtLink to="/work" class="footer-link">Work</NuxtLink>
         <NuxtLink to="/projects" class="footer-link">Projects</NuxtLink>
@@ -99,6 +94,11 @@ const socialLinks = [
 
 .footer-link:hover {
   color: var(--color-text-heading);
+}
+
+.footer-copyright {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
 }
 
 .footer-social {
