@@ -357,19 +357,24 @@ const shareArticle = (platform: string) => {
   margin-bottom: 2rem;
 }
 
+/* Medium-style article title typography */
 .article-title {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 2.5rem;
+  font-family: var(--font-heading);
+  font-size: 2.625rem; /* 42px - Medium's title size */
   font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  line-height: 1.12; /* Tight line-height for headings */
+  letter-spacing: -0.022em; /* Medium's tight letter-spacing */
   color: var(--color-text-heading);
   margin-bottom: 1.5rem;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @media (max-width: 640px) {
   .article-title {
-    font-size: 1.875rem;
+    font-size: 1.875rem; /* 30px on mobile */
+    line-height: 1.15;
+    letter-spacing: -0.02em;
   }
 }
 
