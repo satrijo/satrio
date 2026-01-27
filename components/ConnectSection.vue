@@ -40,7 +40,7 @@ const contactLinks = [
     external: true
   },
   {
-    href: 'https://github.com/satrioow',
+    href: 'https://github.com/satrijo',
     icon: 'mdi:github',
     label: 'GitHub',
     external: true

@@ -33,7 +33,7 @@
       </div>
       
       <!-- Arrow icon -->
-      <div v-if="to" class="flex-shrink-0 mt-1">
+      <div class="flex-shrink-0 mt-1">
         <div class="w-8 h-8 rounded-full bg-[var(--color-surface-elevated)] flex items-center justify-center group-hover:bg-[var(--color-primary)] transition-colors">
           <Icon 
             name="heroicons:arrow-right-20-solid" 
