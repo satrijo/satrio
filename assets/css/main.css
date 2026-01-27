@@ -600,25 +600,13 @@ body {
     margin: 1em 0;
   }
 
-  /* Table wrapper - only table scrolls horizontally */
+  /* Table styles */
   .prose table {
     font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 0.9rem;
-    width: 100%;
-    margin: 2rem 0;
+    width: max-content;
+    min-width: 100%;
     border-collapse: collapse;
-    display: block;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    max-width: 100%;
-  }
-
-  .prose table thead,
-  .prose table tbody,
-  .prose table tr {
-    display: table;
-    width: 100%;
-    table-layout: auto;
   }
 
   .prose thead {
