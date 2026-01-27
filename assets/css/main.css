@@ -58,7 +58,7 @@ img, video, canvas, iframe, embed, object {
   --color-border-hover: #475569;
   
   /* Spacing */
-  --container-max: 1200px;
+  --container-max: 860px;
   --gutter: 24px;
   
   /* Border radius */
