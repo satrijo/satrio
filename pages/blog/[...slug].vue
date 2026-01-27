@@ -29,10 +29,9 @@
         <div class="author-section">
           <div class="author-avatar">
             <img 
-              src="/avatar.jpg" 
+              src="https://ui-avatars.com/api/?name=Satrio&background=1E293B&color=38BDF8&size=48"
               alt="Satrio"
               class="w-12 h-12 rounded-full object-cover"
-              onerror="this.src='https://ui-avatars.com/api/?name=Satrio&background=1E293B&color=38BDF8&size=48'"
             />
           </div>
           <div class="author-info">
@@ -140,10 +139,9 @@
         <div class="author-card">
           <div class="author-card-avatar">
             <img 
-              src="/avatar.jpg" 
+              src="https://ui-avatars.com/api/?name=Satrio&background=1E293B&color=38BDF8&size=64"
               alt="Satrio"
               class="w-16 h-16 rounded-full object-cover"
-              onerror="this.src='https://ui-avatars.com/api/?name=Satrio&background=1E293B&color=38BDF8&size=64'"
             />
           </div>
           <div class="author-card-info">

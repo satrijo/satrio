@@ -37,10 +37,9 @@
             <!-- Author & Date -->
             <div class="post-meta-top">
               <img 
-                src="/avatar.jpg" 
+                src="https://ui-avatars.com/api/?name=S&background=1E293B&color=38BDF8&size=24"
                 alt="Satrio"
                 class="post-avatar"
-                onerror="this.src='https://ui-avatars.com/api/?name=S&background=1E293B&color=38BDF8&size=24'"
               />
               <span class="post-author">Satrio</span>
             </div>

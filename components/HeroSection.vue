@@ -3,10 +3,9 @@
     <!-- Avatar & Name -->
     <div class="hero-header">
       <img 
-        src="/avatar.jpg" 
+        src="https://ui-avatars.com/api/?name=Satrio&background=1E293B&color=38BDF8&size=72"
         alt="Satrio"
         class="hero-avatar"
-        onerror="this.src='https://ui-avatars.com/api/?name=Satrio&background=1E293B&color=38BDF8&size=72'"
       />
       <div class="hero-name-wrap">
         <h1 class="hero-name">Satrio</h1>
