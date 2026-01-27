@@ -1,11 +1,12 @@
 <template>
-  <!-- Loading state -->
-  <div v-if="pending" class="py-8">
-    <LoadingSpinner text="Loading article..." />
-  </div>
+  <div class="max-w-[720px] mx-auto">
+    <!-- Loading state -->
+    <div v-if="pending" class="py-8">
+      <LoadingSpinner text="Loading article..." />
+    </div>
 
-  <!-- Not found state -->
-  <div v-else-if="!post" class="text-center py-16">
+    <!-- Not found state -->
+    <div v-else-if="!post" class="text-center py-16">
     <Icon name="mdi:file-alert-outline" class="w-20 h-20 text-muted mx-auto mb-4" />
     <h1 class="text-heading text-2xl font-bold mb-2">Article Not Found</h1>
     <p class="text-muted mb-6">The article you're looking for doesn't exist or has been moved.</p>
@@ -91,7 +92,7 @@
     </header>
 
     <!-- Article content -->
-    <div class="prose prose-lg max-w-[720px] mx-auto mb-12 px-4 sm:px-0">
+    <div class="prose prose-lg max-w-none mb-12">
       <ContentRenderer :value="post" />
     </div>
 
@@ -135,6 +136,7 @@
       </NuxtLink>
     </div>
   </article>
+  </div>
 </template>
 
 <script setup lang="ts">

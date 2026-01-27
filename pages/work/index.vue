@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="max-w-[720px] mx-auto">
     <!-- Page header -->
     <PageHeader
       title="Work Experience"

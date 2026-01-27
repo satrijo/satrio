@@ -1,11 +1,12 @@
 <template>
-  <!-- Loading state -->
-  <div v-if="pending" class="py-8">
-    <LoadingSpinner text="Loading project..." />
-  </div>
+  <div class="max-w-[720px] mx-auto">
+    <!-- Loading state -->
+    <div v-if="pending" class="py-8">
+      <LoadingSpinner text="Loading project..." />
+    </div>
 
-  <!-- Not found state -->
-  <div v-else-if="!project" class="text-center py-16">
+    <!-- Not found state -->
+    <div v-else-if="!project" class="text-center py-16">
     <Icon name="mdi:folder-alert-outline" class="w-20 h-20 text-muted mx-auto mb-4" />
     <h1 class="text-heading text-2xl font-bold mb-2">Project Not Found</h1>
     <p class="text-muted mb-6">The project you're looking for doesn't exist or has been moved.</p>
@@ -63,6 +64,7 @@
       </NuxtLink>
     </div>
   </article>
+  </div>
 </template>
 
 <script setup lang="ts">
