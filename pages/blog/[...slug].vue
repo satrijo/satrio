@@ -69,7 +69,7 @@
       </div>
 
       <!-- Title -->
-      <h1 class="text-heading text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
+      <h1 class="text-heading text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight px-4 sm:px-0">
         {{ post.title }}
       </h1>
 
@@ -91,20 +91,20 @@
     </header>
 
     <!-- Article content -->
-    <div class="prose prose-lg max-w-none mb-12">
+    <div class="prose prose-lg max-w-none lg:max-w-4xl mx-auto mb-12 px-4 sm:px-0">
       <ContentRenderer :value="post" />
     </div>
 
     <!-- Share section -->
-    <div class="surface-card p-6 mb-8">
-      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
-        <p class="text-muted text-sm">Share this article:</p>
-        <div class="flex gap-2">
+    <div class="surface-card p-4 sm:p-6 mb-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <p class="text-muted text-xs sm:text-sm">Share this article:</p>
+        <div class="flex gap-2 overflow-x-auto pb-2 sm:pb-0 w-full sm:w-auto">
           <button
             v-for="share in shareButtons"
             :key="share.platform"
             @click="shareArticle(share.platform)"
-            class="btn btn-ghost !p-2.5"
+            class="btn btn-ghost !p-2.5 flex-shrink-0"
             :title="`Share on ${share.label}`"
           >
             <Icon :name="share.icon" class="w-5 h-5" />

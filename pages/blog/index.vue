@@ -83,7 +83,7 @@
       </ContentCard>
 
       <!-- Pagination -->
-      <div v-if="totalPages > 1" class="mt-12 flex justify-center items-center gap-2">
+      <div v-if="totalPages > 1" class="mt-12 flex justify-center items-center gap-1 sm:gap-2 flex-wrap">
         <!-- Previous Button -->
         <button
           @click="goToPage(currentPage - 1)"
@@ -92,7 +92,7 @@
           :class="{ 'opacity-50 cursor-not-allowed': currentPage === 1 }"
           aria-label="Previous page"
         >
-          <Icon name="heroicons:chevron-left-20-solid" class="w-5 h-5" />
+          <Icon name="heroicons:chevron-left-20-solid" class="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
 
         <!-- Page Numbers -->
@@ -100,7 +100,7 @@
           v-for="page in displayedPages"
           :key="page"
           @click="goToPage(page)"
-          class="btn min-w-[2.5rem] h-10"
+          class="btn min-w-[2rem] sm:min-w-[2.5rem] h-9 sm:h-10 text-xs sm:text-sm"
           :class="page === currentPage ? 'btn-primary' : 'btn-ghost'"
           :aria-label="`Go to page ${page}`"
           :aria-current="page === currentPage ? 'page' : undefined"
@@ -116,12 +116,12 @@
           :class="{ 'opacity-50 cursor-not-allowed': currentPage === totalPages }"
           aria-label="Next page"
         >
-          <Icon name="heroicons:chevron-right-20-solid" class="w-5 h-5" />
+          <Icon name="heroicons:chevron-right-20-solid" class="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
       </div>
 
       <!-- Pagination Info -->
-      <div v-if="totalPages > 1" class="mt-4 text-center text-sm text-muted">
+      <div v-if="totalPages > 1" class="mt-4 text-center text-xs sm:text-sm text-muted">
         Showing {{ startIndex + 1 }}-{{ endIndex }} of {{ allPosts?.length }} posts
       </div>
     </div>
@@ -208,13 +208,17 @@ const paginatedPosts = computed(() => {
   return allPosts.value.slice(startIndex.value, endIndex.value)
 })
 
-// Display max 7 page numbers with ellipsis
+// Display max 7 page numbers with ellipsis on desktop, 5 on mobile
 const displayedPages = computed(() => {
   const total = totalPages.value
   const current = currentPage.value
-  const delta = 2 // Show 2 pages on each side of current
   
-  if (total <= 7) {
+  // Detect mobile (simple check, you could use composable for better detection)
+  const isMobile = import.meta.client && window.innerWidth < 640
+  const maxPages = isMobile ? 5 : 7
+  const delta = isMobile ? 1 : 2 // Show fewer pages on mobile
+  
+  if (total <= maxPages) {
     return Array.from({ length: total }, (_, i) => i + 1)
   }
   

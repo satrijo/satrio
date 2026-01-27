@@ -83,6 +83,14 @@ body {
     padding-left: var(--gutter);
     padding-right: var(--gutter);
   }
+  
+  /* Mobile: reduce gutter */
+  @media (max-width: 640px) {
+    .container-custom {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
 }
 
 /* ============================================
@@ -231,10 +239,19 @@ body {
     transition: all var(--transition-fast);
     cursor: pointer;
     border: none;
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
   }
   
   .btn:active {
     transform: scale(0.98);
+  }
+  
+  /* Increase tap target size for mobile */
+  @media (max-width: 640px) {
+    .btn {
+      min-height: 2.75rem; /* 44px - Apple's recommended touch target */
+      padding: 0.75rem 1rem;
+    }
   }
   
   .btn-primary {
@@ -323,6 +340,42 @@ body {
 
   .prose {
     color: var(--color-text-body);
+    max-width: 100%;
+  }
+
+  /* Mobile-specific prose adjustments */
+  @media (max-width: 640px) {
+    .prose {
+      font-size: 0.9375rem; /* 15px */
+    }
+    
+    .prose h1 {
+      font-size: 1.75rem; /* 28px */
+    }
+    
+    .prose h2 {
+      font-size: 1.5rem; /* 24px */
+    }
+    
+    .prose h3 {
+      font-size: 1.25rem; /* 20px */
+    }
+    
+    .prose pre {
+      font-size: 0.8125rem; /* 13px */
+      padding: 0.75rem 1rem;
+      overflow-x: auto;
+    }
+    
+    .prose img {
+      margin: 1.5rem auto;
+    }
+    
+    .prose table {
+      font-size: 0.875rem;
+      overflow-x: auto;
+      display: block;
+    }
   }
 
   .prose h1,
@@ -382,6 +435,21 @@ body {
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
     margin: 2rem auto;
+    background: var(--color-surface);
+    /* Lazy loading shimmer effect */
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .prose img[loading="lazy"] {
+    background: linear-gradient(
+      90deg,
+      var(--color-surface) 25%,
+      var(--color-surface-elevated) 50%,
+      var(--color-surface) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s ease-in-out;
   }
 
   .prose-lg p {

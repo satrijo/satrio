@@ -10,8 +10,8 @@
           satrio.dev
         </NuxtLink>
         
-        <!-- Navigation -->
-        <nav class="flex items-center gap-1">
+        <!-- Desktop Navigation -->
+        <nav class="hidden sm:flex items-center gap-1">
           <NuxtLink 
             v-for="link in navLinks" 
             :key="link.to"
@@ -22,13 +22,43 @@
             {{ link.label }}
           </NuxtLink>
         </nav>
+
+        <!-- Mobile Menu Button -->
+        <button
+          @click="toggleMobileMenu"
+          class="sm:hidden btn btn-ghost !p-2"
+          aria-label="Toggle menu"
+        >
+          <Icon v-if="!isMobileMenuOpen" name="heroicons:bars-3-20-solid" class="w-6 h-6" />
+          <Icon v-else name="heroicons:x-mark-20-solid" class="w-6 h-6" />
+        </button>
       </div>
+
+      <!-- Mobile Navigation -->
+      <Transition name="mobile-menu">
+        <nav v-if="isMobileMenuOpen" class="sm:hidden py-4 border-t border-[var(--color-border)] mt-2">
+          <NuxtLink 
+            v-for="link in navLinks" 
+            :key="link.to"
+            :to="link.to" 
+            class="block py-3 px-4 text-sm font-medium rounded-lg transition-colors"
+            :class="{ 
+              'text-[var(--color-primary)] bg-[var(--color-surface)]': isActive(link.to),
+              'text-[var(--color-text-muted)] hover:text-[var(--color-text-heading)] hover:bg-[var(--color-surface)]': !isActive(link.to)
+            }"
+            @click="closeMobileMenu"
+          >
+            {{ link.label }}
+          </NuxtLink>
+        </nav>
+      </Transition>
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
 const route = useRoute()
+const isMobileMenuOpen = ref(false)
 
 const navLinks = [
   { to: '/blog', label: 'Blog' },
@@ -39,6 +69,19 @@ const navLinks = [
 const isActive = (path: string) => {
   return route.path.startsWith(path)
 }
+
+const toggleMobileMenu = () => {
+  isMobileMenuOpen.value = !isMobileMenuOpen.value
+}
+
+const closeMobileMenu = () => {
+  isMobileMenuOpen.value = false
+}
+
+// Close menu on route change
+watch(() => route.path, () => {
+  closeMobileMenu()
+})
 </script>
 
 <style scoped>
@@ -59,5 +102,21 @@ const isActive = (path: string) => {
 .nav-link-active {
   color: var(--color-primary);
   background-color: rgba(56, 189, 248, 0.1);
+}
+
+/* Mobile menu transition */
+.mobile-menu-enter-active,
+.mobile-menu-leave-active {
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-enter-from {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.mobile-menu-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 </style>

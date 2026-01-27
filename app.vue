@@ -56,7 +56,7 @@ useHead({
     lang: "en",
   },
   bodyAttrs: {
-    class: "w-full max-w-screen-lg mx-auto px-6 py-4 bg-gray-900",
+    class: "w-full bg-gray-900",
   },
   link: [
     {
