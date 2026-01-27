@@ -1,9 +1,11 @@
 ---
 title: "Modern Frontend Development: Best Practices That Actually Matter in 2025"
+date: 2025-11-25T00:00:00.000Z
 description: "Cut through the hype and focus on frontend practices that deliver real value: performance, accessibility, and maintainability."
-date: 2025-11-25
-image: /images/blog/modern-frontend.jpg
-tags: ["AI", "Frontend", "Best Practices", "Performance", "Web Development"]
+category: Frontend Development
+article_language: english
+ai_generated: ai
+programming_language: JavaScript
 ---
 
 # Modern Frontend Development: Best Practices That Actually Matter in 2025

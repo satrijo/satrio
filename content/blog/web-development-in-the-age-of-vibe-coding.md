@@ -1,9 +1,11 @@
 ---
 title: "Web Development in the Age of Vibe Coding: Balancing Speed with Quality"
+date: 2026-01-27T00:00:00.000Z
 description: "Exploring how the rise of AI-assisted coding is transforming web development workflows and what it means for professional developers in 2026."
-date: 2026-01-27
-image: /images/blog/vibe-coding.jpg
-tags: ["AI", "Web Development", "Industry Trends", "Developer Experience"]
+category: Web Development
+article_language: english
+ai_generated: ai
+programming_language: JavaScript
 ---
 
 # Web Development in the Age of Vibe Coding: Balancing Speed with Quality

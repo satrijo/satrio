@@ -1,9 +1,11 @@
 ---
 title: "Type Safety Beyond TypeScript: Building Bulletproof Full-Stack Applications"
+date: 2025-11-04T00:00:00.000Z
 description: "Extend type safety across your entire stack with runtime validation, API contracts, and database schemas for truly robust applications."
-date: 2025-11-04
-image: /images/blog/type-safety.jpg
-tags: ["AI", "TypeScript", "Type Safety", "Full Stack", "Best Practices"]
+category: TypeScript
+article_language: english
+ai_generated: ai
+programming_language: TypeScript
 ---
 
 # Type Safety Beyond TypeScript: Building Bulletproof Full-Stack Applications
