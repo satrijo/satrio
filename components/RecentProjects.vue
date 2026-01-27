@@ -14,15 +14,15 @@
       <SkeletonCard v-for="n in 2" :key="n" />
     </div>
     
-    <!-- Projects grid -->
-    <div v-else class="grid sm:grid-cols-2 gap-4">
+     <!-- Projects grid -->
+     <div v-else class="grid sm:grid-cols-2 gap-4">
        <ContentCard
          v-for="project in projects"
-         :key="project._path"
+         :key="project.path"
          :title="project.title"
          :description="getDescription(project)"
          :date="formatDate(project.date)"
-         :to="project._path"
+         :to="project.path"
        >
         <template #meta>
           <span class="flex items-center gap-1">

@@ -116,19 +116,19 @@
     <!-- Related posts -->
     <div v-if="relatedPosts.length > 0" class="mb-12">
       <h3 class="section-title mb-4">Related Articles</h3>
-      <div class="grid sm:grid-cols-2 gap-4">
-        <ContentCard
-          v-for="relatedPost in relatedPosts"
-          :key="relatedPost._path"
-          :title="relatedPost.title"
-          :date="formatDate(relatedPost.date)"
-          :to="relatedPost._path"
-        />
-      </div>
-    </div>
-
-    <!-- Comments -->
-    <DisqusComments v-if="post" :identifier="post._path" :title="post.title" />
+       <div class="grid sm:grid-cols-2 gap-4">
+         <ContentCard
+           v-for="relatedPost in relatedPosts"
+           :key="relatedPost.path"
+           :title="relatedPost.title"
+           :date="formatDate(relatedPost.date)"
+           :to="relatedPost.path"
+         />
+       </div>
+     </div>
+ 
+     <!-- Comments -->
+     <DisqusComments v-if="post" :identifier="post.path" :title="post.title" />
 
     <!-- Back button -->
     <div class="mt-12 pt-8 border-t border-[var(--color-border)]">
@@ -183,7 +183,7 @@ const shareButtons = [
 // SEO meta tags
 watchEffect(() => {
   if (post.value) {
-    const postUrl = `${baseUrl}${post.value._path || route.path}`
+     const postUrl = `${baseUrl}${post.value.path || route.path}`
     const postDate = post.value.date ? new Date(post.value.date).toISOString() : ''
     const description = post.value.description || post.value.body?.value?.[0]?.[2]?.substring(0, 160) || ''
 
@@ -244,18 +244,18 @@ const readingTime = computed(() => {
   return time > 0 ? time : 1
 })
 
-// Related posts
-const relatedPosts = computed(() => {
-  if (!post.value || !allPosts.value?.length) return []
-  return allPosts.value
-    .filter((p) => p._path !== post.value!._path)
-    .filter(
-      (p) =>
-        (post.value!.category && p.category === post.value!.category) ||
-        (post.value!.programming_language && p.programming_language === post.value!.programming_language)
-    )
-    .slice(0, 2)
-})
+ // Related posts
+ const relatedPosts = computed(() => {
+   if (!post.value || !allPosts.value?.length) return []
+   return allPosts.value
+     .filter((p) => p.path !== post.value!.path)
+     .filter(
+       (p) =>
+         (post.value!.category && p.category === post.value!.category) ||
+         (post.value!.programming_language && p.programming_language === post.value!.programming_language)
+     )
+     .slice(0, 2)
+ })
 
 // Format date
 const formatDate = (date: Date | string | undefined) => {

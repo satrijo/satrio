@@ -31,12 +31,12 @@
       <!-- Timeline line -->
       <div class="absolute left-[5px] top-2 bottom-2 w-0.5 bg-[var(--color-border)]"></div>
       
-      <!-- Work items -->
-      <div 
-        v-for="(work, index) in workExperience" 
-        :key="work._path"
-        class="relative flex gap-4 pb-8 last:pb-0"
-      >
+       <!-- Work items -->
+       <div 
+         v-for="(work, index) in workExperience" 
+         :key="work.path"
+         class="relative flex gap-4 pb-8 last:pb-0"
+       >
         <!-- Timeline dot -->
         <div class="relative z-10 flex-shrink-0">
           <div 

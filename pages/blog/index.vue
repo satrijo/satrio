@@ -18,15 +18,15 @@
       <p class="text-muted">Check back soon for new content.</p>
     </div>
     
-    <!-- Posts list -->
-    <div v-else class="space-y-4">
+     <!-- Posts list -->
+     <div v-else class="space-y-4">
        <ContentCard
          v-for="post in posts"
-         :key="post._path"
+         :key="post.path"
          :title="post.title"
          :description="getDescription(post)"
          :date="formatDate(post.date)"
-         :to="post._path"
+         :to="post.path"
        >
         <template #meta>
           <span class="flex items-center gap-1">

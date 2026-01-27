@@ -79,7 +79,7 @@ const { data: project, pending } = await useAsyncData(
 // SEO meta tags
 watchEffect(() => {
   if (project.value) {
-    const projectUrl = `${baseUrl}${project.value._path || route.path}`
+     const projectUrl = `${baseUrl}${project.value.path || route.path}`
     const projectDate = project.value.date ? new Date(project.value.date).toISOString() : ''
     const description = project.value.description || `Project: ${project.value.title}`
     
