@@ -1,4 +1,14 @@
+/* Google Fonts with font-display: swap for better performance */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+/* Font face fallback with swap for faster initial paint */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: local('Inter');
+}
 @import "tailwindcss";
 
 /* Disqus dark mode compatibility: override any OKLCH colors with hex/rgb */

@@ -181,9 +181,24 @@
 
 <script setup>
 const route = useRoute();
-const { data: post, pending } = await useAsyncData(route.path, () => {
-  return queryCollection("blog").path(route.path).first();
-});
+
+// Gabungkan kedua query dalam satu Promise.all untuk parallel fetching
+const { data: blogData, pending } = await useAsyncData(
+  `blog-${route.path}`,
+  async () => {
+    const [currentPost, allBlogPosts] = await Promise.all([
+      queryCollection("blog").path(route.path).first(),
+      queryCollection("blog")
+        .select("_path", "title", "date", "description", "category", "programming_language")
+        .all()
+    ]);
+    return { post: currentPost, allPosts: allBlogPosts };
+  }
+);
+
+// Computed untuk mengakses post
+const post = computed(() => blogData.value?.post);
+const allPosts = computed(() => blogData.value?.allPosts || []);
 
 // SEO meta tags
 const baseUrl = "https://satrio.dev";
@@ -296,13 +311,8 @@ const formatDate = (date) => {
   });
 };
 
-// Ambil artikel terkait
-const { data: allPosts } = await useAsyncData("all-blog-posts", () => {
-  return queryCollection("blog").all();
-});
-
 const relatedPosts = computed(() => {
-  if (!post.value || !allPosts.value) return [];
+  if (!post.value || !allPosts.value?.length) return [];
 
   // Ambil artikel dengan kategori atau bahasa pemrograman yang sama, kecuali artikel saat ini
   return allPosts.value

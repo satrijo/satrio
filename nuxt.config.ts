@@ -23,11 +23,31 @@ export default defineNuxtConfig({
     mode: 'css',
     cssLayer: 'base'
   },
+
+  // Image optimization configuration
+  image: {
+    quality: 80,
+    format: ['webp', 'png', 'jpg'],
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280
+    }
+  },
   // --- END BAGIAN YANG SUDAH ADA ---
 
 
   // Script Netlify Identity sudah dimuat khusus di `public/admin/index.html`
   // sehingga tidak perlu di-load global di semua halaman Nuxt
+
+  // Google Ads - lazy loaded via @nuxt/scripts for better performance
+  scripts: {
+    defaultScriptOptions: {
+      trigger: 'onNuxtReady'
+    }
+  },
 
   // SEO Configuration
   app: {
@@ -35,13 +55,6 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: 'en'
       },
-      script: [
-        {
-          src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4268093070731551',
-          async: true,
-          crossorigin: 'anonymous'
-        }
-      ],
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
