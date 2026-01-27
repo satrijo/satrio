@@ -16,7 +16,7 @@
   </div>
 
   <!-- Article content -->
-  <article v-else class="py-8">
+  <article v-else class="py-8 overflow-hidden">
     <!-- Article header -->
     <header class="mb-10 text-center">
       <!-- Badges -->
@@ -91,7 +91,7 @@
     </header>
 
     <!-- Article content -->
-    <div class="prose prose-lg max-w-none lg:max-w-4xl mx-auto mb-12 px-4 sm:px-0">
+    <div class="prose prose-lg max-w-none lg:max-w-4xl mx-auto mb-12 px-4 sm:px-0 overflow-hidden">
       <ContentRenderer :value="post" />
     </div>
 
