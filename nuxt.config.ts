@@ -49,6 +49,19 @@ export default defineNuxtConfig({
     }
   },
 
+  // Performance optimizations
+  experimental: {
+    payloadExtraction: false, // Disable for better performance
+    renderJsonPayloads: true
+  },
+
+  // Router options for better UX
+  router: {
+    options: {
+      scrollBehaviorType: 'smooth'
+    }
+  },
+
   // SEO Configuration
   app: {
     head: {

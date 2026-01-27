@@ -113,7 +113,7 @@
       </div>
     </div>
 
-    <!-- Related posts -->
+     <!-- Related posts -->
     <div v-if="relatedPosts.length > 0" class="mb-12">
       <h3 class="section-title mb-4">Related Articles</h3>
        <div class="grid sm:grid-cols-2 gap-4">
@@ -126,9 +126,6 @@
          />
        </div>
      </div>
- 
-     <!-- Comments -->
-     <DisqusComments v-if="post" :identifier="post.path" :title="post.title" />
 
     <!-- Back button -->
     <div class="mt-12 pt-8 border-t border-[var(--color-border)]">

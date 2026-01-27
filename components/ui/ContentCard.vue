@@ -2,7 +2,9 @@
   <NuxtLink
     v-if="to"
     :to="to"
-    class="surface-card block p-5 cursor-pointer group"
+    class="surface-card block p-5 cursor-pointer group transition-all duration-200"
+    :class="{ 'opacity-60 scale-[0.99]': isClicked }"
+    @click="handleClick"
   >
     <div class="flex justify-between items-start gap-4">
       <div class="flex-1 min-w-0">
@@ -32,12 +34,18 @@
         </p>
       </div>
       
-      <!-- Arrow icon -->
+      <!-- Arrow icon with loading state -->
       <div class="flex-shrink-0 mt-1">
         <div class="w-8 h-8 rounded-full bg-[var(--color-surface-elevated)] flex items-center justify-center group-hover:bg-[var(--color-primary)] transition-colors">
           <Icon 
+            v-if="!isClicked"
             name="heroicons:arrow-right-20-solid" 
             class="w-4 h-4 text-muted group-hover:text-[var(--color-background)] transition-colors" 
+          />
+          <Icon
+            v-else
+            name="svg-spinners:ring-resize"
+            class="w-4 h-4 text-[var(--color-primary)]"
           />
         </div>
       </div>
@@ -79,10 +87,20 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   title: string
   description?: string
   date?: string
   to?: string
 }>()
+
+const isClicked = ref(false)
+
+const handleClick = () => {
+  isClicked.value = true
+  // Reset after navigation starts
+  setTimeout(() => {
+    isClicked.value = false
+  }, 2000)
+}
 </script>
