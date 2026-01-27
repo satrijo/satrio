@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-[720px] mx-auto">
+  <div>
     <!-- Page header -->
     <PageHeader
       title="Blog"

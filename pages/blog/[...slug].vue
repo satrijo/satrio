@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-[720px] mx-auto">
+  <div>
     <!-- Loading state -->
     <div v-if="pending" class="py-8">
       <LoadingSpinner text="Loading article..." />
