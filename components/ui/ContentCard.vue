@@ -1,9 +1,10 @@
 <template>
-  <div
+  <NuxtLink
     v-if="to"
+    :to="to"
     class="surface-card block p-5 cursor-pointer group transition-all duration-200"
     :class="{ 'opacity-60 scale-[0.99]': isClicked }"
-    @click="handleClick"
+    @click.native="handleClick"
   >
     <div class="flex justify-between items-start gap-4">
       <div class="flex-1 min-w-0">
@@ -49,7 +50,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </NuxtLink>
   <div
     v-else
     class="surface-card block p-5"
@@ -93,23 +94,13 @@ const props = defineProps<{
   to?: string
 }>()
 
-const router = useRouter()
 const isClicked = ref(false)
 
-const handleClick = async () => {
-  if (!props.to || isClicked.value) return
-  
+const handleClick = () => {
   isClicked.value = true
-  
-  try {
-    // Force navigation with programmatic routing
-    await navigateTo(props.to, { 
-      replace: false,
-      external: false
-    })
-  } catch (error) {
-    console.error('Navigation error:', error)
+  // Reset after navigation
+  setTimeout(() => {
     isClicked.value = false
-  }
+  }, 1000)
 }
 </script>

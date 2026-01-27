@@ -27,14 +27,16 @@ export default defineNuxtConfig({
   // Image optimization configuration
   image: {
     quality: 80,
-    format: ['webp', 'png', 'jpg'],
+    format: ['webp', 'avif', 'png', 'jpg'],
     screens: {
       xs: 320,
       sm: 640,
       md: 768,
       lg: 1024,
-      xl: 1280
-    }
+      xl: 1280,
+      '2xl': 1536
+    },
+    domains: ['satrio.dev']
   },
   // --- END BAGIAN YANG SUDAH ADA ---
 
@@ -52,7 +54,18 @@ export default defineNuxtConfig({
   // Performance optimizations
   experimental: {
     payloadExtraction: false, // Disable for better performance
-    renderJsonPayloads: true
+    renderJsonPayloads: true,
+    viewTransition: true // Enable view transitions API
+  },
+
+  // Nitro optimizations for Netlify
+  nitro: {
+    preset: 'netlify',
+    prerender: {
+      crawlLinks: true,
+      routes: ['/']
+    },
+    compressPublicAssets: true
   },
 
   // Router options for better UX
@@ -62,13 +75,24 @@ export default defineNuxtConfig({
     }
   },
 
+  // Route rules for caching and optimization
+  routeRules: {
+    // Homepage - ISR with 10 min revalidation
+    '/': { isr: 600 },
+    // Blog list - ISR with 5 min revalidation
+    '/blog': { isr: 300 },
+    // Blog posts - Static with long cache
+    '/blog/**': { isr: 3600 },
+    // Projects - ISR with 10 min revalidation
+    '/projects': { isr: 600 },
+    // Admin panel - no cache
+    '/admin/**': { headers: { 'Cache-Control': 'no-cache, no-store' } },
+    // API routes - no cache
+    '/api/**': { cors: true, headers: { 'Cache-Control': 'no-cache' } }
+  },
+
   // SEO Configuration
   app: {
-    // Add page transition for better navigation experience
-    pageTransition: { 
-      name: 'page', 
-      mode: 'out-in' 
-    },
     head: {
       htmlAttrs: {
         lang: 'en'

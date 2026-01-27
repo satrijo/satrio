@@ -10,7 +10,7 @@
     </Transition>
 
     <NuxtLayout>
-      <NuxtPage :key="route.fullPath" />
+      <NuxtPage />
     </NuxtLayout>
   </div>
 </template>

@@ -1,0 +1,41 @@
+{
+  "headers": [
+    {
+      "for": "/*",
+      "values": {
+        "X-Frame-Options": "DENY",
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "Permissions-Policy": "camera=(), microphone=(), geolocation=()"
+      }
+    },
+    {
+      "for": "/_nuxt/*",
+      "values": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "for": "/uploads/*",
+      "values": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "for": "/*.html",
+      "values": {
+        "Cache-Control": "public, max-age=0, must-revalidate"
+      }
+    },
+    {
+      "for": "/admin/*",
+      "values": {
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        "X-Robots-Tag": "noindex, nofollow"
+      }
+    }
+  ],
+  "images": {
+    "remote_images": ["https://satrio.dev/.*"]
+  }
+}

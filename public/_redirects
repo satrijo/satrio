@@ -1,0 +1,5 @@
+# Redirect www to non-www
+https://www.satrio.dev/* https://satrio.dev/:splat 301!
+
+# SPA fallback (must be last)
+/*    /index.html   200

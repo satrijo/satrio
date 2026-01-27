@@ -145,19 +145,21 @@ import LoadingSpinner from '~/components/ui/LoadingSpinner.vue'
 const route = useRoute()
 const baseUrl = 'https://satrio.dev'
 
-// Fetch current post with error handling
-const { data: post, pending, error } = await useAsyncData(
+// Fetch current post
+const { data: post, pending, error, refresh } = await useAsyncData(
   `blog-${route.path}`,
-  () => queryCollection('blog').path(route.path).first(),
-  {
-    watch: [() => route.path] // Re-fetch when route changes
-  }
+  () => queryCollection('blog').path(route.path).first()
 )
 
 // Handle errors
 if (error.value) {
   console.error('Error loading blog post:', error.value)
 }
+
+// Watch route changes and refresh data
+watch(() => route.path, () => {
+  refresh()
+})
 
 // Fetch all posts for related posts (lazy load)
 const { data: allPosts } = await useAsyncData(
