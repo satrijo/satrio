@@ -6,46 +6,6 @@
 [build.environment]
   NODE_VERSION = "20"
 
-# Headers for performance optimization
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
-
-# Cache static assets for 1 year
-[[headers]]
-  for = "/_nuxt/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-# Cache images for 1 year
-[[headers]]
-  for = "/uploads/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-# Cache fonts for 1 year
-[[headers]]
-  for = "/*.woff2"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-# Don't cache HTML files (for SPA routing)
-[[headers]]
-  for = "/*.html"
-  [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
-
-# Don't cache admin panel
-[[headers]]
-  for = "/admin/*"
-  [headers.values]
-    Cache-Control = "no-cache, no-store, must-revalidate"
-    X-Robots-Tag = "noindex, nofollow"
-
 # Redirect rules for cleaner URLs
 [[redirects]]
   from = "/blog/:slug"

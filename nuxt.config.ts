@@ -78,15 +78,43 @@ export default defineNuxtConfig({
   // Route rules for caching and optimization
   routeRules: {
     // Homepage - ISR with 10 min revalidation
-    '/': { isr: 600 },
+    '/': { 
+      isr: 600,
+      headers: {
+        'X-Frame-Options': 'DENY',
+        'X-Content-Type-Options': 'nosniff',
+        'Referrer-Policy': 'strict-origin-when-cross-origin'
+      }
+    },
     // Blog list - ISR with 5 min revalidation
     '/blog': { isr: 300 },
     // Blog posts - Static with long cache
-    '/blog/**': { isr: 3600 },
+    '/blog/**': { 
+      isr: 3600,
+      headers: {
+        'Cache-Control': 'public, max-age=3600, must-revalidate'
+      }
+    },
     // Projects - ISR with 10 min revalidation
     '/projects': { isr: 600 },
-    // Admin panel - no cache
-    '/admin/**': { headers: { 'Cache-Control': 'no-cache, no-store' } },
+    // Static assets - long cache
+    '/_nuxt/**': {
+      headers: {
+        'Cache-Control': 'public, max-age=31536000, immutable'
+      }
+    },
+    '/uploads/**': {
+      headers: {
+        'Cache-Control': 'public, max-age=31536000, immutable'
+      }
+    },
+    // Admin panel - no cache + noindex
+    '/admin/**': { 
+      headers: { 
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'X-Robots-Tag': 'noindex, nofollow'
+      } 
+    },
     // API routes - no cache
     '/api/**': { cors: true, headers: { 'Cache-Control': 'no-cache' } }
   },
