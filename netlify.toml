@@ -1,15 +1,10 @@
 [build]
-  command = "npm run generate"
-  publish = ".output/public"
+  command = "npm rebuild better-sqlite3 && npm run generate"
+  publish = "dist"
 
 # Build optimization
 [build.environment]
   NODE_VERSION = "20"
-  NPM_FLAGS = "--legacy-peer-deps"
-
-# Faster builds with build plugin cache
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
 
 # Headers for performance optimization
 [[headers]]
