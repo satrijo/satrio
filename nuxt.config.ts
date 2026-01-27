@@ -63,7 +63,8 @@ export default defineNuxtConfig({
     preset: 'netlify',
     prerender: {
       crawlLinks: true,
-      routes: ['/']
+      routes: ['/'],
+      ignore: ['/_payload.json']
     },
     compressPublicAssets: true
   },
