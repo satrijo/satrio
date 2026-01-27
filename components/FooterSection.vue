@@ -1,31 +1,32 @@
 <template>
-  <footer class="border-t border-[var(--color-border)] mt-auto">
-    <div class="container-custom py-8">
-      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
-        <!-- Copyright -->
-        <div class="text-muted text-sm">
-          <p>{{ new Date().getFullYear() }} Satrio.dev</p>
-        </div>
-        
-        <!-- Social links -->
-        <div class="flex items-center gap-4">
-          <a 
-            v-for="social in socialLinks"
-            :key="social.href"
-            :href="social.href"
-            :target="social.external ? '_blank' : undefined"
-            :rel="social.external ? 'noopener noreferrer' : undefined"
-            class="text-muted hover:text-[var(--color-primary)] transition-colors"
-            :title="social.label"
-          >
-            <Icon :name="social.icon" class="w-5 h-5" />
-          </a>
-        </div>
-        
-        <!-- Tagline -->
-        <div class="text-muted text-sm">
-          <p>Built with <span class="text-[var(--color-accent)]">Nuxt</span></p>
-        </div>
+  <footer class="footer-medium">
+    <div class="footer-container">
+      <!-- Links -->
+      <div class="footer-links">
+        <a 
+          href="https://help.medium.com" 
+          class="footer-link"
+          target="_blank"
+          rel="noopener"
+        >Help</a>
+        <NuxtLink to="/blog" class="footer-link">Blog</NuxtLink>
+        <NuxtLink to="/work" class="footer-link">Work</NuxtLink>
+        <NuxtLink to="/projects" class="footer-link">Projects</NuxtLink>
+      </div>
+
+      <!-- Social -->
+      <div class="footer-social">
+        <a 
+          v-for="social in socialLinks"
+          :key="social.href"
+          :href="social.href"
+          :target="social.external ? '_blank' : undefined"
+          :rel="social.external ? 'noopener noreferrer' : undefined"
+          class="footer-social-link"
+          :title="social.label"
+        >
+          <Icon :name="social.icon" class="w-5 h-5" />
+        </a>
       </div>
     </div>
   </footer>
@@ -45,12 +46,12 @@ const socialLinks = [
     label: 'LinkedIn',
     external: true
   },
-   { 
-     href: 'https://github.com/satrijo', 
-     icon: 'mdi:github',
-     label: 'GitHub',
-     external: true
-   },
+  { 
+    href: 'https://github.com/satrijo', 
+    icon: 'mdi:github',
+    label: 'GitHub',
+    external: true
+  },
   { 
     href: 'mailto:mail@satrio.dev', 
     icon: 'mdi:email-outline',
@@ -59,3 +60,59 @@ const socialLinks = [
   }
 ]
 </script>
+
+<style scoped>
+.footer-medium {
+  border-top: 1px solid var(--color-border);
+  margin-top: auto;
+}
+
+.footer-container {
+  max-width: 1192px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+@media (max-width: 640px) {
+  .footer-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.footer-link {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  transition: color 0.15s ease;
+}
+
+.footer-link:hover {
+  color: var(--color-text-heading);
+}
+
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.footer-social-link {
+  color: var(--color-text-muted);
+  transition: color 0.15s ease;
+}
+
+.footer-social-link:hover {
+  color: var(--color-text-heading);
+}
+</style>

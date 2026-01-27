@@ -1,186 +1,142 @@
 <template>
-  <div>
-    <!-- Page header -->
-    <PageHeader
-      title="Blog"
-      subtitle="Thoughts, ideas, and insights about technology, development, and the intersection of meteorology with software."
-    />
+  <div class="blog-list-page">
+    <!-- Page header - Medium style -->
+    <header class="blog-header">
+      <h1 class="blog-title">Blog</h1>
+      <p class="blog-subtitle">
+        Thoughts, ideas, and insights about technology, development, and software engineering.
+      </p>
+    </header>
     
     <!-- Loading skeleton -->
-    <div v-if="pending" class="space-y-4">
-      <SkeletonCard v-for="n in 5" :key="n" show-tags />
+    <div v-if="pending" class="posts-list">
+      <div v-for="n in 5" :key="n" class="post-card-skeleton">
+        <div class="skeleton h-5 w-3/4 mb-3"></div>
+        <div class="skeleton h-4 w-full mb-2"></div>
+        <div class="skeleton h-4 w-2/3 mb-3"></div>
+        <div class="skeleton h-3 w-32"></div>
+      </div>
     </div>
     
     <!-- Empty state -->
-    <div v-else-if="!allPosts?.length" class="text-center py-16">
+    <div v-else-if="!allPosts?.length" class="empty-state">
       <Icon name="mdi:file-document-outline" class="w-16 h-16 text-muted mx-auto mb-4" />
       <h3 class="text-heading text-lg font-semibold mb-2">No posts yet</h3>
       <p class="text-muted">Check back soon for new content.</p>
     </div>
     
-     <!-- Posts list -->
-     <div v-else class="space-y-4">
-       <ContentCard
-         v-for="post in paginatedPosts"
-         :key="post.path"
-         :title="post.title"
-         :description="getDescription(post)"
-         :date="formatDate(post.date)"
-         :to="post.path"
-       >
-        <template #meta>
-          <span class="flex items-center gap-1">
-            <Icon name="mdi:calendar-outline" class="w-3.5 h-3.5" />
-            {{ formatDate(post.date) }}
-          </span>
-          <Icon
-            v-if="post.article_language === 'indonesian'"
-            name="circle-flags:id"
-            class="w-4 h-4"
-            title="Indonesian"
-          />
-          <Icon
-            v-else-if="post.article_language === 'english'"
-            name="circle-flags:uk"
-            class="w-4 h-4"
-            title="English"
-          />
-        </template>
-        
-        <template #badges>
-          <Badge 
-            v-if="post.programming_language" 
-            variant="primary"
-            :icon="getLanguageIcon(post.programming_language)"
-          >
-            {{ post.programming_language }}
-          </Badge>
-          <Badge v-if="post.category" variant="surface">
-            {{ post.category }}
-          </Badge>
-          <Badge 
-            v-if="post.ai_generated === 'ai'" 
-            variant="purple"
-            icon="mdi:robot-outline"
-          >
-            AI Generated
-          </Badge>
-          <Badge 
-            v-else-if="post.ai_generated === 'human'" 
-            variant="success"
-            icon="mdi:account-outline"
-          >
-            Human Written
-          </Badge>
-          <Badge 
-            v-else-if="post.ai_generated === 'hybrid'" 
-            variant="warning"
-            icon="mdi:account-sync-outline"
-          >
-            AI-Assisted
-          </Badge>
-        </template>
-      </ContentCard>
+    <!-- Posts list - Medium style -->
+    <div v-else class="posts-list">
+      <article 
+        v-for="post in paginatedPosts" 
+        :key="post.path"
+        class="post-card"
+      >
+        <NuxtLink :to="post.path" class="post-card-link">
+          <div class="post-card-content">
+            <!-- Author & Date -->
+            <div class="post-meta-top">
+              <img 
+                src="/avatar.jpg" 
+                alt="Satrio"
+                class="post-avatar"
+                onerror="this.src='https://ui-avatars.com/api/?name=S&background=1E293B&color=38BDF8&size=24'"
+              />
+              <span class="post-author">Satrio</span>
+            </div>
 
-      <!-- Pagination -->
-      <div v-if="totalPages > 1" class="mt-12 flex justify-center items-center gap-1 sm:gap-2 flex-wrap">
-        <!-- Previous Button -->
+            <!-- Title -->
+            <h2 class="post-title">{{ post.title }}</h2>
+            
+            <!-- Description -->
+            <p v-if="getDescription(post)" class="post-description">
+              {{ getDescription(post) }}
+            </p>
+            
+            <!-- Meta bottom -->
+            <div class="post-meta-bottom">
+              <span class="post-date">{{ formatDate(post.date) }}</span>
+              <span class="meta-dot">·</span>
+              <span class="post-reading-time">{{ getReadingTime(post) }} min read</span>
+              <template v-if="post.category">
+                <span class="meta-dot">·</span>
+                <span class="post-tag">{{ post.category }}</span>
+              </template>
+              <Icon
+                v-if="post.article_language === 'indonesian'"
+                name="circle-flags:id"
+                class="w-4 h-4 ml-2"
+                title="Indonesian"
+              />
+              <Icon
+                v-else-if="post.article_language === 'english'"
+                name="circle-flags:uk"
+                class="w-4 h-4 ml-2"
+                title="English"
+              />
+            </div>
+          </div>
+        </NuxtLink>
+      </article>
+
+      <!-- Pagination - Medium style -->
+      <div v-if="totalPages > 1" class="pagination">
         <button
           @click="goToPage(currentPage - 1)"
           :disabled="currentPage === 1"
-          class="btn btn-ghost !p-2"
-          :class="{ 'opacity-50 cursor-not-allowed': currentPage === 1 }"
-          aria-label="Previous page"
+          class="pagination-btn"
+          :class="{ 'pagination-btn-disabled': currentPage === 1 }"
         >
-          <Icon name="heroicons:chevron-left-20-solid" class="w-4 h-4 sm:w-5 sm:h-5" />
+          <Icon name="heroicons:chevron-left-20-solid" class="w-5 h-5" />
         </button>
 
-        <!-- Page Numbers -->
-        <button
-          v-for="page in displayedPages"
-          :key="page"
-          @click="goToPage(page)"
-          class="btn min-w-[2rem] sm:min-w-[2.5rem] h-9 sm:h-10 text-xs sm:text-sm"
-          :class="page === currentPage ? 'btn-primary' : 'btn-ghost'"
-          :aria-label="`Go to page ${page}`"
-          :aria-current="page === currentPage ? 'page' : undefined"
-        >
-          {{ page }}
-        </button>
+        <div class="pagination-info">
+          Page {{ currentPage }} of {{ totalPages }}
+        </div>
 
-        <!-- Next Button -->
         <button
           @click="goToPage(currentPage + 1)"
           :disabled="currentPage === totalPages"
-          class="btn btn-ghost !p-2"
-          :class="{ 'opacity-50 cursor-not-allowed': currentPage === totalPages }"
-          aria-label="Next page"
+          class="pagination-btn"
+          :class="{ 'pagination-btn-disabled': currentPage === totalPages }"
         >
-          <Icon name="heroicons:chevron-right-20-solid" class="w-4 h-4 sm:w-5 sm:h-5" />
+          <Icon name="heroicons:chevron-right-20-solid" class="w-5 h-5" />
         </button>
-      </div>
-
-      <!-- Pagination Info -->
-      <div v-if="totalPages > 1" class="mt-4 text-center text-xs sm:text-sm text-muted">
-        Showing {{ startIndex + 1 }}-{{ endIndex }} of {{ allPosts?.length }} posts
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import PageHeader from '~/components/ui/PageHeader.vue'
-import SkeletonCard from '~/components/ui/SkeletonCard.vue'
-import ContentCard from '~/components/ui/ContentCard.vue'
-import Badge from '~/components/ui/Badge.vue'
-
 const baseUrl = 'https://satrio.dev'
 const route = useRoute()
 const router = useRouter()
 
-// Pagination settings
 const postsPerPage = 10
 const currentPage = ref(Number(route.query.page) || 1)
 
-// Watch for route query changes
 watch(() => route.query.page, (newPage) => {
   currentPage.value = Number(newPage) || 1
-  // Scroll to top when page changes
   if (import.meta.client) {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 })
 
 useHead({
-  title: 'Blog | Satrio - Articles about Web Development & Technology',
+  title: 'Blog | Satrio',
   meta: [
     {
       name: 'description',
-      content: 'Articles and tutorials about web development, programming, and technology. Learn from a Full-Stack Engineer with years of experience.'
+      content: 'Articles and tutorials about web development, programming, and technology.'
     },
-    { name: 'keywords', content: 'web development, programming, tutorials, blog, technology, software engineering' },
-    { property: 'og:title', content: 'Blog | Satrio - Articles about Web Development & Technology' },
+    { property: 'og:title', content: 'Blog | Satrio' },
     { property: 'og:description', content: 'Articles and tutorials about web development, programming, and technology.' },
     { property: 'og:url', content: `${baseUrl}/blog` },
     { property: 'og:type', content: 'website' },
-    { property: 'og:image', content: `${baseUrl}/og-image.jpg` },
-    { name: 'twitter:card', content: 'summary' },
-    { name: 'twitter:image', content: `${baseUrl}/og-image.jpg` },
-    { name: 'twitter:title', content: 'Blog | Satrio' },
-    { name: 'twitter:description', content: 'Articles and tutorials about web development, programming, and technology.' }
+    { property: 'og:image', content: `${baseUrl}/og-image.jpg` }
   ],
   link: [{ rel: 'canonical', href: `${baseUrl}/blog` }]
 })
-
-const languageIcons: Record<string, string> = {
-  javascript: 'logos:javascript',
-  python: 'logos:python',
-  php: 'logos:php',
-  typescript: 'logos:typescript-icon',
-  go: 'logos:go',
-  java: 'logos:java',
-  other: 'mdi:code-tags'
-}
 
 const { data: allPosts, pending } = await useAsyncData(
   'blog-list',
@@ -188,7 +144,6 @@ const { data: allPosts, pending } = await useAsyncData(
   { lazy: true }
 )
 
-// Pagination computed properties
 const totalPages = computed(() => {
   if (!allPosts.value) return 0
   return Math.ceil(allPosts.value.length / postsPerPage)
@@ -198,60 +153,9 @@ const startIndex = computed(() => {
   return (currentPage.value - 1) * postsPerPage
 })
 
-const endIndex = computed(() => {
-  if (!allPosts.value) return 0
-  return Math.min(startIndex.value + postsPerPage, allPosts.value.length)
-})
-
 const paginatedPosts = computed(() => {
   if (!allPosts.value) return []
-  return allPosts.value.slice(startIndex.value, endIndex.value)
-})
-
-// Display max 7 page numbers with ellipsis on desktop, 5 on mobile
-const displayedPages = computed(() => {
-  const total = totalPages.value
-  const current = currentPage.value
-  
-  // Detect mobile (simple check, you could use composable for better detection)
-  const isMobile = import.meta.client && window.innerWidth < 640
-  const maxPages = isMobile ? 5 : 7
-  const delta = isMobile ? 1 : 2 // Show fewer pages on mobile
-  
-  if (total <= maxPages) {
-    return Array.from({ length: total }, (_, i) => i + 1)
-  }
-  
-  const pages: number[] = []
-  
-  // Always show first page
-  pages.push(1)
-  
-  // Calculate range around current page
-  const start = Math.max(2, current - delta)
-  const end = Math.min(total - 1, current + delta)
-  
-  // Add ellipsis after first page if needed
-  if (start > 2) {
-    pages.push(-1) // -1 represents ellipsis
-  }
-  
-  // Add pages around current
-  for (let i = start; i <= end; i++) {
-    pages.push(i)
-  }
-  
-  // Add ellipsis before last page if needed
-  if (end < total - 1) {
-    pages.push(-2) // -2 represents ellipsis
-  }
-  
-  // Always show last page
-  if (total > 1) {
-    pages.push(total)
-  }
-  
-  return pages
+  return allPosts.value.slice(startIndex.value, startIndex.value + postsPerPage)
 })
 
 const goToPage = (page: number) => {
@@ -261,27 +165,211 @@ const goToPage = (page: number) => {
 
 const formatDate = (date: Date | string | undefined) => {
   if (!date) return ''
-  return new Date(date).toLocaleDateString('id-ID', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
+  return new Date(date).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
   })
 }
 
 const getDescription = (post: any) => {
   if (post.description) {
-    return post.description.length > 150 
-      ? post.description.substring(0, 150) + '...' 
+    return post.description.length > 160 
+      ? post.description.substring(0, 160) + '...' 
       : post.description
   }
   if (post.body?.value?.[0]?.[2]) {
     const text = post.body.value[0][2]
-    return text.length > 150 ? text.substring(0, 150) + '...' : text
+    return text.length > 160 ? text.substring(0, 160) + '...' : text
   }
   return ''
 }
 
-const getLanguageIcon = (lang: string) => {
-  return languageIcons[lang.toLowerCase()] || languageIcons.other
+const getReadingTime = (post: any) => {
+  let text = ''
+  if (post.body?.value?.[0]?.[2]) {
+    text = String(post.body.value[0][2])
+  } else if (post.description) {
+    text = String(post.description)
+  }
+  if (!text) return 1
+  const wordCount = text.trim().split(/\s+/).length
+  const time = Math.ceil(wordCount / 200)
+  return time > 0 ? time : 1
 }
 </script>
+
+<style scoped>
+.blog-list-page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Header */
+.blog-header {
+  padding: 3rem 0 2rem;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 1.5rem;
+}
+
+.blog-title {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text-heading);
+  margin-bottom: 0.5rem;
+}
+
+.blog-subtitle {
+  font-size: 1.125rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+/* Posts List */
+.posts-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Post Card */
+.post-card {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.post-card:last-of-type {
+  border-bottom: none;
+}
+
+.post-card-link {
+  display: block;
+}
+
+.post-card-content {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Meta Top */
+.post-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.post-avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.post-author {
+  font-size: 0.8125rem;
+  color: var(--color-text-body);
+}
+
+/* Title */
+.post-title {
+  font-family: var(--font-prose);
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-text-heading);
+  margin-bottom: 0.375rem;
+  transition: color 0.15s ease;
+}
+
+.post-card-link:hover .post-title {
+  color: var(--color-primary);
+}
+
+/* Description */
+.post-description {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  margin-bottom: 0.75rem;
+}
+
+/* Meta Bottom */
+.post-meta-bottom {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+.meta-dot {
+  color: var(--color-text-muted);
+}
+
+.post-tag {
+  padding: 0.125rem 0.5rem;
+  background-color: var(--color-surface);
+  border-radius: 9999px;
+  font-size: 0.75rem;
+}
+
+/* Skeleton */
+.post-card-skeleton {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem 0;
+}
+
+.pagination-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  transition: all 0.15s ease;
+}
+
+.pagination-btn:hover:not(.pagination-btn-disabled) {
+  color: var(--color-text-heading);
+  border-color: var(--color-text-heading);
+}
+
+.pagination-btn-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 4rem 0;
+}
+
+@media (max-width: 640px) {
+  .blog-title {
+    font-size: 2rem;
+  }
+  
+  .post-title {
+    font-size: 1.125rem;
+  }
+}
+</style>

@@ -1,79 +1,147 @@
 <template>
-  <section class="py-8">
-    <!-- Greeting with subtle accent -->
-    <div class="mb-8">
-      <p class="text-[var(--color-primary)] text-sm font-medium mb-2">
-        Hello, I'm
-      </p>
-      <h1 class="text-heading text-4xl sm:text-5xl font-bold mb-4">
-        Satriyo
-        <span class="inline-block animate-wave origin-[70%_70%]">👋🏻</span>
-      </h1>
-      <p class="text-[var(--color-accent)] text-lg font-medium">
-        Full-Stack Engineer & Lead Developer
-      </p>
+  <section class="hero-section">
+    <!-- Avatar & Name -->
+    <div class="hero-header">
+      <img 
+        src="/avatar.jpg" 
+        alt="Satrio"
+        class="hero-avatar"
+        onerror="this.src='https://ui-avatars.com/api/?name=Satrio&background=1E293B&color=38BDF8&size=72'"
+      />
+      <div class="hero-name-wrap">
+        <h1 class="hero-name">Satrio</h1>
+        <p class="hero-title">Full-Stack Engineer</p>
+      </div>
     </div>
     
-    <!-- Bio paragraphs -->
-    <div class="space-y-4 max-w-2xl">
-      <p class="text-body leading-relaxed">
+    <!-- Bio -->
+    <div class="hero-bio">
+      <p>
         Full-Stack Engineer with over three years of experience at Indonesia's national 
-        meteorological agency <span class="text-heading font-medium">(BMKG)</span> and currently 
-        serving as the Lead Software Developer for the 
-        <span class="text-heading font-medium">Open Knowledge Association (OKA)</span>.
+        meteorological agency (BMKG) and Lead Software Developer at Open Knowledge Association.
       </p>
-      
-      <p class="text-body leading-relaxed">
-        My core competency is building scalable, high-performance web applications using 
-        a diverse technology stack, including 
-        <span class="text-[var(--color-primary)]">Python</span>, 
-        <span class="text-[var(--color-primary)]">PHP</span>, 
-        <span class="text-[var(--color-primary)]">Node.js</span>, and 
-        <span class="text-[var(--color-primary)]">Ruby on Rails</span>. 
-        I have a strong passion for bridging Earth Science data with efficient software solutions.
-      </p>
-      
-      <p class="text-body leading-relaxed">
-        In addition to backend roles, I am experienced in modern frontends 
-        (JavaScript, React, Vue) and dedicated to UX principles.
+      <p>
+        Building scalable web applications with Python, PHP, Node.js, and modern frontend frameworks.
       </p>
     </div>
     
-    <!-- Tech stack badges -->
-    <div class="flex flex-wrap gap-2 mt-6">
-      <span 
-        v-for="tech in techStack" 
-        :key="tech"
-        class="badge badge-surface"
+    <!-- Social Links -->
+    <div class="hero-social">
+      <a 
+        v-for="social in socialLinks"
+        :key="social.href"
+        :href="social.href"
+        :target="social.external ? '_blank' : undefined"
+        :rel="social.external ? 'noopener noreferrer' : undefined"
+        class="social-link"
+        :title="social.label"
       >
-        {{ tech }}
-      </span>
+        <Icon :name="social.icon" class="w-5 h-5" />
+        <span>{{ social.label }}</span>
+      </a>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-const techStack = [
-  'Python',
-  'PHP',
-  'Node.js',
-  'TypeScript',
-  'Vue.js',
-  'React',
-  'Laravel',
-  'PostgreSQL'
+const socialLinks = [
+  { 
+    href: 'https://github.com/satrijo', 
+    icon: 'mdi:github',
+    label: 'GitHub',
+    external: true
+  },
+  { 
+    href: 'https://www.linkedin.com/in/satriyounggulwicaksono/', 
+    icon: 'mdi:linkedin',
+    label: 'LinkedIn',
+    external: true
+  },
+  { 
+    href: 'https://www.threads.net/@lensatrio', 
+    icon: 'simple-icons:threads',
+    label: 'Threads',
+    external: true
+  },
+  { 
+    href: 'mailto:mail@satrio.dev', 
+    icon: 'mdi:email-outline',
+    label: 'Email',
+    external: false
+  }
 ]
 </script>
 
 <style scoped>
-@keyframes wave {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(20deg); }
-  75% { transform: rotate(-10deg); }
+.hero-section {
+  padding-top: 1rem;
 }
 
-.animate-wave {
-  animation: wave 2s ease-in-out infinite;
-  display: inline-block;
+.hero-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+}
+
+.hero-name-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-name {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-heading);
+  line-height: 1.2;
+}
+
+.hero-title {
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+}
+
+.hero-bio {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero-bio p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-body);
+}
+
+.hero-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  transition: all 0.15s ease;
+}
+
+.social-link:hover {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 </style>

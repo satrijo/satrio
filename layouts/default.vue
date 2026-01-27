@@ -1,8 +1,8 @@
 <template>
   <UApp>
-    <div class="min-h-screen flex flex-col">
+    <div class="min-h-screen flex flex-col bg-[var(--color-background)]">
       <HeaderSection />
-      <main class="flex-1 container-custom py-8">
+      <main class="flex-1 py-4">
         <slot />
       </main>
       <FooterSection />

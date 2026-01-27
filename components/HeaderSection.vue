@@ -1,58 +1,53 @@
 <template>
-  <header class="sticky top-0 z-50 bg-[var(--color-background)]/95 backdrop-blur-md border-b border-[var(--color-border)]">
-    <div class="container-custom">
-      <div class="flex justify-between items-center h-16">
-        <!-- Logo / Brand -->
+  <header class="header-medium">
+    <div class="header-container">
+      <!-- Logo / Brand -->
+      <NuxtLink 
+        to="/" 
+        class="header-brand"
+      >
+        satrio.dev
+      </NuxtLink>
+      
+      <!-- Desktop Navigation -->
+      <nav class="header-nav">
         <NuxtLink 
-          to="/" 
-          class="text-heading text-lg font-bold tracking-tight hover:text-[var(--color-primary)] transition-colors"
+          v-for="link in navLinks" 
+          :key="link.to"
+          :to="link.to" 
+          class="nav-link"
+          :class="{ 'nav-link-active': isActive(link.to) }"
         >
-          satrio.dev
+          {{ link.label }}
         </NuxtLink>
-        
-        <!-- Desktop Navigation -->
-        <nav class="hidden sm:flex items-center gap-1">
-          <NuxtLink 
-            v-for="link in navLinks" 
-            :key="link.to"
-            :to="link.to" 
-            class="nav-link"
-            :class="{ 'nav-link-active': isActive(link.to) }"
-          >
-            {{ link.label }}
-          </NuxtLink>
-        </nav>
+      </nav>
 
-        <!-- Mobile Menu Button -->
-        <button
-          @click="toggleMobileMenu"
-          class="sm:hidden btn btn-ghost !p-2"
-          aria-label="Toggle menu"
-        >
-          <Icon v-if="!isMobileMenuOpen" name="heroicons:bars-3-20-solid" class="w-6 h-6" />
-          <Icon v-else name="heroicons:x-mark-20-solid" class="w-6 h-6" />
-        </button>
-      </div>
-
-      <!-- Mobile Navigation -->
-      <Transition name="mobile-menu">
-        <nav v-if="isMobileMenuOpen" class="sm:hidden py-4 border-t border-[var(--color-border)] mt-2">
-          <NuxtLink 
-            v-for="link in navLinks" 
-            :key="link.to"
-            :to="link.to" 
-            class="block py-3 px-4 text-sm font-medium rounded-lg transition-colors"
-            :class="{ 
-              'text-[var(--color-primary)] bg-[var(--color-surface)]': isActive(link.to),
-              'text-[var(--color-text-muted)] hover:text-[var(--color-text-heading)] hover:bg-[var(--color-surface)]': !isActive(link.to)
-            }"
-            @click="closeMobileMenu"
-          >
-            {{ link.label }}
-          </NuxtLink>
-        </nav>
-      </Transition>
+      <!-- Mobile Menu Button -->
+      <button
+        @click="toggleMobileMenu"
+        class="mobile-menu-btn"
+        aria-label="Toggle menu"
+      >
+        <Icon v-if="!isMobileMenuOpen" name="heroicons:bars-3-20-solid" class="w-6 h-6" />
+        <Icon v-else name="heroicons:x-mark-20-solid" class="w-6 h-6" />
+      </button>
     </div>
+
+    <!-- Mobile Navigation -->
+    <Transition name="mobile-menu">
+      <nav v-if="isMobileMenuOpen" class="mobile-nav">
+        <NuxtLink 
+          v-for="link in navLinks" 
+          :key="link.to"
+          :to="link.to" 
+          class="mobile-nav-link"
+          :class="{ 'mobile-nav-link-active': isActive(link.to) }"
+          @click="closeMobileMenu"
+        >
+          {{ link.label }}
+        </NuxtLink>
+      </nav>
+    </Transition>
   </header>
 </template>
 
@@ -85,38 +80,136 @@ watch(() => route.path, () => {
 </script>
 
 <style scoped>
+.header-medium {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: var(--color-background);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.header-container {
+  max-width: 1192px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 57px;
+}
+
+.header-brand {
+  font-size: 1.375rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-text-heading);
+  transition: color 0.15s ease;
+}
+
+.header-brand:hover {
+  color: var(--color-primary);
+}
+
+/* Desktop Navigation */
+.header-nav {
+  display: none;
+  align-items: center;
+  gap: 2rem;
+}
+
+@media (min-width: 640px) {
+  .header-nav {
+    display: flex;
+  }
+}
+
 .nav-link {
-  padding: 0.5rem 0.875rem;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 400;
   color: var(--color-text-muted);
-  border-radius: var(--radius-button);
-  transition: all var(--transition-fast);
+  transition: color 0.15s ease;
+  padding: 0.5rem 0;
+  position: relative;
 }
 
 .nav-link:hover {
   color: var(--color-text-heading);
-  background-color: var(--color-surface);
 }
 
 .nav-link-active {
-  color: var(--color-primary);
-  background-color: rgba(56, 189, 248, 0.1);
+  color: var(--color-text-heading);
+}
+
+.nav-link-active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--color-text-heading);
+}
+
+/* Mobile Menu Button */
+.mobile-menu-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  color: var(--color-text-muted);
+  transition: color 0.15s ease;
+}
+
+.mobile-menu-btn:hover {
+  color: var(--color-text-heading);
+}
+
+@media (min-width: 640px) {
+  .mobile-menu-btn {
+    display: none;
+  }
+}
+
+/* Mobile Navigation */
+.mobile-nav {
+  padding: 1rem 1.5rem 1.5rem;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.mobile-nav-link {
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+  border-radius: 0.5rem;
+  transition: all 0.15s ease;
+}
+
+.mobile-nav-link:hover {
+  color: var(--color-text-heading);
+  background-color: var(--color-surface);
+}
+
+.mobile-nav-link-active {
+  color: var(--color-text-heading);
+  background-color: var(--color-surface);
 }
 
 /* Mobile menu transition */
 .mobile-menu-enter-active,
 .mobile-menu-leave-active {
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .mobile-menu-enter-from {
   opacity: 0;
-  transform: translateY(-10px);
+  transform: translateY(-0.5rem);
 }
 
 .mobile-menu-leave-to {
   opacity: 0;
-  transform: translateY(-10px);
+  transform: translateY(-0.5rem);
 }
 </style>

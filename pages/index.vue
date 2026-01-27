@@ -1,5 +1,5 @@
 <template>
-  <main class="space-y-20 py-8">
+  <main class="home-page">
     <HeroSection />
     <LatestPosts />
     <WorkExperience />
@@ -7,6 +7,19 @@
     <ConnectSection />
   </main>
 </template>
+
+<style scoped>
+.home-page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+}
+</style>
 
 <script setup>
 import HeroSection from '~/components/HeroSection.vue'
