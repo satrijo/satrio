@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: satrio-dev
+  namespace: satrio-dev
+  labels:
+    app.kubernetes.io/name: satrio-dev
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: satrio-dev

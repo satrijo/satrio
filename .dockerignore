@@ -1,0 +1,42 @@
+# Dependencies
+node_modules
+.output
+.nuxt
+dist
+
+# Git
+.git
+.gitignore
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment files (secrets should be passed via K8s secrets)
+.env
+.env.*
+
+# Netlify (not needed for Docker)
+.netlify
+netlify.toml
+
+# Development
+*.md
+!README.md
+tests
+__tests__
+coverage
+.nyc_output
+
+# Kubernetes manifests (not needed inside container)
+k8s/

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: satrio-dev-config
+  namespace: satrio-dev
+  labels:
+    app.kubernetes.io/name: satrio-dev
+data:
+  NODE_ENV: "production"
+  HOST: "0.0.0.0"
+  PORT: "3000"
+  DISQUS_SHORTNAME: "satriodev-1"

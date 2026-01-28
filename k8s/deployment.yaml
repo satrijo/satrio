@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: satrio-dev
+  namespace: satrio-dev
+  labels:
+    app.kubernetes.io/name: satrio-dev
+    app.kubernetes.io/component: web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: satrio-dev
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: satrio-dev
+        app.kubernetes.io/component: web
+    spec:
+      containers:
+        - name: satrio-dev
+          # Update this to your actual image registry
+          image: your-registry/satrio-dev:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: satrio-dev-config
+            - secretRef:
+                name: satrio-dev-secrets
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1001
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+      # If using private registry, uncomment below
+      # imagePullSecrets:
+      #   - name: registry-credentials

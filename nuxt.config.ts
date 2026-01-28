@@ -64,16 +64,16 @@ export default defineNuxtConfig({
     viewTransition: true // Enable view transitions API
   },
 
-  // Nitro optimizations for Netlify
+  // Nitro configuration for Node.js server (Docker/Kubernetes)
   nitro: {
-    preset: 'netlify',
+    preset: 'node-server',
     prerender: {
       crawlLinks: true,
       routes: ['/'],
       ignore: ['/_payload.json']
     },
     compressPublicAssets: true,
-    sourceMap: false // Reduce memory usage during build
+    sourceMap: false
   },
 
   // Disable source maps in production to reduce memory

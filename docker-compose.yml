@@ -1,0 +1,15 @@
+services:
+  satrio-dev:
+    build: .
+    container_name: satrio-dev
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    networks:
+      - integrate
+
+networks:
+  integrate:
+    external: true
