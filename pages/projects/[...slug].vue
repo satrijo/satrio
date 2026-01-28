@@ -63,7 +63,8 @@ const baseUrl = 'https://satrio.dev'
 
 const { data: project, pending } = await useAsyncData(
   route.path,
-  () => queryCollection('projects').path(route.path).first()
+  () => queryCollection('projects').path(route.path).first(),
+  { watch: [() => route.path] }
 )
 
 watchEffect(() => {

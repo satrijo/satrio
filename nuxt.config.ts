@@ -107,15 +107,17 @@ export default defineNuxtConfig({
     },
     // Blog list - ISR with 5 min revalidation
     '/blog': { isr: 300 },
-    // Blog posts - Static with long cache
+    // Blog posts - SWR (Stale-While-Revalidate) - must fetch from source
     '/blog/**': { 
-      isr: 3600,
+      swr: true,
       headers: {
-        'Cache-Control': 'public, max-age=3600, must-revalidate'
+        'Cache-Control': 'public, max-age=3600, stale-while-revalidate=86400'
       }
     },
     // Projects - ISR with 10 min revalidation
     '/projects': { isr: 600 },
+    // Project details - SWR
+    '/projects/**': { swr: true },
     // Static assets - long cache
     '/_nuxt/**': {
       headers: {
