@@ -376,22 +376,29 @@ async function sendMessage(text?: string) {
   streamingContent.value = ''
 
   try {
-    // Truncate article content to prevent request size issues
-    const truncatedContent = props.articleContent?.substring(0, 6000) || ''
-    
-    const response = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        messages: messages.value.slice(-10).map(m => ({ role: m.role, content: m.content })),
-        articleContext: {
-          title: props.articleTitle,
-          content: truncatedContent,
-          category: props.articleCategory,
-          language: props.articleLanguage
-        }
-      })
-    })
+     // Truncate article content to prevent request size issues
+     const truncatedContent = props.articleContent?.substring(0, 6000) || ''
+     
+     // Create abort controller with 90-second timeout
+     const controller = new AbortController()
+     const timeoutId = setTimeout(() => controller.abort(), 90000) // 90 seconds
+     
+     const response = await fetch('/api/chat', {
+       method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       signal: controller.signal,
+       body: JSON.stringify({
+         messages: messages.value.slice(-10).map(m => ({ role: m.role, content: m.content })),
+         articleContext: {
+           title: props.articleTitle,
+           content: truncatedContent,
+           category: props.articleCategory,
+           language: props.articleLanguage
+         }
+       })
+     })
+     
+     clearTimeout(timeoutId)
 
     if (!response.ok) {
       const errorText = await response.text()
@@ -460,7 +467,16 @@ async function sendMessage(text?: string) {
     }
   } catch (error) {
     console.error('Chat error:', error)
-    const errorMessage = error instanceof Error ? error.message : 'Maaf, terjadi kesalahan. Silakan coba lagi.'
+    let errorMessage = 'Maaf, terjadi kesalahan. Silakan coba lagi.'
+    
+    if (error instanceof Error) {
+      if (error.name === 'AbortError') {
+        errorMessage = 'Request timeout. AI service tidak merespons dalam waktu. Silakan coba lagi.'
+      } else {
+        errorMessage = error.message
+      }
+    }
+    
     messages.value.push({ 
       role: 'assistant', 
       content: errorMessage 

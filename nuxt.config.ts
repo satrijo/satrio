@@ -59,7 +59,7 @@ export default defineNuxtConfig({
 
   // Performance optimizations
   experimental: {
-    payloadExtraction: false, // Disable for better performance
+    payloadExtraction: true, // Enable for better caching
     renderJsonPayloads: true,
     viewTransition: true // Enable view transitions API
   },
@@ -68,7 +68,17 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'node-server',
     compressPublicAssets: true,
-    sourceMap: false
+    sourceMap: false,
+    // Prerender key routes at build time
+    prerender: {
+      crawlLinks: false, // Disable crawler to avoid dynamic routes
+      routes: [
+        '/',
+        '/blog',
+        '/projects',
+        '/work'
+      ]
+    }
   },
 
   // Disable source maps in production to reduce memory

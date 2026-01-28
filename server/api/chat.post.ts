@@ -1,18 +1,20 @@
-import { ReadableStream } from 'stream/web'
-
 // Helper function to convert async iterable to ReadableStream
 function readableStreamFromAsyncIterable(iterable: AsyncIterable<string>): ReadableStream<Uint8Array> {
+  const iterator = iterable[Symbol.asyncIterator]()
+  
   return new ReadableStream({
-    async start(controller) {
+    async pull(controller) {
       try {
-        for await (const chunk of iterable) {
-          const encoded = new TextEncoder().encode(chunk)
+        const { done, value } = await iterator.next()
+        
+        if (done) {
+          controller.close()
+        } else {
+          const encoded = new TextEncoder().encode(value)
           controller.enqueue(encoded)
         }
       } catch (error) {
         controller.error(error)
-      } finally {
-        controller.close()
       }
     }
   })
@@ -88,32 +90,47 @@ Instruksi:
   ];
 
   try {
-    const response = await fetch(
-      urlInference || "https://api.zai.chat/v1/chat/completions",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          model: modelName || "gpt-3.5-turbo",
-          messages: fullMessages,
-          max_tokens: 2000,
-          temperature: 0.7,
-          stream: true,
-        }),
-      },
-    );
+     console.log('Starting AI chat request...', { modelName, urlInference });
+     
+     // Add timeout for provider request (60 seconds)
+     const controller = new AbortController();
+     const timeoutId = setTimeout(() => {
+       controller.abort();
+       console.error('AI provider request timeout');
+     }, 60000); // 60 seconds timeout
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("AI API Error:", response.status, errorText);
-      throw createError({
-        statusCode: response.status,
-        statusMessage: `AI API Error: ${errorText}`,
-      });
-    }
+     const response = await fetch(
+       urlInference || "https://api.zai.chat/v1/chat/completions",
+       {
+         method: "POST",
+         headers: {
+           "Content-Type": "application/json",
+           Authorization: `Bearer ${apiKey}`,
+         },
+         signal: controller.signal,
+         body: JSON.stringify({
+           model: modelName || "gpt-3.5-turbo",
+           messages: fullMessages,
+           max_tokens: 1000,
+           temperature: 0.7,
+           stream: true,
+           top_p: 0.9,
+         }),
+       },
+     );
+
+     clearTimeout(timeoutId);
+
+     if (!response.ok) {
+       const errorText = await response.text();
+       console.error("AI API Error:", response.status, errorText);
+       throw createError({
+         statusCode: response.status,
+         statusMessage: `AI API Error: ${errorText}`,
+       });
+     }
+     
+     console.log('AI provider response received, starting stream...');
 
     // Set headers for streaming
     setResponseHeaders(event, {
@@ -135,6 +152,7 @@ Instruksi:
     }
 
     let buffer = '';
+    let chunkCount = 0;
     
     return sendStream(event, 
       readableStreamFromAsyncIterable(
@@ -142,11 +160,16 @@ Instruksi:
           try {
             while (true) {
               const { done, value } = await reader.read();
-              if (done) break;
+              if (done) {
+                console.log(`Stream ended. Total chunks: ${chunkCount}`);
+                break;
+              }
               
+              chunkCount++;
               // Decode chunk with proper UTF-8 handling
               const chunk = decoder.decode(value, { stream: true });
               buffer += chunk;
+              console.log(`Chunk ${chunkCount}: ${chunk.length} bytes`);
               
               // Process complete lines
               const lines = buffer.split('\n');
