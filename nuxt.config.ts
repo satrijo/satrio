@@ -65,16 +65,11 @@ export default defineNuxtConfig({
   },
 
   // Nitro configuration for Node.js server (Docker/Kubernetes)
+  // Pure SSR mode - render on-demand, no prerender
   nitro: {
     preset: 'node-server',
     compressPublicAssets: true,
-    sourceMap: false,
-    // Disabled prerender for SSR mode
-    // Dynamic content will be rendered on-demand
-    prerender: {
-      crawlLinks: false,
-      routes: []
-    }
+    sourceMap: false
   },
 
   // Disable source maps in production to reduce memory
@@ -92,28 +87,30 @@ export default defineNuxtConfig({
 
   // Route rules for caching and optimization
   routeRules: {
-    // Homepage - ISR with 10 min revalidation
+    // Homepage - cache 10 min
     '/': { 
-      isr: 600,
+      cache: { maxAge: 600 },
       headers: {
         'X-Frame-Options': 'DENY',
         'X-Content-Type-Options': 'nosniff',
         'Referrer-Policy': 'strict-origin-when-cross-origin'
       }
     },
-    // Blog list - ISR with 5 min revalidation
-    '/blog': { isr: 300 },
-    // Blog posts - ISR with 1 hour revalidation
+    // Blog list - cache 5 min
+    '/blog': { cache: { maxAge: 300 } },
+    // Blog posts - cache 1 hour
     '/blog/**': { 
-      isr: 3600,
+      cache: { maxAge: 3600 },
       headers: {
-        'Cache-Control': 'public, max-age=3600, must-revalidate'
+        'Cache-Control': 'public, max-age=3600'
       }
     },
-    // Projects - ISR with 10 min revalidation
-    '/projects': { isr: 600 },
-    // Project details - ISR with 1 hour
-    '/projects/**': { isr: 3600 },
+    // Projects - cache 10 min
+    '/projects': { cache: { maxAge: 600 } },
+    // Project details - cache 1 hour
+    '/projects/**': { cache: { maxAge: 3600 } },
+    // Work - cache 1 hour
+    '/work': { cache: { maxAge: 3600 } },
     // Static assets - long cache
     '/_nuxt/**': {
       headers: {
