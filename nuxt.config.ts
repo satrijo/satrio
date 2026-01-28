@@ -67,11 +67,6 @@ export default defineNuxtConfig({
   // Nitro configuration for Node.js server (Docker/Kubernetes)
   nitro: {
     preset: 'node-server',
-    prerender: {
-      crawlLinks: true,
-      routes: ['/'],
-      ignore: ['/_payload.json']
-    },
     compressPublicAssets: true,
     sourceMap: false
   },
