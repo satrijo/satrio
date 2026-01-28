@@ -391,7 +391,9 @@ async function sendMessage(text?: string) {
     })
 
     if (!response.ok) {
-      throw new Error('Failed to get response')
+      const errorText = await response.text()
+      console.error('Chat API error:', response.status, errorText)
+      throw new Error(`API Error: ${response.status}`)
     }
 
     const reader = response.body?.getReader()
