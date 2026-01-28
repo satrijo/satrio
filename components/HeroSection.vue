@@ -16,11 +16,12 @@
     <!-- Bio -->
     <div class="hero-bio">
       <p>
-        Full-Stack Engineer with over three years of experience at Indonesia's national 
-        meteorological agency (BMKG) and Lead Software Developer at Open Knowledge Association.
+        Software developer with 8+ years of experience combining meteorology and full-stack 
+        development at BMKG. Building high-performance, real-time data systems for aviation 
+        and public safety.
       </p>
       <p>
-        Building scalable web applications with Python, PHP, Node.js, and modern frontend frameworks.
+        Proficient in Python, Laravel, Node.js, AWS, and Docker.
       </p>
     </div>
     

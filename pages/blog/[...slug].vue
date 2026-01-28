@@ -148,8 +148,8 @@
             <p class="author-card-label">Written by</p>
             <h3 class="author-card-name">Satrio</h3>
             <p class="author-card-bio">
-              Full-Stack Engineer with experience at Indonesia's national meteorological agency (BMKG) 
-              and Lead Software Developer at Open Knowledge Association.
+              Software developer with 8+ years combining meteorology and full-stack development at BMKG. 
+              Building high-performance, real-time data systems for aviation and public safety.
             </p>
           </div>
         </div>

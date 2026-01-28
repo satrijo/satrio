@@ -35,16 +35,16 @@ useHead({
   meta: [
     { 
       name: 'description', 
-      content: 'Full-Stack Engineer with over three years of experience at Indonesia\'s national meteorological agency (BMKG) and currently serving as the Lead Software Developer for the Open Knowledge Association (OKA). Portfolio, blog, and projects.' 
+      content: 'Software developer with 8+ years combining meteorology and full-stack development at BMKG. Building high-performance, real-time data systems. Proficient in Python, Laravel, Node.js, AWS, Docker.' 
     },
-    { name: 'keywords', content: 'full-stack developer, web developer, software engineer, portfolio, blog, Python, PHP, Node.js, React, Laravel' },
-    { property: 'og:title', content: 'Satrio - Full-Stack Engineer & Lead Developer' },
-    { property: 'og:description', content: 'Full-Stack Engineer with over three years of experience. Portfolio, blog, and projects showcasing web development expertise.' },
+    { name: 'keywords', content: 'software developer, full-stack developer, BMKG, meteorology, Python, Laravel, Node.js, AWS, Docker, real-time systems' },
+    { property: 'og:title', content: 'Satrio - Software Developer' },
+    { property: 'og:description', content: 'Software developer with 8+ years experience building high-performance, real-time meteorological data systems at BMKG.' },
     { property: 'og:url', content: baseUrl },
     { property: 'og:type', content: 'website' },
     { property: 'og:image', content: `${baseUrl}/og-image.jpg` },
-    { name: 'twitter:title', content: 'Satrio - Full-Stack Engineer & Lead Developer' },
-    { name: 'twitter:description', content: 'Full-Stack Engineer with over three years of experience. Portfolio, blog, and projects.' },
+    { name: 'twitter:title', content: 'Satrio - Software Developer' },
+    { name: 'twitter:description', content: 'Software developer with 8+ years building real-time meteorological systems. Python, Laravel, Node.js, AWS, Docker.' },
     { name: 'twitter:image', content: `${baseUrl}/og-image.jpg` }
   ],
   link: [
