@@ -68,7 +68,14 @@ export default defineNuxtConfig({
       routes: ['/'],
       ignore: ['/_payload.json']
     },
-    compressPublicAssets: true
+    compressPublicAssets: true,
+    sourceMap: false // Reduce memory usage during build
+  },
+
+  // Disable source maps in production to reduce memory
+  sourcemap: {
+    server: false,
+    client: false
   },
 
   // Router options for better UX
