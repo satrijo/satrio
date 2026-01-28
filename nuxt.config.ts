@@ -59,8 +59,8 @@ export default defineNuxtConfig({
 
   // Performance optimizations
   experimental: {
-    payloadExtraction: true, // Enable for better caching
-    renderJsonPayloads: true,
+    payloadExtraction: false, // Disable to reduce JSON payload size during hydration
+    renderJsonPayloads: false, // Don't render as JSON to save bytes
     viewTransition: true // Enable view transitions API
   },
 
@@ -69,15 +69,11 @@ export default defineNuxtConfig({
     preset: 'node-server',
     compressPublicAssets: true,
     sourceMap: false,
-    // Prerender key routes at build time
+    // Disabled prerender for SSR mode
+    // Dynamic content will be rendered on-demand
     prerender: {
-      crawlLinks: true, // Enable crawler for dynamic content routes
-      routes: [
-        '/',
-        '/blog',
-        '/projects',
-        '/work'
-      ]
+      crawlLinks: false,
+      routes: []
     }
   },
 

@@ -61,11 +61,14 @@
             <button @click="resetSize" class="header-btn" title="Reset size" v-if="!isDefaultSize">
               <Icon name="mdi:arrow-collapse" class="w-4 h-4" />
             </button>
-            <button @click="toggleMaximize" class="header-btn" :title="isMaximized ? 'Restore' : 'Maximize'">
+            <button @click="toggleMaximize" class="header-btn hidden sm:flex" :title="isMaximized ? 'Restore' : 'Maximize'">
               <Icon :name="isMaximized ? 'mdi:window-restore' : 'mdi:window-maximize'" class="w-4 h-4" />
             </button>
-            <button @click="clearHistory" class="header-btn" title="Clear chat history">
+            <button @click="clearHistory" class="header-btn hidden sm:flex" title="Clear chat history">
               <Icon name="mdi:delete-outline" class="w-4 h-4" />
+            </button>
+            <button @click="toggleChat" class="header-btn sm:hidden" title="Close chat">
+              <Icon name="mdi:close" class="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -1010,8 +1013,8 @@ async function sendMessage(text?: string) {
     left: 0;
     width: 100% !important;
     max-width: 100%;
-    height: calc(100vh - 60px) !important;
-    max-height: none;
+    height: 65vh !important;
+    max-height: 65vh;
     border-radius: var(--radius-card) var(--radius-card) 0 0;
   }
 
