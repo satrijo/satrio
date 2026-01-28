@@ -2,22 +2,18 @@
 
 # Auto-rebuild script for satrio.dev
 # Run this script on the host to watch for rebuild triggers
-# Usage: ./rebuild-watch.sh
-
-set -e
 
 APP_DIR="${APP_DIR:-/home/rio/apps/images/satrio}"
 TRIGGER_FILE="/tmp/rebuild-trigger"
-LOG_FILE="/var/log/satrio-rebuild.log"
 
 log() {
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"
 }
 
 rebuild() {
     log "Starting rebuild..."
     
-    cd "$APP_DIR"
+    cd "$APP_DIR" || exit 1
     
     # Pull latest changes
     log "Pulling latest changes..."
