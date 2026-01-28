@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Auto-rebuild script for satrio.dev
-# Run this script on the host to watch for rebuild triggers
+# Auto-rebuild script for satrio.dev with zero downtime
+# Build image first, then replace container
 
 APP_DIR="${APP_DIR:-/home/rio/apps/images/satrio}"
 TRIGGER_FILE="/tmp/rebuild-trigger"
@@ -11,7 +11,7 @@ log() {
 }
 
 rebuild() {
-    log "Starting rebuild..."
+    log "Starting zero-downtime rebuild..."
     
     cd "$APP_DIR" || exit 1
     
@@ -19,9 +19,17 @@ rebuild() {
     log "Pulling latest changes..."
     git pull origin main
     
-    # Rebuild container
-    log "Rebuilding container..."
-    docker compose up -d --build
+    # Build new image first (container masih jalan)
+    log "Building new image..."
+    docker compose build
+    
+    # Replace container dengan image baru
+    log "Replacing container..."
+    docker compose up -d --no-build
+    
+    # Cleanup old images
+    log "Cleaning up..."
+    docker image prune -f
     
     log "Rebuild complete!"
 }
@@ -40,9 +48,7 @@ while true; do
             log "Rebuild triggered!"
             LAST_TRIGGER="$CURRENT_TRIGGER"
             
-            # Small delay to ensure git push is complete
             sleep 5
-            
             rebuild
         fi
     fi
