@@ -1,11 +1,6 @@
 [build]
   command = "npm rebuild better-sqlite3 && npm run build"
-  publish = ".output/public"
-
-# Netlify Functions configuration
-[functions]
-  directory = ".output/server"
-  node_bundler = "esbuild"
+  publish = "dist"
 
 # Build optimization
 [build.environment]
