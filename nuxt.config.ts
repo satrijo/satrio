@@ -4,7 +4,8 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
 
   runtimeConfig: {
-    apiAiKey: process.env.API_AI_KEY || '',
+    // Support both API_AI_KEY and NUXT_API_AI_KEY for Netlify compatibility
+    apiAiKey: process.env.API_AI_KEY || process.env.NUXT_API_AI_KEY || '',
     public: {
       disqusShortname: process.env.DISQUS_SHORTNAME || 'satriodev-1'
     }

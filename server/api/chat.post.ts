@@ -1,11 +1,13 @@
 export default defineEventHandler(async (event) => {
+  // Try multiple ways to get the API key (for Netlify compatibility)
   const config = useRuntimeConfig()
-  const apiKey = config.apiAiKey
+  const apiKey = config.apiAiKey || process.env.API_AI_KEY || process.env.NUXT_API_AI_KEY
 
   if (!apiKey) {
+    console.error('AI API Key not found. Checked: runtimeConfig.apiAiKey, process.env.API_AI_KEY, process.env.NUXT_API_AI_KEY')
     throw createError({
       statusCode: 500,
-      statusMessage: 'API_AI_KEY not configured'
+      statusMessage: 'AI service not configured'
     })
   }
 
