@@ -139,8 +139,7 @@ useHead({
 
 const { data: allPosts, pending } = await useAsyncData(
   'blog-list',
-  () => queryCollection('blog').order('date', 'DESC').all(),
-  { lazy: true }
+  () => queryCollection('blog').order('date', 'DESC').all()
 )
 
 const totalPages = computed(() => {

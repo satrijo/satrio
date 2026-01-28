@@ -74,7 +74,7 @@ useHead({
 const { data: projects, pending } = await useAsyncData(
   'projects',
   () => queryCollection('projects').order('date', 'DESC').all(),
-  { lazy: true }
+  
 )
 
 const formatDate = (date: Date | string | undefined) => {

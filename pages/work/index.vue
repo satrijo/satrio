@@ -83,7 +83,7 @@ const { data: workExperiences, pending } = await useAsyncData(
       return new Date(b.end_date!).getTime() - new Date(a.end_date!).getTime()
     })
   },
-  { lazy: true }
+  
 )
 
 const formatDateRange = (startDate: Date | string, endDate?: Date | string) => {

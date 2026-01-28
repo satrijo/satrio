@@ -50,7 +50,7 @@
 const { data: projects, pending } = await useAsyncData(
   'recent-projects',
   () => queryCollection('projects').order('date', 'DESC').limit(2).all(),
-  { lazy: true }
+  
 )
 
 const formatDate = (date: Date | string | undefined) => {

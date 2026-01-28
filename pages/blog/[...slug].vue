@@ -210,7 +210,7 @@ watch(() => route.path, () => {
 const { data: allPosts } = await useAsyncData(
   'all-blog-posts',
   () => queryCollection('blog').all(),
-  { lazy: true }
+  
 )
 
 // Language icons

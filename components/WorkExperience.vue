@@ -52,7 +52,7 @@ const { data: workExperience, pending } = await useAsyncData(
       })
       .slice(0, 2)
   },
-  { lazy: true }
+  
 )
 
 const formatDateRange = (startDate: Date | string, endDate?: Date | string) => {

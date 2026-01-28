@@ -46,8 +46,7 @@
 <script setup lang="ts">
 const { data: posts, pending } = await useAsyncData(
   'latest-posts',
-  () => queryCollection('blog').order('date', 'DESC').limit(3).all(),
-  { lazy: true }
+  () => queryCollection('blog').order('date', 'DESC').limit(3).all()
 )
 
 const formatDate = (date: Date | string | undefined) => {
