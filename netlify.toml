@@ -14,6 +14,13 @@
   status = 200
   force = true
 
+# Icon API endpoint
+[[redirects]]
+  from = "/__nuxt_icon__/*"
+  to = "/.netlify/functions/server"
+  status = 200
+  force = true
+
 # Redirect rules for cleaner URLs
 [[redirects]]
   from = "/blog/:slug"
@@ -21,10 +28,10 @@
   status = 200
   force = false
 
-# SPA fallback - must be last
+# SSR fallback for dynamic pages - must be last
 [[redirects]]
   from = "/*"
-  to = "/index.html"
+  to = "/.netlify/functions/server"
   status = 200
 
 # Prerender key pages for faster initial load
