@@ -193,8 +193,7 @@ const baseUrl = 'https://satrio.dev'
 // Fetch current post
 const { data: post, pending, error, refresh } = await useAsyncData(
   `blog-${route.path}`,
-  () => queryCollection('blog').path(route.path).first(),
-  { watch: [() => route.path] }
+  () => queryCollection('blog').path(route.path).first()
 )
 
 // Handle errors

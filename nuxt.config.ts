@@ -71,7 +71,7 @@ export default defineNuxtConfig({
     sourceMap: false,
     // Prerender key routes at build time
     prerender: {
-      crawlLinks: false, // Disable crawler to avoid dynamic routes
+      crawlLinks: true, // Enable crawler for dynamic content routes
       routes: [
         '/',
         '/blog',
@@ -107,17 +107,17 @@ export default defineNuxtConfig({
     },
     // Blog list - ISR with 5 min revalidation
     '/blog': { isr: 300 },
-    // Blog posts - SWR (Stale-While-Revalidate) - must fetch from source
+    // Blog posts - ISR with 1 hour revalidation
     '/blog/**': { 
-      swr: true,
+      isr: 3600,
       headers: {
-        'Cache-Control': 'public, max-age=3600, stale-while-revalidate=86400'
+        'Cache-Control': 'public, max-age=3600, must-revalidate'
       }
     },
     // Projects - ISR with 10 min revalidation
     '/projects': { isr: 600 },
-    // Project details - SWR
-    '/projects/**': { swr: true },
+    // Project details - ISR with 1 hour
+    '/projects/**': { isr: 3600 },
     // Static assets - long cache
     '/_nuxt/**': {
       headers: {
