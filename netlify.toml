@@ -7,6 +7,13 @@
   NODE_VERSION = "20"
   NODE_OPTIONS = "--max-old-space-size=4096"
 
+# API routes - proxy to Netlify Functions
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/server/api/:splat"
+  status = 200
+  force = true
+
 # Redirect rules for cleaner URLs
 [[redirects]]
   from = "/blog/:slug"
@@ -14,11 +21,11 @@
   status = 200
   force = false
 
-# 404 handling
+# SPA fallback - must be last
 [[redirects]]
   from = "/*"
   to = "/index.html"
-  status = 404
+  status = 200
 
 # Prerender key pages for faster initial load
 [build.processing]
