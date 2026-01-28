@@ -1,3 +1,23 @@
+import { ReadableStream } from 'stream/web'
+
+// Helper function to convert async iterable to ReadableStream
+function readableStreamFromAsyncIterable(iterable: AsyncIterable<string>): ReadableStream<Uint8Array> {
+  return new ReadableStream({
+    async start(controller) {
+      try {
+        for await (const chunk of iterable) {
+          const encoded = new TextEncoder().encode(chunk)
+          controller.enqueue(encoded)
+        }
+      } catch (error) {
+        controller.error(error)
+      } finally {
+        controller.close()
+      }
+    }
+  })
+}
+
 export default defineEventHandler(async (event) => {
   // Try multiple ways to get the API key (for Netlify compatibility)
   const config = useRuntimeConfig(event);
@@ -103,8 +123,77 @@ Instruksi:
       "X-Accel-Buffering": "no", // Disable buffering for nginx/proxies
     });
 
-    // Return the stream directly
-    return sendStream(event, response.body as ReadableStream);
+    // Parse and re-stream to ensure proper encoding & formatting
+    const reader = response.body?.getReader();
+    const decoder = new TextDecoder('utf-8', { fatal: false }); // Handle invalid UTF-8 gracefully
+    
+    if (!reader) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: "Failed to get response stream"
+      });
+    }
+
+    let buffer = '';
+    
+    return sendStream(event, 
+      readableStreamFromAsyncIterable(
+        (async function* streamEvents() {
+          try {
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+              
+              // Decode chunk with proper UTF-8 handling
+              const chunk = decoder.decode(value, { stream: true });
+              buffer += chunk;
+              
+              // Process complete lines
+              const lines = buffer.split('\n');
+              buffer = lines.pop() || ''; // Keep incomplete line in buffer
+              
+              for (const line of lines) {
+                if (line.trim() === '' || !line.startsWith('data: ')) {
+                  continue;
+                }
+                
+                const data = line.slice(6).trim();
+                
+                // Validate before yielding
+                if (data === '[DONE]') {
+                  yield 'data: [DONE]\n\n';
+                  continue;
+                }
+                
+                // Validate JSON structure
+                try {
+                  JSON.parse(data); // Validate structure
+                  yield `data: ${data}\n\n`;
+                } catch (e) {
+                  console.error('Invalid JSON in stream:', data);
+                  // Skip malformed JSON, don't corrupt stream
+                  continue;
+                }
+              }
+            }
+            
+            // Flush remaining buffer if it contains valid data
+            if (buffer.trim().startsWith('data: ')) {
+              const data = buffer.slice(6).trim();
+              try {
+                if (data !== '[DONE]') JSON.parse(data);
+                yield `data: ${data}\n\n`;
+              } catch (e) {
+                // Ignore malformed data at end
+              }
+            }
+          } finally {
+            // Ensure final marker
+            yield 'data: [DONE]\n\n';
+          }
+        })()
+      )
+    );
   } catch (error: unknown) {
     const err = error as Error;
     console.error("AI Chat Error:", err.message);
