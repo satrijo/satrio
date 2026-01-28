@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
 
   runtimeConfig: {
+    apiAiKey: process.env.API_AI_KEY || '',
     public: {
       disqusShortname: process.env.DISQUS_SHORTNAME || 'satriodev-1'
     }

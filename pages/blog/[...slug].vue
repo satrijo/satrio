@@ -170,12 +170,22 @@
           </NuxtLink>
         </div>
       </div>
+
+      <!-- AI Chat Assistant -->
+      <ArticleAIChat
+        :article-title="post.title"
+        :article-content="articleTextContent"
+        :article-category="post.category"
+        :article-language="post.article_language"
+        :article-slug="post.path"
+      />
     </article>
   </div>
 </template>
 
 <script setup lang="ts">
 import LoadingSpinner from '~/components/ui/LoadingSpinner.vue'
+import ArticleAIChat from '~/components/ArticleAIChat.vue'
 
 const route = useRoute()
 const baseUrl = 'https://satrio.dev'
@@ -271,15 +281,40 @@ watchEffect(() => {
   }
 })
 
+// Extract text content from article body for AI context
+const articleTextContent = computed(() => {
+  if (!post.value) return ''
+  
+  // Try to extract text from body
+  const extractText = (node: unknown): string => {
+    if (!node) return ''
+    if (typeof node === 'string') return node
+    if (Array.isArray(node)) {
+      return node.map(extractText).join(' ')
+    }
+    if (typeof node === 'object' && node !== null) {
+      const obj = node as Record<string, unknown>
+      if (obj.value) return extractText(obj.value)
+      if (obj.children) return extractText(obj.children)
+    }
+    return ''
+  }
+  
+  let content = extractText(post.value.body)
+  
+  // Fallback to description
+  if (!content && post.value.description) {
+    content = String(post.value.description)
+  }
+  
+  // Limit content length for API (max ~8000 chars)
+  return content.slice(0, 8000)
+})
+
 // Reading time calculation
 const readingTime = computed(() => {
   if (!post.value) return 1
-  let text = ''
-  if (post.value.body?.value?.[0]?.[2]) {
-    text = String(post.value.body.value[0][2])
-  } else if (post.value.description) {
-    text = String(post.value.description)
-  }
+  const text = articleTextContent.value
   if (!text) return 1
   const wordCount = text.trim().split(/\s+/).length
   const time = Math.ceil(wordCount / 200)
