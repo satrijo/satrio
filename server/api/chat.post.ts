@@ -6,14 +6,6 @@ export default defineEventHandler(async (event) => {
   const apiKey = process.env.API_AI_KEY 
     || process.env.NUXT_API_AI_KEY 
     || config.apiAiKey
-  
-  // Debug logging (will show in Netlify Functions logs)
-  console.log('API Key check:', {
-    hasProcessEnvApiKey: !!process.env.API_AI_KEY,
-    hasProcessEnvNuxtKey: !!process.env.NUXT_API_AI_KEY,
-    hasConfigKey: !!config.apiAiKey,
-    keyLength: apiKey ? apiKey.length : 0
-  })
 
   if (!apiKey) {
     console.error('AI API Key not found in any source')
@@ -23,7 +15,16 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const body = await readBody(event)
+  let body
+  try {
+    body = await readBody(event)
+  } catch {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Invalid request body'
+    })
+  }
+  
   const { messages, articleContext } = body
 
   if (!messages || !Array.isArray(messages)) {
@@ -32,6 +33,12 @@ export default defineEventHandler(async (event) => {
       statusMessage: 'Messages array is required'
     })
   }
+
+  // Truncate article content to prevent token overflow
+  const maxContentLength = 6000
+  const truncatedContent = articleContext?.content 
+    ? articleContext.content.substring(0, maxContentLength) 
+    : 'Tidak tersedia'
 
   // Build system prompt with article context
   const systemPrompt = `Kamu adalah AI assistant yang membantu user memahami artikel blog. 
@@ -44,7 +51,7 @@ Kategori: ${articleContext?.category || 'Tidak tersedia'}
 Bahasa Artikel: ${articleContext?.language || 'Tidak tersedia'}
 
 Isi Artikel:
-${articleContext?.content || 'Tidak tersedia'}
+${truncatedContent}
 === END KONTEKS ===
 
 Instruksi:
@@ -52,18 +59,11 @@ Instruksi:
 - Berikan penjelasan yang jelas dan mudah dipahami
 - Gunakan contoh jika diperlukan
 - Jika ada kode dalam artikel, jelaskan dengan detail jika ditanya`
-
+  
   const fullMessages = [
     { role: 'system', content: systemPrompt },
-    ...messages
+    ...messages.slice(-10) // Limit conversation history to last 10 messages
   ]
-
-  // Set headers for streaming
-  setResponseHeaders(event, {
-    'Content-Type': 'text/event-stream',
-    'Cache-Control': 'no-cache',
-    'Connection': 'keep-alive',
-  })
 
   try {
     const response = await fetch('https://inference.canopywave.io/v1/chat/completions', {
@@ -83,17 +83,32 @@ Instruksi:
 
     if (!response.ok) {
       const errorText = await response.text()
+      console.error('AI API Error:', response.status, errorText)
       throw createError({
         statusCode: response.status,
         statusMessage: `AI API Error: ${errorText}`
       })
     }
 
+    // Set headers for streaming
+    setResponseHeaders(event, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive',
+      'X-Accel-Buffering': 'no', // Disable buffering for nginx/proxies
+    })
+
     // Return the stream directly
     return sendStream(event, response.body as ReadableStream)
   } catch (error: unknown) {
     const err = error as Error
-    console.error('AI Chat Error:', err)
+    console.error('AI Chat Error:', err.message)
+    
+    // Check if it's already a createError
+    if ('statusCode' in err) {
+      throw err
+    }
+    
     throw createError({
       statusCode: 500,
       statusMessage: err.message || 'Failed to get AI response'

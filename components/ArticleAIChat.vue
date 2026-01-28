@@ -376,14 +376,17 @@ async function sendMessage(text?: string) {
   streamingContent.value = ''
 
   try {
+    // Truncate article content to prevent request size issues
+    const truncatedContent = props.articleContent?.substring(0, 6000) || ''
+    
     const response = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        messages: messages.value.map(m => ({ role: m.role, content: m.content })),
+        messages: messages.value.slice(-10).map(m => ({ role: m.role, content: m.content })),
         articleContext: {
           title: props.articleTitle,
-          content: props.articleContent,
+          content: truncatedContent,
           category: props.articleCategory,
           language: props.articleLanguage
         }
@@ -393,7 +396,20 @@ async function sendMessage(text?: string) {
     if (!response.ok) {
       const errorText = await response.text()
       console.error('Chat API error:', response.status, errorText)
-      throw new Error(`API Error: ${response.status}`)
+      
+      // Parse error message for better user feedback
+      let errorMessage = 'Maaf, terjadi kesalahan. Silakan coba lagi.'
+      if (response.status === 500) {
+        if (errorText.includes('not configured')) {
+          errorMessage = 'AI service belum dikonfigurasi. Hubungi admin.'
+        } else {
+          errorMessage = 'Server sedang bermasalah. Silakan coba beberapa saat lagi.'
+        }
+      } else if (response.status === 429) {
+        errorMessage = 'Terlalu banyak request. Silakan tunggu sebentar.'
+      }
+      
+      throw new Error(errorMessage)
     }
 
     const reader = response.body?.getReader()
@@ -429,12 +445,19 @@ async function sendMessage(text?: string) {
     // Add assistant message
     if (streamingContent.value) {
       messages.value.push({ role: 'assistant', content: streamingContent.value })
+    } else {
+      // No content received - might be a streaming issue
+      messages.value.push({ 
+        role: 'assistant', 
+        content: 'Maaf, tidak ada respons dari AI. Silakan coba lagi.' 
+      })
     }
   } catch (error) {
     console.error('Chat error:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Maaf, terjadi kesalahan. Silakan coba lagi.'
     messages.value.push({ 
       role: 'assistant', 
-      content: 'Maaf, terjadi kesalahan. Silakan coba lagi.' 
+      content: errorMessage 
     })
   } finally {
     isStreaming.value = false

@@ -23,7 +23,11 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   icon: {
     mode: 'css',
-    cssLayer: 'base'
+    cssLayer: 'base',
+    // Bundle icon collections during build for reliable loading on Netlify
+    serverBundle: {
+      collections: ['mdi', 'heroicons', 'logos', 'circle-flags', 'line-md', 'ep', 'openmoji']
+    }
   },
 
   // Image optimization configuration
