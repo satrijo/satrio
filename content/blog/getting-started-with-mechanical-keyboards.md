@@ -8,8 +8,6 @@ ai_generated: ai
 programming_language: JavaScript
 ---
 
-# Getting Started with Mechanical Keyboards for Programmers
-
 As a programmer, you spend hours typing every day. Your keyboard is one of your most important tools. This guide will help you understand mechanical keyboards and choose the right one for your needs.
 
 ## Why Mechanical Keyboards?

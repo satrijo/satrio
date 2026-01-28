@@ -8,8 +8,6 @@ ai_generated: ai
 programming_language: TypeScript
 ---
 
-# Type Safety Beyond TypeScript: Building Bulletproof Full-Stack Applications
-
 TypeScript gives us type safety in our code, but the moment data crosses boundaries—API calls, database queries, user input—those types vanish. This article explores how to extend type safety across your entire stack.
 
 ## The Problem: Types Only Exist at Compile Time

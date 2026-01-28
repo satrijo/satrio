@@ -8,8 +8,6 @@ ai_generated: ai
 programming_language: JavaScript
 ---
 
-# Raspberry Pi Projects untuk Developer: Dari IoT hingga Home Server
-
 Raspberry Pi adalah mini computer yang powerful dan affordable, perfect untuk eksperimen dan learning. Artikel ini akan membahas berbagai project menarik yang bisa Anda buat dengan Raspberry Pi.
 
 ## Kenapa Raspberry Pi?
@@ -39,15 +37,15 @@ Host website Anda sendiri di rumah.
 
 **Setup:**
 ```bash
-# Install Nginx
+## Install Nginx
 sudo apt update
 sudo apt install nginx
 
-# Install Node.js
+## Install Node.js
 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt install nodejs
 
-# Deploy your app
+## Deploy your app
 git clone https://github.com/your-app
 cd your-app
 npm install
@@ -83,13 +81,13 @@ curl -sSL https://install.pi-hole.net | bash
 
 **Advanced:**
 ```bash
-# Add custom blocklists
+## Add custom blocklists
 pihole -a addlist https://example.com/list.txt
 
-# Update gravity
+## Update gravity
 pihole -g
 
-# View statistics
+## View statistics
 pihole -c
 ```
 
@@ -99,7 +97,7 @@ Control smart home devices dengan Raspberry Pi.
 
 **Install Home Assistant:**
 ```bash
-# Using Docker
+## Using Docker
 docker run -d \
   --name homeassistant \
   --privileged \
@@ -119,7 +117,7 @@ docker run -d \
 
 **Automation Examples:**
 ```yaml
-# automation.yaml
+## automation.yaml
 - alias: "Turn on lights at sunset"
   trigger:
     - platform: sun
@@ -136,10 +134,10 @@ Monitor network performance secara real-time.
 
 **Stack:**
 ```bash
-# Install Docker Compose
+## Install Docker Compose
 sudo apt install docker-compose
 
-# docker-compose.yml
+## docker-compose.yml
 version: '3'
 services:
   prometheus:
@@ -256,13 +254,13 @@ curl -L https://install.pivpn.io | bash
 
 **Configuration:**
 ```bash
-# Add client
+## Add client
 pivpn add
 
-# List clients
+## List clients
 pivpn list
 
-# Show QR code untuk mobile
+## Show QR code untuk mobile
 pivpn -qr
 ```
 
@@ -290,7 +288,7 @@ DIY security system dengan MotionEyeOS.
 
 **Install motionEyeOS:**
 ```bash
-# Or use Motion with Docker
+## Or use Motion with Docker
 docker run -d \
   --name motion \
   -p 8081:8081 \
@@ -312,15 +310,15 @@ docker run -d \
 ### 1. Power Supply
 
 ```bash
-# Pastikan menggunakan official power supply
-# Minimum: 5V 3A untuk Pi 4
-# Under-voltage menyebabkan instability
+## Pastikan menggunakan official power supply
+## Minimum: 5V 3A untuk Pi 4
+## Under-voltage menyebabkan instability
 ```
 
 ### 2. Cooling
 
 ```bash
-# Untuk projects 24/7, tambahkan:
+## Untuk projects 24/7, tambahkan:
 - Heatsinks (cheap dan effective)
 - Active cooling fan
 - Good case dengan ventilation
@@ -329,7 +327,7 @@ docker run -d \
 ### 3. Storage
 
 ```bash
-# Gunakan quality SD card
+## Gunakan quality SD card
 - Samsung EVO atau SanDisk Extreme
 - Minimum Class 10, A1 rating
 - Backup regularly
@@ -338,7 +336,7 @@ docker run -d \
 ### 4. Network
 
 ```bash
-# Untuk server projects:
+## Untuk server projects:
 - Gunakan Ethernet (bukan WiFi)
 - Static IP address
 - Router port forwarding
@@ -347,7 +345,7 @@ docker run -d \
 ### 5. Security
 
 ```bash
-# Basic security
+## Basic security
 sudo passwd pi  # Change default password
 sudo apt update && sudo apt upgrade  # Regular updates
 sudo ufw enable  # Enable firewall
@@ -358,16 +356,16 @@ sudo fail2ban-client status  # Install fail2ban
 
 **Monitor Resources:**
 ```bash
-# CPU temperature
+## CPU temperature
 vcgencmd measure_temp
 
-# Memory usage
+## Memory usage
 free -h
 
-# Disk space
+## Disk space
 df -h
 
-# Running processes
+## Running processes
 htop
 ```
 
@@ -376,7 +374,7 @@ htop
 ### Issue 1: Under-Voltage Warning
 
 ```bash
-# Solution:
+## Solution:
 - Use official power supply (5V 3A minimum)
 - Check cable quality
 - Reduce connected USB devices
@@ -385,7 +383,7 @@ htop
 ### Issue 2: SD Card Corruption
 
 ```bash
-# Prevention:
+## Prevention:
 - Regular backups
 - Use quality SD card
 - Proper shutdown (jangan cabut power)
@@ -395,7 +393,7 @@ htop
 ### Issue 3: Overheating
 
 ```bash
-# Solution:
+## Solution:
 - Add heatsinks
 - Install fan
 - Improve case ventilation

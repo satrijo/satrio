@@ -8,8 +8,6 @@ ai_generated: ai
 programming_language: JavaScript
 ---
 
-# Mengenal TanStack: Ekosistem Library Frontend yang Makin Lengkap
-
 Beberapa tahun lalu, TanStack mungkin hanya dikenal sebagai "React Query library". Sekarang? TanStack sudah berkembang menjadi ekosistem lengkap yang bisa menggantikan sebagian besar tools di frontend stack-mu. Dari data fetching sampai routing, dari form handling sampai table management, semuanya ada.
 
 Tapi dengan begitu banyak pilihan, bagaimana kamu tahu mana yang benar-benar dibutuhkan? Artikel ini akan membahas setiap library di ekosistem TanStack dan kapan sebaiknya menggunakannya.

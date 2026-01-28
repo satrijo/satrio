@@ -8,8 +8,6 @@ ai_generated: ai
 programming_language: JavaScript
 ---
 
-# Membangun Portfolio Developer yang Menarik Perhatian Recruiter
-
 Portfolio yang baik adalah kunci untuk mendapatkan pekerjaan sebagai developer. Artikel ini membahas cara membuat portfolio yang stand out dan menarik perhatian recruiter.
 
 ## Mengapa Portfolio Penting?
@@ -55,7 +53,7 @@ Portfolio membuktikan skill Anda lebih baik daripada hanya menulis di CV.
 ### 2. About Section
 
 ```markdown
-# About Me
+## About Me
 
 Ceritakan:
 - Background Anda
@@ -216,7 +214,7 @@ const qualityChecklist = [
 Every project needs excellent README:
 
 ```markdown
-# Project Name
+## Project Name
 
 Brief description of what the project does.
 
@@ -250,16 +248,16 @@ Test Account:
 ## Installation
 
 \`\`\`bash
-# Clone repo
+## Clone repo
 git clone https://github.com/you/project
 
-# Install dependencies
+## Install dependencies
 npm install
 
-# Setup environment variables
+## Setup environment variables
 cp .env.example .env
 
-# Run development server
+## Run development server
 npm run dev
 \`\`\`
 
@@ -439,7 +437,7 @@ const projects = [
 ### 2. Broken Links atau Demos
 
 ```bash
-# Before sharing, test everything
+## Before sharing, test everything
 ✓ All links work
 ✓ Demo is live
 ✓ GitHub repos are public

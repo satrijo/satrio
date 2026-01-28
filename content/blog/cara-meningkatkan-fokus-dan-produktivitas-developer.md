@@ -8,8 +8,6 @@ ai_generated: ai
 programming_language: JavaScript
 ---
 
-# Cara Meningkatkan Fokus dan Produktivitas sebagai Developer
-
 Sebagai developer, kemampuan untuk fokus dan produktif sangat menentukan kualitas pekerjaan dan career growth. Artikel ini membahas strategi praktis yang dapat Anda terapkan untuk meningkatkan fokus dan produktivitas.
 
 ## Memahami Fokus dan Produktivitas

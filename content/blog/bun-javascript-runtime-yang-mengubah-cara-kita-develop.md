@@ -8,8 +8,6 @@ ai_generated: ai
 programming_language: JavaScript
 ---
 
-# Bun: JavaScript Runtime yang Mengubah Cara Kita Develop
-
 Kalau kamu sudah lama bekerja dengan Node.js, pasti pernah merasakan frustasinya menunggu `npm install` yang terasa seperti selamanya, atau harus setup berbagai tools seperti TypeScript compiler, bundler, dan test runner secara terpisah. Nah, Bun hadir untuk menyelesaikan semua masalah itu dalam satu package.
 
 ## Apa Itu Bun?
@@ -24,10 +22,10 @@ Yang membuat Bun berbeda adalah filosofinya: **all-in-one toolkit**. Dalam satu 
 - **Test runner** (pengganti Jest, Vitest)
 
 ```bash
-# Instalasi Bun
+## Instalasi Bun
 curl -fsSL https://bun.sh/install | bash
 
-# Atau untuk Windows
+## Atau untuk Windows
 powershell -c "irm bun.sh/install.ps1 | iex"
 ```
 
@@ -48,13 +46,13 @@ Angka-angka ini bukan sekadar teori. Dalam praktiknya, developer yang sudah migr
 Salah satu pain point terbesar dalam ekosistem JavaScript adalah waktu instalasi dependencies. Bun menyelesaikan ini dengan `bun install` yang bisa 10-25x lebih cepat dibanding npm.
 
 ```bash
-# Instalasi dependencies dengan Bun
+## Instalasi dependencies dengan Bun
 bun install
 
-# Menambahkan package baru
+## Menambahkan package baru
 bun add express
 
-# Menambahkan dev dependency
+## Menambahkan dev dependency
 bun add -d typescript @types/node
 ```
 
@@ -77,7 +75,7 @@ console.log(`Server berjalan di http://localhost:${server.port}`);
 ```
 
 ```bash
-# Langsung jalankan tanpa compile
+## Langsung jalankan tanpa compile
 bun run server.ts
 ```
 
@@ -157,10 +155,10 @@ describe("Math operations", () => {
 ```
 
 ```bash
-# Jalankan semua test
+## Jalankan semua test
 bun test
 
-# Dengan watch mode
+## Dengan watch mode
 bun test --watch
 ```
 
@@ -186,14 +184,14 @@ bun test --watch
 Kabar baiknya, migrasi ke Bun bisa dilakukan secara bertahap:
 
 ```bash
-# 1. Mulai dengan mengganti package manager
+## 1. Mulai dengan mengganti package manager
 bun install  # Di project Node.js yang sudah ada
 
-# 2. Coba jalankan scripts
+## 2. Coba jalankan scripts
 bun run dev
 bun run build
 
-# 3. Jalankan tests
+## 3. Jalankan tests
 bun test
 ```
 

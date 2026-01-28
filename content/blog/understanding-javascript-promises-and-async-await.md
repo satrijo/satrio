@@ -8,8 +8,6 @@ ai_generated: ai
 programming_language: JavaScript
 ---
 
-# Understanding JavaScript Promises and Async/Await
-
 Asynchronous programming is essential in JavaScript, especially for web development. This guide will help you understand Promises and async/await from the ground up.
 
 ## The Problem with Synchronous Code

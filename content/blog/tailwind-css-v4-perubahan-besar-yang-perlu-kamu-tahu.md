@@ -8,8 +8,6 @@ ai_generated: ai
 programming_language: CSS
 ---
 
-# Tailwind CSS v4: Perubahan Besar yang Perlu Kamu Tahu
-
 Tailwind CSS sudah lama menjadi pilihan utama developer untuk styling aplikasi web. Setelah bertahun-tahun dengan v3, akhirnya v4 hadir dengan perubahan yang cukup signifikan. Bukan sekadar update minor, ini adalah penulisan ulang dari nol dengan fokus pada performa dan kemudahan penggunaan.
 
 ## Apa yang Berubah di v4?
@@ -54,10 +52,10 @@ Keuntungannya? Satu file lebih sedikit untuk di-maintain, dan kamu bisa melihat 
 Setup Tailwind v4 jauh lebih simpel. Tidak perlu lagi konfigurasi `content` paths karena framework sekarang bisa mendeteksi file template secara otomatis.
 
 ```bash
-# Install
+## Install
 npm install tailwindcss@latest
 
-# Untuk project Vite, gunakan plugin khusus
+## Untuk project Vite, gunakan plugin khusus
 npm install @tailwindcss/vite
 ```
 

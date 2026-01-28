@@ -8,8 +8,6 @@ ai_generated: ai
 programming_language: JavaScript
 ---
 
-# Web Development in the Age of Vibe Coding: Balancing Speed with Quality
-
 The landscape of web development has shifted dramatically in recent years. We've entered what many call the "Vibe Coding" era—a time where AI-assisted development tools enable developers to code faster than ever before, often relying on intuition and AI suggestions rather than meticulously planning every line.
 
 ## What is Vibe Coding?

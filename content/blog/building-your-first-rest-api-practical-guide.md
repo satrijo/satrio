@@ -8,8 +8,6 @@ ai_generated: ai
 programming_language: JavaScript
 ---
 
-# Building Your First REST API: A Practical Guide for Beginners
-
 REST APIs are the backbone of modern web applications. If you're a beginner developer looking to understand how APIs work and how to build one, this guide will walk you through the entire process step by step.
 
 ## What is a REST API?
@@ -76,7 +74,7 @@ app.listen(PORT, () => {
 Test it:
 ```bash
 node server.js
-# Visit http://localhost:3000
+## Visit http://localhost:3000
 ```
 
 ## Understanding HTTP Methods
@@ -423,20 +421,20 @@ app.use('/api/', limiter)
 Use tools like Postman or cURL:
 
 ```bash
-# Get all tasks
+## Get all tasks
 curl http://localhost:3000/api/tasks
 
-# Create a task
+## Create a task
 curl -X POST http://localhost:3000/api/tasks \
   -H "Content-Type: application/json" \
   -d '{"title": "New task", "completed": false}'
 
-# Update a task
+## Update a task
 curl -X PUT http://localhost:3000/api/tasks/1 \
   -H "Content-Type: application/json" \
   -d '{"title": "Updated task", "completed": true}'
 
-# Delete a task
+## Delete a task
 curl -X DELETE http://localhost:3000/api/tasks/1
 ```
 

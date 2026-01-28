@@ -8,8 +8,6 @@ ai_generated: ai
 programming_language: JavaScript
 ---
 
-# Memahami Developer Burnout dan Cara Mengatasinya
-
 Burnout adalah kondisi kelelahan mental, fisik, dan emosional yang disebabkan oleh stres berkepanjangan. Dalam dunia development, burnout sangat umum terjadi dan dapat mempengaruhi produktivitas serta kesehatan mental developer.
 
 ## Mengapa Developer Rentan Terhadap Burnout?

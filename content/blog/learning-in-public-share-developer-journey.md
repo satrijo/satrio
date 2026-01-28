@@ -8,8 +8,6 @@ ai_generated: ai
 programming_language: JavaScript
 ---
 
-# Learning in Public: Why You Should Share Your Developer Journey
-
 "Learning in public" has become a popular concept in the tech community. Instead of learning privately, you share your progress, struggles, and discoveries openly. This article explores why this approach is powerful and how to get started.
 
 ## What is Learning in Public?
@@ -195,7 +193,7 @@ Next: Generic constraints
 #### Tutorial Posts
 
 ```markdown
-# Title: How I Built My First [X]
+## Title: How I Built My First [X]
 
 ## Problem I Was Solving
 ## What I Learned

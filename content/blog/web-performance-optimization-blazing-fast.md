@@ -8,8 +8,6 @@ ai_generated: ai
 programming_language: JavaScript
 ---
 
-# Web Performance Optimization: Making Your Site Blazing Fast
-
 Website performance directly impacts user experience, SEO rankings, and conversion rates. This guide covers practical techniques to make your website significantly faster.
 
 ## Why Performance Matters
@@ -238,13 +236,13 @@ const result = [...new Set(array)]
 ### 4. Remove Unused Code
 
 ```bash
-# Analyze bundle
+## Analyze bundle
 npm run build -- --analyze
 
-# Remove unused CSS
+## Remove unused CSS
 npm install -D @fullhuman/postcss-purgecss
 
-# Remove console.logs in production
+## Remove console.logs in production
 npm install -D babel-plugin-transform-remove-console
 ```
 
@@ -445,11 +443,11 @@ window.addEventListener('load', () => {
 ### 1. Lighthouse
 
 ```bash
-# CLI
+## CLI
 npm install -g lighthouse
 lighthouse https://example.com --view
 
-# or use Chrome DevTools
+## or use Chrome DevTools
 ```
 
 ### 2. WebPageTest

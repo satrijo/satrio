@@ -8,8 +8,6 @@ ai_generated: ai
 programming_language: JavaScript
 ---
 
-# Membangun Home Lab untuk Belajar Technology
-
 Home lab adalah lingkungan teknologi pribadi yang Anda bangun di rumah untuk belajar, eksperimen, dan mengembangkan skill tanpa risiko merusak sistem production. Artikel ini akan memandu Anda membangun home lab yang efektif dan efisien.
 
 ## Apa Itu Home Lab?
@@ -84,19 +82,19 @@ Tidak perlu membayar cloud services untuk belajar. Investasi awal dapat digunaka
 
 **Apa yang bisa dijalankan:**
 ```bash
-# Docker containers
+## Docker containers
 docker run -d -p 80:80 nginx
 docker run -d -p 3000:3000 ghost
 
-# Development environment
+## Development environment
 git clone https://github.com/your-project
 npm install
 npm run dev
 
-# Self-hosted services
-# - Pi-hole (ad blocker)
-# - Home Assistant
-# - Simple web server
+## Self-hosted services
+## - Pi-hole (ad blocker)
+## - Home Assistant
+## - Simple web server
 ```
 
 **Advantages:**
@@ -121,12 +119,12 @@ npm run dev
 
 **Software stack:**
 ```bash
-# Install Ubuntu Server atau Proxmox
-# Setup Docker
+## Install Ubuntu Server atau Proxmox
+## Setup Docker
 sudo apt update
 sudo apt install docker.io docker-compose
 
-# Create docker-compose.yml
+## Create docker-compose.yml
 version: '3'
 services:
   web:
@@ -166,7 +164,7 @@ services:
 - Development servers
 
 ```yaml
-# Example Kubernetes cluster on single machine
+## Example Kubernetes cluster on single machine
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
@@ -181,24 +179,24 @@ nodes:
 
 **Proxmox VE (Recommended for beginners):**
 ```bash
-# Free virtualization platform
-# Web-based management
-# Supports VMs and containers
-# Easy to use
+## Free virtualization platform
+## Web-based management
+## Supports VMs and containers
+## Easy to use
 ```
 
 **Ubuntu Server:**
 ```bash
-# Familiar Linux environment
-# Great for Docker
-# Large community support
+## Familiar Linux environment
+## Great for Docker
+## Large community support
 ```
 
 **TrueNAS:**
 ```bash
-# For storage-focused lab
-# ZFS filesystem
-# Snapshot and replication
+## For storage-focused lab
+## ZFS filesystem
+## Snapshot and replication
 ```
 
 ### 2. Essential Services
@@ -213,7 +211,7 @@ docker run -d \
 
 **Homepage Dashboard:**
 ```bash
-# Centralized dashboard for all services
+## Centralized dashboard for all services
 docker run -d \
   -p 3000:3000 \
   -v /path/to/config:/app/config \
@@ -222,15 +220,15 @@ docker run -d \
 
 **Nginx Proxy Manager:**
 ```bash
-# Reverse proxy with SSL
-# Easy subdomain management
-# Let's Encrypt integration
+## Reverse proxy with SSL
+## Easy subdomain management
+## Let's Encrypt integration
 ```
 
 ### 3. Monitoring Stack
 
 ```yaml
-# docker-compose.yml for monitoring
+## docker-compose.yml for monitoring
 version: '3'
 services:
   prometheus:
@@ -274,8 +272,8 @@ Internet → Router/Firewall (pfSense)
 ### Port Forwarding untuk Remote Access
 
 ```bash
-# Using Tailscale atau WireGuard
-# Secure VPN access tanpa expose ports
+## Using Tailscale atau WireGuard
+## Secure VPN access tanpa expose ports
 curl -fsSL https://tailscale.com/install.sh | sh
 sudo tailscale up
 ```
@@ -284,7 +282,7 @@ sudo tailscale up
 
 ### 1. Personal Cloud Storage
 ```bash
-# Nextcloud setup
+## Nextcloud setup
 docker run -d \
   -p 8080:80 \
   -v nextcloud:/var/www/html \
@@ -293,7 +291,7 @@ docker run -d \
 
 ### 2. Media Server
 ```bash
-# Jellyfin (open source)
+## Jellyfin (open source)
 docker run -d \
   -p 8096:8096 \
   -v /path/to/media:/media \
@@ -302,7 +300,7 @@ docker run -d \
 
 ### 3. Git Server
 ```bash
-# Gitea (lightweight GitHub alternative)
+## Gitea (lightweight GitHub alternative)
 docker run -d \
   -p 3000:3000 \
   -v gitea:/data \
@@ -311,7 +309,7 @@ docker run -d \
 
 ### 4. CI/CD Pipeline
 ```bash
-# Jenkins
+## Jenkins
 docker run -d \
   -p 8080:8080 \
   -v jenkins_home:/var/jenkins_home \
@@ -320,7 +318,7 @@ docker run -d \
 
 ### 5. Password Manager
 ```bash
-# Vaultwarden (Bitwarden compatible)
+## Vaultwarden (Bitwarden compatible)
 docker run -d \
   -p 80:80 \
   -v vw-data:/data \
@@ -332,7 +330,7 @@ docker run -d \
 ### 1. Documentation
 Catat semua yang Anda lakukan:
 ```markdown
-# Lab Documentation
+## Lab Documentation
 ## Date: 2026-01-18
 ## Task: Setup Docker environment
 ## Steps:
@@ -345,18 +343,18 @@ Catat semua yang Anda lakukan:
 
 ### 2. Backup Strategy
 ```bash
-# Automated backup script
+## Automated backup script
 #!/bin/bash
 DATE=$(date +%Y-%m-%d)
 tar -czf /backup/lab-backup-$DATE.tar.gz /home/lab/
 
-# Keep only last 7 backups
+## Keep only last 7 backups
 find /backup/ -name "lab-backup-*.tar.gz" -mtime +7 -delete
 ```
 
 ### 3. Security
 ```bash
-# Basic security checklist
+## Basic security checklist
 ☑ Change default passwords
 ☑ Enable firewall
 ☑ Regular updates
@@ -367,8 +365,8 @@ find /backup/ -name "lab-backup-*.tar.gz" -mtime +7 -delete
 
 ### 4. Power Management
 ```bash
-# Schedule shutdown saat tidak digunakan
-# Crontab untuk shutdown di malam hari
+## Schedule shutdown saat tidak digunakan
+## Crontab untuk shutdown di malam hari
 0 23 * * * /sbin/shutdown -h now
 ```
 

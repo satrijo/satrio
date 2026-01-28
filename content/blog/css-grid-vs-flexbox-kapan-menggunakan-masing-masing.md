@@ -8,8 +8,6 @@ ai_generated: ai
 programming_language: JavaScript
 ---
 
-# CSS Grid vs Flexbox: Kapan Menggunakan Masing-Masing
-
 CSS Grid dan Flexbox adalah dua sistem layout yang powerful dalam CSS modern. Banyak developer bingung kapan harus menggunakan yang mana. Artikel ini akan menjelaskan perbedaan fundamental dan use case masing-masing.
 
 ## Perbedaan Fundamental
