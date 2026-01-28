@@ -1,0 +1,16 @@
+[Unit]
+Description=Satrio.dev Auto Rebuild Watcher
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+User=rio
+WorkingDirectory=/home/rio/apps/images/satrio
+Environment=APP_DIR=/home/rio/apps/images/satrio
+ExecStart=/home/rio/apps/images/satrio/scripts/rebuild-watch.sh
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
