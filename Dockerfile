@@ -1,16 +1,28 @@
-# Stage 1: Build
-FROM node:20-alpine AS builder
+# Stage 1: Dependencies (cached)
+FROM node:20-alpine AS deps
 
 WORKDIR /app
 
 # Install build dependencies for better-sqlite3
 RUN apk add --no-cache python3 make g++ sqlite-dev
 
-# Copy package files
+# Copy package files only
 COPY package*.json ./
 
-# Install dependencies
+# Install dependencies (cached jika package.json tidak berubah)
 RUN npm install
+
+# Stage 2: Build
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+# Install build dependencies
+RUN apk add --no-cache python3 make g++ sqlite-dev
+
+# Copy dependencies from deps stage
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/package*.json ./
 
 # Copy source code
 COPY . .
@@ -18,7 +30,7 @@ COPY . .
 # Build the application
 RUN npm run build
 
-# Stage 2: Production
+# Stage 3: Production
 FROM node:20-alpine AS runner
 
 WORKDIR /app
@@ -27,8 +39,8 @@ WORKDIR /app
 RUN apk add --no-cache sqlite-dev
 
 # Create non-root user for security
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nuxtjs
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nuxtjs
 
 # Copy built application from builder
 COPY --from=builder --chown=nuxtjs:nodejs /app/.output /app/.output
