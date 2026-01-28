@@ -21,8 +21,8 @@ export default defineContentConfig({
             schema: z.object({
                 company: z.string().min(1),
                 position: z.string().min(1),
-                start_date: z.date(),
-                end_date: z.date().optional(),
+                start_date: z.union([z.date(), z.string()]),
+                end_date: z.union([z.date(), z.string()]).optional(),
             }),
         }),
         projects: defineCollection({
