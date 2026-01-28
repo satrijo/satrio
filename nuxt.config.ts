@@ -26,7 +26,7 @@ export default defineNuxtConfig({
     cssLayer: 'base',
     // Bundle only used icon collections
     serverBundle: {
-      collections: ['mdi', 'heroicons', 'logos', 'circle-flags']
+      collections: ['mdi', 'logos', 'circle-flags']
     }
   },
 

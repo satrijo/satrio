@@ -11,7 +11,7 @@
       <h1 class="text-heading text-2xl font-bold mb-2">Article Not Found</h1>
       <p class="text-muted mb-6">The article you're looking for doesn't exist or has been moved.</p>
       <NuxtLink to="/blog" class="btn btn-primary">
-        <Icon name="heroicons:arrow-left-20-solid" class="w-4 h-4" />
+        <Icon name="mdi:arrow-left" class="w-4 h-4" />
         Back to Blog
       </NuxtLink>
     </div>

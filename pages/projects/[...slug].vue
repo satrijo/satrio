@@ -47,7 +47,7 @@
       <!-- Footer -->
       <footer class="article-footer">
         <NuxtLink to="/projects" class="back-link">
-          <Icon name="heroicons:arrow-left-20-solid" class="w-4 h-4" />
+<Icon name="mdi:arrow-left" class="w-4 h-4" />
           All Projects
         </NuxtLink>
       </footer>

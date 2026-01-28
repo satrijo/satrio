@@ -28,8 +28,8 @@
         class="mobile-menu-btn"
         aria-label="Toggle menu"
       >
-        <Icon v-if="!isMobileMenuOpen" name="heroicons:bars-3-20-solid" class="w-6 h-6" />
-        <Icon v-else name="heroicons:x-mark-20-solid" class="w-6 h-6" />
+        <Icon v-if="!isMobileMenuOpen" name="mdi:menu" class="w-6 h-6" />
+        <Icon v-else name="mdi:close" class="w-6 h-6" />
       </button>
     </div>
 

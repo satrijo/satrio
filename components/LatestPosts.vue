@@ -5,7 +5,7 @@
       <h2 class="section-title">Latest Posts</h2>
       <NuxtLink to="/blog" class="section-link">
         View all
-        <Icon name="heroicons:arrow-right-20-solid" class="w-4 h-4" />
+        <Icon name="mdi:arrow-right" class="w-4 h-4" />
       </NuxtLink>
     </div>
     

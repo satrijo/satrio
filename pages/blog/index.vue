@@ -86,7 +86,7 @@
           class="pagination-btn"
           :class="{ 'pagination-btn-disabled': currentPage === 1 }"
         >
-          <Icon name="heroicons:chevron-left-20-solid" class="w-5 h-5" />
+          <Icon name="mdi:chevron-left" class="w-5 h-5" />
         </button>
 
         <div class="pagination-info">
@@ -99,7 +99,7 @@
           class="pagination-btn"
           :class="{ 'pagination-btn-disabled': currentPage === totalPages }"
         >
-          <Icon name="heroicons:chevron-right-20-solid" class="w-5 h-5" />
+          <Icon name="mdi:chevron-right" class="w-5 h-5" />
         </button>
       </div>
     </div>
