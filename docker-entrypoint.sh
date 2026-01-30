@@ -7,8 +7,12 @@ echo "🚀 Starting Nuxt application with content watcher..."
 CONTENT_DIR="/app/content"
 DATA_DIR="/app/.data"
 
-# Create data directory if not exists
+# Create data directory with correct permissions (as root before switching user)
 mkdir -p "$DATA_DIR"
+mkdir -p "$DATA_DIR/content"
+
+# Fix ownership for nuxtjs user
+chown -R nuxtjs:nodejs "$DATA_DIR"
 
 # Check if content directory exists
 if [ -d "$CONTENT_DIR" ]; then
@@ -23,9 +27,6 @@ if [ -d "$CONTENT_DIR" ]; then
         echo "🗑️  Removing old database..."
         rm -f "$DATA_DIR/content/contents.sqlite"
     fi
-    
-    # Ensure content directory exists
-    mkdir -p "$DATA_DIR/content"
     
     echo "✅ Content ready - database will be rebuilt on first request"
 else
