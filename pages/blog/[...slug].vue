@@ -172,7 +172,7 @@
       </div>
 
       <!-- Related Articles by Keywords -->
-      <RelatedArticles :current-slug="currentSlug" />
+      <RelatedArticles :current-post="post" :all-posts="allPosts || []" />
 
       <!-- AI Chat Assistant -->
       <ArticleAIChat
@@ -194,13 +194,6 @@ const ArticleAIChat = defineAsyncComponent(() => import('~/components/ArticleAIC
 const route = useRoute()
 const baseUrl = 'https://satrio.dev'
 const { isPostVisible } = usePostVisibility()
-
-// Extract slug from path for interlinking
-const currentSlug = computed(() => {
-  const path = route.path
-  const match = path.match(/\/blog\/(.+)$/)
-  return match ? match[1].replace(/\//g, '-') : ''
-})
 
 // Fetch current post
 const { data: post, pending, error, refresh } = await useAsyncData(

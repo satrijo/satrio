@@ -1,235 +1,188 @@
-// Composable untuk mengelola interlinking antar artikel
+// Composable untuk mengelola interlinking antar artikel secara dinamis
 export function useArticleInterlinking() {
-  // Fungsi untuk mendapatkan related articles berdasarkan keywords
-  const getRelatedArticles = (currentSlug: string, limit: number = 5) => {
-    // Article database
-    const articles: Record<string, {
-      title: string
-      path: string
-      category: string
-      keywords: string[]
-      related?: string[]
-    }> = {
-      'javascript-dasar': {
-        title: 'JavaScript Dasar: Panduan Lengkap untuk Pemula',
-        path: '/blog/javascript-dasar-panduan-lengkap-pemula',
-        category: 'JavaScript',
-        keywords: ['javascript', 'dasar', 'pemula', 'variable', 'tipe data', 'operator'],
-        related: ['javascript-array', 'javascript-object', 'javascript-function']
-      },
-      'javascript-array': {
-        title: 'Mengenal Array di JavaScript: Operasi dan Metode Lengkap',
-        path: '/blog/mengenal-array-javascript-operasi-metode-lengkap',
-        category: 'JavaScript',
-        keywords: ['javascript', 'array', 'map', 'filter', 'reduce'],
-        related: ['javascript-dasar', 'javascript-object']
-      },
-      'javascript-object': {
-        title: 'JavaScript Object dan Properti Lengkap',
-        path: '/blog/javascript-object-dan-properti-lengkap',
-        category: 'JavaScript',
-        keywords: ['javascript', 'object', 'properti', 'method'],
-        related: ['javascript-dasar', 'javascript-array', 'javascript-function']
-      },
-      'javascript-function': {
-        title: 'Function di JavaScript: Declaration, Expression, Arrow',
-        path: '/blog/javascript-function-declaration-expression-arrow',
-        category: 'JavaScript',
-        keywords: ['javascript', 'function', 'arrow function', 'callback'],
-        related: ['javascript-dasar', 'javascript-object', 'javascript-async']
-      },
-      'javascript-async': {
-        title: 'JavaScript Asynchronous: Callback, Promise, Async/Await',
-        path: '/blog/javascript-asynchronous-callback-promise-async-await',
-        category: 'JavaScript',
-        keywords: ['javascript', 'async', 'promise', 'callback', 'await'],
-        related: ['javascript-function', 'typescript-dasar', 'react-hooks']
-      },
-      'typescript-dasar': {
-        title: 'TypeScript Dasar: Dari JavaScript ke TypeScript',
-        path: '/blog/typescript-dasar-dari-javascript-ke-typescript',
-        category: 'TypeScript',
-        keywords: ['typescript', 'tipe data', 'interface', 'type'],
-        related: ['javascript-dasar', 'javascript-async', 'type-system']
-      },
-      'react-dasar': {
-        title: 'React.js Dasar: Panduan Lengkap untuk Pemula dari Nol',
-        path: '/blog/reactjs-dasar-panduan-lengkap-untuk-pemula',
-        category: 'React',
-        keywords: ['react', 'jsx', 'components', 'props', 'state'],
-        related: ['javascript-dasar', 'react-hooks', 'react-context']
-      },
-      'react-hooks': {
-        title: 'React Hooks Lengkap: useState, useEffect, dan Custom Hooks',
-        path: '/blog/react-hooks-lengkap-usestate-useeffect-dan-custom-hooks',
-        category: 'React',
-        keywords: ['react', 'hooks', 'useState', 'useEffect'],
-        related: ['react-dasar', 'javascript-async', 'react-context', 'react-router']
-      },
-      'react-context': {
-        title: 'React Context API dan State Management',
-        path: '/blog/react-context-api-dan-state-management',
-        category: 'React',
-        keywords: ['react', 'context api', 'state management', 'redux'],
-        related: ['react-hooks', 'react-dasar']
-      },
-      'react-router': {
-        title: 'React Router dan Navigasi Aplikasi Single Page',
-        path: '/blog/react-router-dan-navigasi-aplikasi-single-page',
-        category: 'React',
-        keywords: ['react', 'router', 'navigation', 'spa'],
-        related: ['react-hooks', 'react-forms']
-      },
-      'react-forms': {
-        title: 'React Forms dan Validasi Modern: React Hook Form dan Zod',
-        path: '/blog/react-forms-dan-validasi-modern-react-hook-form-zod',
-        category: 'React',
-        keywords: ['react', 'forms', 'validation', 'react hook form', 'zod'],
-        related: ['react-hooks', 'react-router', 'typescript-react']
-      },
-      'react-performance': {
-        title: 'React Performance Optimization: Teknik dan Best Practices',
-        path: '/blog/react-performance-optimization-teknik-dan-best-practices',
-        category: 'React',
-        keywords: ['react', 'performance', 'memo', 'useMemo', 'lazy loading'],
-        related: ['react-hooks', 'react-dasar']
-      },
-      'react-testing': {
-        title: 'React Testing Lengkap: Unit, Integration, dan E2E',
-        path: '/blog/react-testing-lengkap-unit-integration-dan-e2e',
-        category: 'React',
-        keywords: ['react', 'testing', 'jest', 'cypress'],
-        related: ['react-hooks', 'react-performance']
-      },
-      'react-typescript-advanced': {
-        title: 'React dengan TypeScript: Advanced Patterns dan Type Safety',
-        path: '/blog/react-dengan-typescript-advanced-patterns-dan-type-safety',
-        category: 'React',
-        keywords: ['react', 'typescript', 'generic', 'type safety'],
-        related: ['react-hooks', 'typescript-react', 'react-testing']
-      },
-      'react-server-components': {
-        title: 'React Server Components dan Server Actions: Deep Dive ke Next.js App Router',
-        path: '/blog/react-server-components-dan-server-actions-nextjs-app-router',
-        category: 'React',
-        keywords: ['react', 'server components', 'next.js', 'app router'],
-        related: ['react-hooks', 'react-typescript-advanced', 'react-deployment']
-      },
-      'react-deployment': {
-        title: 'React Deployment dan DevOps: CI/CD, Docker, dan Cloud',
-        path: '/blog/react-deployment-dan-devops-cicd-docker-dan-cloud',
-        category: 'React',
-        keywords: ['react', 'deployment', 'devops', 'docker', 'ci/cd'],
-        related: ['react-server-components', 'nodejs-deployment']
-      },
-      'nodejs-dasar': {
-        title: 'Node.js Dasar: Memulai dengan JavaScript di Server',
-        path: '/blog/nodejs-dasar-memulai-dengan-javascript-di-server',
-        category: 'Node.js',
-        keywords: ['nodejs', 'server', 'javascript', 'npm'],
-        related: ['javascript-async', 'expressjs']
-      },
-      'expressjs': {
-        title: 'Express.js Framework: Membangun REST API',
-        path: '/blog/expressjs-framework-membangun-rest-api',
-        category: 'Node.js',
-        keywords: ['nodejs', 'express', 'rest api', 'middleware'],
-        related: ['nodejs-dasar', 'nodejs-mongodb']
-      },
-      'nodejs-mongodb': {
-        title: 'Database dengan Node.js: MongoDB dan Mongoose',
-        path: '/blog/database-dengan-nodejs-mongodb-dan-mongoose',
-        category: 'Node.js',
-        keywords: ['nodejs', 'mongodb', 'mongoose', 'database'],
-        related: ['expressjs', 'nodejs-jwt']
-      }
-    }
+  // Keywords mapping untuk kategori dan topik
+  const keywordCategories: Record<string, string[]> = {
+    'javascript': ['javascript', 'js', 'es6', 'ecmascript'],
+    'typescript': ['typescript', 'ts', 'type', 'interface'],
+    'react': ['react', 'jsx', 'component', 'hook', 'usestate', 'useeffect'],
+    'nodejs': ['nodejs', 'node.js', 'express', 'server', 'backend'],
+    'database': ['database', 'mongodb', 'mongoose', 'sql', 'nosql'],
+    'testing': ['testing', 'jest', 'cypress', 'unit test', 'e2e'],
+    'deployment': ['deployment', 'docker', 'ci/cd', 'vercel', 'cloud'],
+    'performance': ['performance', 'optimization', 'memo', 'lazy loading'],
+    'async': ['async', 'promise', 'await', 'callback', 'fetch'],
+    'forms': ['forms', 'validation', 'react hook form', 'zod'],
+    'router': ['router', 'navigation', 'routing', 'spa'],
+    'security': ['security', 'authentication', 'jwt', 'auth']
+  }
 
-    const current = articles[currentSlug]
-    if (!current) return []
-
-    const related: Array<{ slug: string; title: string; path: string; category: string; relevance: number }> = []
+  // Fungsi untuk mengekstrak keywords dari konten artikel
+  const extractKeywords = (post: any): string[] => {
+    const keywords: string[] = []
     
-    // Cari artikel dengan keywords yang sama
-    Object.entries(articles).forEach(([slug, article]) => {
-      if (slug === currentSlug) return
-      
-      // Hitung relevance berdasarkan shared keywords
-      const sharedKeywords = article.keywords.filter(kw => 
-        current.keywords.some(ckw => 
-          ckw.toLowerCase().includes(kw.toLowerCase()) || 
-          kw.toLowerCase().includes(ckw.toLowerCase())
-        )
-      )
-      
-      let relevance = sharedKeywords.length
-      
-      // Boost untuk explicitly related articles
-      if (current.related?.includes(slug)) {
-        relevance += 5
-      }
-      
-      // Same category gets boost
-      if (article.category === current.category) {
-        relevance += 2
-      }
-      
-      if (relevance > 0) {
-        related.push({
-          slug,
-          title: article.title,
-          path: article.path,
-          category: article.category,
-          relevance
-        })
+    // Dari kategori
+    if (post.category) {
+      keywords.push(post.category.toLowerCase())
+    }
+    
+    // Dari programming_language
+    if (post.programming_language) {
+      keywords.push(post.programming_language.toLowerCase())
+    }
+    
+    // Dari title
+    if (post.title) {
+      const titleWords = post.title.toLowerCase().split(/\s+/)
+      keywords.push(...titleWords)
+    }
+    
+    // Dari deskripsi
+    if (post.description) {
+      const descWords = post.description.toLowerCase().split(/\s+/)
+      keywords.push(...descWords)
+    }
+    
+    // Cek keyword kategori
+    Object.entries(keywordCategories).forEach(([category, categoryKeywords]) => {
+      const content = `${post.title} ${post.description} ${post.category}`.toLowerCase()
+      if (categoryKeywords.some(kw => content.includes(kw))) {
+        keywords.push(category)
       }
     })
     
-    // Sort by relevance and limit
-    return related
-      .sort((a, b) => b.relevance - a.relevance)
-      .slice(0, limit)
+    return [...new Set(keywords)] // Remove duplicates
   }
 
-  // Fungsi untuk mendapatkan artikel berdasarkan kategori
-  const getArticlesByCategory = (category: string) => {
-    const articlesByCat: Record<string, { title: string; path: string }> = {
-      'JavaScript': {
-        'javascript-dasar': { title: 'JavaScript Dasar', path: '/blog/javascript-dasar-panduan-lengkap-pemula' },
-        'javascript-array': { title: 'JavaScript Array', path: '/blog/mengenal-array-javascript-operasi-metode-lengkap' },
-        'javascript-object': { title: 'JavaScript Object', path: '/blog/javascript-object-dan-properti-lengkap' },
-        'javascript-function': { title: 'JavaScript Function', path: '/blog/javascript-function-declaration-expression-arrow' },
-        'javascript-async': { title: 'JavaScript Async', path: '/blog/javascript-asynchronous-callback-promise-async-await' }
-      },
-      'TypeScript': {
-        'typescript-dasar': { title: 'TypeScript Dasar', path: '/blog/typescript-dasar-dari-javascript-ke-typescript' },
-        'type-system': { title: 'Type System', path: '/blog/type-system-di-typescript-type-dan-interface' },
-        'typescript-generic': { title: 'TypeScript Generic', path: '/blog/generic-di-typescript-fleksibel-dan-type-safe' }
-      },
-      'React': {
-        'react-dasar': { title: 'React Dasar', path: '/blog/reactjs-dasar-panduan-lengkap-untuk-pemula' },
-        'react-hooks': { title: 'React Hooks', path: '/blog/react-hooks-lengkap-usestate-useeffect-dan-custom-hooks' },
-        'react-context': { title: 'React Context', path: '/blog/react-context-api-dan-state-management' },
-        'react-router': { title: 'React Router', path: '/blog/react-router-dan-navigasi-aplikasi-single-page' },
-        'react-forms': { title: 'React Forms', path: '/blog/react-forms-dan-validasi-modern-react-hook-form-zod' },
-        'react-performance': { title: 'React Performance', path: '/blog/react-performance-optimization-teknik-dan-best-practices' },
-        'react-testing': { title: 'React Testing', path: '/blog/react-testing-lengkap-unit-integration-dan-e2e' },
-        'react-typescript-advanced': { title: 'React TypeScript Advanced', path: '/blog/react-dengan-typescript-advanced-patterns-dan-type-safety' },
-        'react-server-components': { title: 'React Server Components', path: '/blog/react-server-components-dan-server-actions-nextjs-app-router' },
-        'react-deployment': { title: 'React Deployment', path: '/blog/react-deployment-dan-devops-cicd-docker-dan-cloud' }
-      },
-      'Node.js': {
-        'nodejs-dasar': { title: 'Node.js Dasar', path: '/blog/nodejs-dasar-memulai-dengan-javascript-di-server' },
-        'expressjs': { title: 'Express.js', path: '/blog/expressjs-framework-membangun-rest-api' },
-        'nodejs-mongodb': { title: 'Node.js MongoDB', path: '/blog/database-dengan-nodejs-mongodb-dan-mongoose' }
-      }
-    }
+  // Fungsi untuk mendapatkan related articles secara dinamis
+  const getRelatedArticles = (
+    currentPost: any,
+    allPosts: any[],
+    limit: number = 5
+  ): Array<{
+    path: string
+    title: string
+    category: string
+    relevance: number
+  }> => {
+    if (!currentPost || !allPosts?.length) return []
+
+    const currentKeywords = extractKeywords(currentPost)
+    const currentPath = currentPost.path || currentPost._path
     
-    return articlesByCat[category] || {}
+    const related = allPosts
+      .filter((post) => {
+        const postPath = post.path || post._path
+        return postPath !== currentPath
+      })
+      .map((post) => {
+        const postKeywords = extractKeywords(post)
+        
+        // Hitung relevance
+        let relevance = 0
+        
+        // Shared keywords
+        const sharedKeywords = currentKeywords.filter(kw => 
+          postKeywords.some(pkw => 
+            pkw.includes(kw) || kw.includes(pkw)
+          )
+        )
+        relevance += sharedKeywords.length * 2
+        
+        // Same category (boost besar)
+        if (post.category === currentPost.category) {
+          relevance += 10
+        }
+        
+        // Same programming language
+        if (post.programming_language === currentPost.programming_language) {
+          relevance += 5
+        }
+        
+        // AI generated articles get slight boost for consistency
+        if (post.ai_generated === 'ai' && currentPost.ai_generated === 'ai') {
+          relevance += 1
+        }
+        
+        return {
+          path: post.path || post._path,
+          title: post.title,
+          category: post.category,
+          relevance
+        }
+      })
+      .filter((item) => item.relevance > 0)
+      .sort((a, b) => b.relevance - a.relevance)
+      .slice(0, limit)
+    
+    return related
+  }
+
+  // Fungsi untuk mendapatkan artikel dalam series yang sama
+  const getSeriesArticles = (
+    currentPost: any,
+    allPosts: any[],
+    limit: number = 3
+  ) => {
+    if (!currentPost?.category) return []
+    
+    return allPosts
+      .filter((post) => 
+        post.category === currentPost.category &&
+        (post.path || post._path) !== (currentPost.path || currentPost._path)
+      )
+      .slice(0, limit)
+      .map((post) => ({
+        path: post.path || post._path,
+        title: post.title,
+        category: post.category
+      }))
+  }
+
+  // Fungsi untuk mendapatkan learning path
+  const getLearningPath = (
+    currentPost: any,
+    allPosts: any[]
+  ): { prev: any[]; next: any[] } => {
+    if (!currentPost?.category) return { prev: [], next: [] }
+    
+    const categoryPosts = allPosts
+      .filter((post) => post.category === currentPost.category)
+      .sort((a, b) => {
+        const dateA = new Date(a.date || 0)
+        const dateB = new Date(b.date || 0)
+        return dateA.getTime() - dateB.getTime()
+      })
+    
+    const currentIndex = categoryPosts.findIndex(
+      (post) => (post.path || post._path) === (currentPost.path || currentPost._path)
+    )
+    
+    if (currentIndex === -1) return { prev: [], next: [] }
+    
+    return {
+      prev: categoryPosts
+        .slice(0, currentIndex)
+        .slice(-2)
+        .map((post) => ({
+          path: post.path || post._path,
+          title: post.title,
+          category: post.category
+        })),
+      next: categoryPosts
+        .slice(currentIndex + 1)
+        .slice(0, 2)
+        .map((post) => ({
+          path: post.path || post._path,
+          title: post.title,
+          category: post.category
+        }))
+    }
   }
 
   return {
+    extractKeywords,
     getRelatedArticles,
-    getArticlesByCategory
+    getSeriesArticles,
+    getLearningPath
   }
 }

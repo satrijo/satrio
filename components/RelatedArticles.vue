@@ -17,7 +17,8 @@
 
 <script setup lang="ts">
 interface Props {
-  currentSlug: string
+  currentPost: any
+  allPosts: any[]
 }
 
 const props = defineProps<Props>()
@@ -25,7 +26,8 @@ const props = defineProps<Props>()
 const { getRelatedArticles } = useArticleInterlinking()
 
 const relatedArticles = computed(() => {
-  return getRelatedArticles(props.currentSlug, 5)
+  if (!props.currentPost || !props.allPosts?.length) return []
+  return getRelatedArticles(props.currentPost, props.allPosts, 5)
 })
 </script>
 
