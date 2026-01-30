@@ -8,7 +8,7 @@ ai_generated: ai
 programming_language: javascript
 ---
 
-Setelah menguasai dasar-dasar Beads dan implementasi workflow praktis, saatnya naik level. Artikel ini membahas **advanced patterns** yang digunakan Steven Yegge dan developer berpengalaman lainnya untuk menangani proyek kompleks dengan multiple agents, complex dependencies, dan long-term planning.
+Setelah menguasai dasar-dasar Beads dan implementasi workflow praktis, saatnya naik level. Artikel ini membahas **advanced patterns** yang digunakan Steve Yegge dan developer berpengalaman lainnya untuk menangani proyek kompleks dengan multiple agents, complex dependencies, dan long-term planning.
 
 ## The Swarm Architecture
 

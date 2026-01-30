@@ -1,14 +1,14 @@
 ---
-title: "Beads: Memory System untuk Coding Agents oleh Steven Yegge"
+title: "Beads: Memory System untuk Coding Agents oleh Steve Yegge"
 date: 2026-01-29T00:00:00.000Z
-description: "Pelajari Beads, sistem memory untuk AI coding agents dari Steven Yegge. Solusi untuk agent dementia, long-horizon planning, dan work tracking dalam vibe coding."
+description: "Pelajari Beads, sistem memory untuk AI coding agents dari Steve Yegge. Solusi untuk agent dementia, long-horizon planning, dan work tracking dalam vibe coding."
 category: JavaScript
 article_language: indonesian
 ai_generated: ai
 programming_language: javascript
 ---
 
-**Beads** adalah sistem memory untuk coding agents yang dikembangkan oleh **Steven Yegge** (ex-Google, ex-Amazon, ex-Sourcegraph). Setelah 40 hari straight vibe coding dan menghasilkan 350k LOC yang akhirnya harus di-burn karena architectural flaws, Steve menciptakan Beads sebagai solusi untuk masalah fundamental dalam agentic coding: **agent dementia** dan **lost work**.
+**Beads** adalah sistem memory untuk coding agents yang dikembangkan oleh **Steve Yegge** (ex-Google, ex-Amazon, ex-Sourcegraph). Setelah 40 hari straight vibe coding dan menghasilkan 350k LOC yang akhirnya harus di-burn karena architectural flaws, Steve menciptakan Beads sebagai solusi untuk masalah fundamental dalam agentic coding: **agent dementia** dan **lost work**.
 
 ## Masalah yang Diselesaikan Beads
 
@@ -394,7 +394,7 @@ bd ready  # Shows next available task
 
 ## Real-World Impact
 
-Steven Yegge melaporkan setelah menggunakan Beads:
+Steve Yegge melaporkan setelah menggunakan Beads:
 - **95% reduction** dalam lost work
 - **Long-horizon tasks** bisa di-handle dengan baik
 - **Multi-agent coordination** menjadi seamless
@@ -508,6 +508,6 @@ Beads merevolusi cara kita melakukan vibe coding dengan menyediakan:
 **Recommended for:** All vibe coding workflows, especially long-horizon tasks  
 **Not for:** Simple one-off scripts (overkill)
 
-Dengan Beads, agents menjadi **10x more productive** dan **100x less frustrating**. Steven Yegge menyebutnya **"the biggest step forward in agentic coding since MCP+Playwright."**
+Dengan Beads, agents menjadi **10x more productive** dan **100x less frustrating**. Steve Yegge menyebutnya **"the biggest step forward in agentic coding since MCP+Playwright."**
 
 Selamat vibe coding dengan Beads! 🎯✨
