@@ -65,14 +65,14 @@ export default defineNuxtConfig({
   },
 
   // Nitro configuration for Node.js server (Docker/Kubernetes)
-  // Hybrid mode with ISR - static pages with on-demand regeneration
+  // SSR mode - content is read from filesystem volume, no rebuild needed
   nitro: {
     preset: 'node-server',
     compressPublicAssets: true,
     sourceMap: false,
     prerender: {
       routes: ['/sitemap.xml']
-      // crawlLinks removed - pages will be rendered on first visit (ISR)
+      // No crawlLinks - all pages are rendered on-demand from filesystem
     }
   },
 
@@ -102,15 +102,12 @@ export default defineNuxtConfig({
     },
     // Blog list - cache 5 min
     '/blog': { cache: { maxAge: 300 } },
-    // Blog posts - ISR with stale-while-revalidate
+    // Blog posts - SSR with short cache (no prerender needed)
+    // Content is read from filesystem, so git pull updates immediately
     '/blog/**': { 
-      isr: {
-        // Static page is served immediately
-        // Background regeneration happens after 1 hour
-        expiration: 3600
-      },
+      cache: { maxAge: 60 }, // 1 minute cache only
       headers: {
-        'Cache-Control': 'public, max-age=3600, stale-while-revalidate=86400'
+        'Cache-Control': 'public, max-age=60'
       }
     },
     // Projects - cache 10 min

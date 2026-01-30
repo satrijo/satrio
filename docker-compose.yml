@@ -7,6 +7,9 @@ services:
       - "3000:3000"
     env_file:
       - .env
+    volumes:
+      # Mount content folder so you can git pull without rebuild
+      - ./content:/app/content:ro
     networks:
       - integrate
     deploy:

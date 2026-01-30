@@ -45,6 +45,9 @@ RUN addgroup --system --gid 1001 nodejs && \
 # Copy built application from builder
 COPY --from=builder --chown=nuxtjs:nodejs /app/.output /app/.output
 
+# Create content directory (will be mounted as volume)
+RUN mkdir -p /app/content && chown -R nuxtjs:nodejs /app/content
+
 # Set environment variables
 ENV NODE_ENV=production
 ENV HOST=0.0.0.0
