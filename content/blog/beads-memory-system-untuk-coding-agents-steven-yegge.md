@@ -8,507 +8,282 @@ ai_generated: ai
 programming_language: javascript
 ---
 
-**Beads** adalah sistem memori untuk coding agents yang dibuat oleh **Steve Yegge** (mantan Google, Amazon, dan Sourcegraph). Setelah 40 hari non-stop vibe coding dan menghasilkan 350 ribu baris kode yang akhirnya harus dibuang karena masalah arsitektur, Steve membuat Beads sebagai solusi untuk masalah utama dalam coding dengan AI: **agent yang lupa konteks** dan **pekerjaan yang hilang**.
-
-## Masalah yang Diatasi Beads
-
-### 1. Agent Sering Lupa (Masalah Memento)
-
-Coding agents seperti Claude, GPT-4, dan Copilot **tidak punya memori antar sesi**. Setiap sesi hanya berlangsung sekitar 10 menit, lalu agent "restart" dengan memori kosong.
-
-**Yang terjadi:**
-- Agent mulai project dengan 6 tahap
-- Setelah 2 tahap + beberapa kali compaction, agent lupa konteks
-- Agent buat rencana baru: "Wah, project ini besar, saya akan buat 5 tahap"
-- Agent kerjakan tahap 1 (dari 5) dari tahap 3 (dari 6) - tanpa sadar bersarang
-- Agent bilang: "Project SELESAI! 🎉" padahal baru 30% jadi
-
-Steve menyebut ini **"Descent Into Madness"** - agent berjalan dengan pintar tapi buta, lambat laun kehilangan arah.
-
-### 2. Pekerjaan Hilang / Tidak Diakui
-
-Agents sering menemukan masalah saat coding, tapi karena terbatas ruang konteks, mereka:
-- Mengabaikan bug dengan alasan "bukan kerjaan saya"
-- Tidak mencatat pekerjaan yang ditemukan
-- Menulis TODO di markdown yang cepat usang
-
-Steve menemukan **605 file rencana markdown** yang sebagian dikerjakan, sebagian usang, 100% tidak berguna.
-
-### 3. Kekacauan Rencana Markdown
-
-Daftar TODO markdown tradisional:
-- Memori hanya-baca-tulis untuk agents
-- Tidak bisa mencari pekerjaan yang siap dikerjakan
-- Tidak ada pelacakan ketergantungan (dependency)
-- Tidak ada jejak audit
-
 ## Apa itu Beads?
 
-Beads adalah **issue tracker berbasis grafis dan git** yang dirancang khusus untuk AI agents.
+**Beads** adalah sistem pelacakan tugas berbasis grafis yang menggunakan git sebagai database. Sistem ini dirancang khusus untuk membantu AI coding agents mengingat pekerjaan mereka antar sesi.
 
-### Konsep Utama
+Dengan Beads, setiap tugas tersimpan sebagai file JSONL di folder `.beads/` dan di-version-kan menggunakan git. Ini memungkinkan agents untuk:
+- Melihat tugas apa yang harus dikerjakan
+- Mengingat ketergantungan antar tugas
+- Melacak pekerjaan yang ditemukan saat coding
+- Bekerja sama dengan agents lain dalam satu project
 
-#### 1. Git sebagai Database
+## Siapa yang Membuat dan Menggunakan Beads?
 
-Issues disimpan sebagai **JSONL** di folder `.beads/`, di-version-kan seperti kode:
+### Pembuat
+**Steve Yegge** adalah pencipta Beads. Beliau adalah programmer senior dengan pengalaman di Google, Amazon, dan Sourcegraph. Steve mulai mengembangkan Beads setelah menghabiskan 40 hari untuk vibe coding dan menghasilkan 350 ribu baris kode yang akhirnya harus dibuang karena masalah arsitektur.
 
-```
-.beads/
-├── issues/
-│   ├── bd-a1b2.jsonl    # Issue bd-a1b2
-│   ├── bd-a1b2.1.jsonl  # Sub-task
-│   └── bd-c3d4.jsonl
-└── events/
-    └── 2026-01-29/
-        └── events.jsonl   # Jejak audit
-```
+### Pengguna
+Beads dirancang untuk:
+- **Developer** yang menggunakan AI coding agents seperti Claude, GPT-4, atau Copilot
+- **Tim developer** yang ingin multiple agents bekerja dalam satu project
+- **Project manager** yang perlu melacak progress pekerjaan AI agents
+- **Startup** yang ingin meningkatkan produktivitas vibe coding
 
-**Keuntungan:**
-- ✅ Di-version-kan dengan git
-- ✅ Bisa branching dan merging
-- ✅ Koordinasi multi-agent
-- ✅ Tidak perlu setup database
+## Kapan Beads Dibuat dan Digunakan?
 
-#### 2. Struktur Grafis (Rantai Beads)
+### Waktu Pembuatan
+Steve Yegge mulai mengembangkan Beads pada **Oktober 2025** setelah frustrasi dengan masalah agents yang sering lupa konteks. Dalam waktu kurang dari seminggu, sistem dasar Beads sudah berfungsi dan menunjukkan hasil yang signifikan.
 
-Issues saling terhubung seperti manik-manik dalam rantai:
+### Kapan Menggunakan Beads?
+Kamu perlu menggunakan Beads ketika:
+- Mengerjakan project besar yang membutuhkan banyak sesi coding
+- Menggunakan multiple AI agents dalam satu project
+- Ingin agents mengingat pekerjaan antar sesi
+- Project memiliki banyak ketergantungan antar fitur
+- Tidak ingin kehilangan pekerjaan yang ditemukan saat coding
 
-```
-[Epic bd-a3f8]
-    ├── [Task bd-a3f8.1] ← blocks → [Task bd-a3f8.2]
-    │       └── [Sub-task bd-a3f8.1.1]
-    └── [Task bd-a3f8.3]
-            └── discovered-from → [Bug bd-x9y0]
-```
+**Kapan TIDAK perlu Beads:**
+- Project kecil sekali jadi (one-off scripts)
+- Eksperimen singkat yang tidak perlu dilacak
+- Project pribadi yang sangat sederhana
 
-**Jenis Ketergantungan:**
-- `blocks`: Issue A harus selesai sebelum B
-- `blocked-by`: Issue B diblokir oleh A
-- `parent-child`: Epic → Task → Sub-task
-- `discovered-from`: Pekerjaan ditemukan saat implementasi
-- `related`: Terkait tapi tidak memblokir
+## Di Mana Beads Digunakan?
 
-#### 3. Antarmuka yang Dioptimalkan untuk Agent
+Beads bekerja di dalam **folder project** kamu. Sistem ini menyimpan semua data di folder `.beads/` yang berada di root project. Karena menggunakan git, Beads bisa digunakan di:
 
-**Output JSON untuk Parsing Mesin:**
+- **Local development** - di laptop atau komputer pribadi
+- **Remote server** - di VPS atau cloud instance
+- **CI/CD pipeline** - untuk validasi otomatis
+- **Multi-repo** - untuk project yang terhubung antar repository
+
+## Mengapa Perlu Beads?
+
+### Masalah 1: Agents Sering Lupa Konteks
+AI coding agents seperti Claude atau GPT-4 memiliki keterbatasan memori. Setiap sesi hanya berlangsung sekitar 10 menit, lalu agent "restart" dengan memori kosong.
+
+**Contoh masalah:**
+1. Agent mulai project dengan rencana 6 tahap
+2. Setelah mengerjakan 2 tahap, agent lupa konteks
+3. Agent membuat rencana baru: "Project ini besar, saya akan buat 5 tahap"
+4. Agent mengerjakan tahap 1 dari rencana baru, padahal ini adalah tahap 3 dari rencana lama
+5. Agent menyatakan "Project SELESAI!" padahal baru 30% jadi
+
+Steve menyebut fenomena ini **"Descent Into Madness"** (Turun ke Keadaan Gila).
+
+### Masalah 2: Pekerjaan Hilang
+Saat coding, agents sering menemukan bug atau masalah. Tapi karena terbatasnya ruang konteks, mereka:
+- Mengabaikan bug dengan alasan "bukan kerjaan saya"
+- Tidak mencatat masalah yang ditemukan
+- Menulis TODO di file markdown yang cepat usang
+
+Steve menemukan **605 file rencana markdown** yang sebagian dikerjakan, sebagian usang, dan 100% tidak berguna.
+
+### Masalah 3: Tidak Ada Pelacakan Ketergantungan
+Dalam project nyata, banyak tugas yang saling bergantung:
+- Database harus jadi sebelum API bisa dibuat
+- API harus jadi sebelum Frontend bisa dikoneksikan
+- Tugas A memblokir Tugas B
+
+Tanpa sistem pelacakan, agents sering mengerjakan tugas yang seharusnya belum bisa dikerjakan.
+
+### Solusi dari Beads
+Beads mengatasi semua masalah di atas dengan:
+1. **Memori Persisten** - Semua tugas tersimpan di git, tidak hilang antar sesi
+2. **Pelacakan Ketergantungan** - Agents tahu tugas mana yang bisa dikerjakan
+3. **Pencatatan Otomatis** - Pekerjaan yang ditemukan langsung tercatat sebagai issue baru
+4. **Koordinasi Multi-Agent** - Beberapa agents bisa bekerja tanpa tumpang tindih
+
+## Bagaimana Cara Menggunakan Beads?
+
+### Langkah 1: Instalasi
+
 ```bash
-$ bd ready --json
-[
-  {
-    "id": "bd-a1b2",
-    "title": "Implement user authentication",
-    "priority": 0,
-    "status": "open",
-    "blockers": [],
-    "created": "2026-01-29T10:00:00Z"
-  }
-]
-```
-
-**Deteksi Otomatis Pekerjaan Siap:**
-```bash
-$ bd ready
-bd-a1b2  P0  Implement user authentication
-bd-c3d4  P1  Setup database schema
-```
-Hanya menampilkan issues dengan **tidak ada pemblokir yang terbuka**.
-
-## Instalasi dan Setup
-
-### Instalasi Cepat
-```bash
-# Install bd CLI
+# Install bd CLI menggunakan curl
 curl -fsSL https://raw.githubusercontent.com/steveyegge/beads/main/scripts/install.sh | bash
 
-# Atau via npm
+# Atau menggunakan npm
 npm install -g @beads/bd
 
-# Atau via Homebrew
+# Atau menggunakan Homebrew (Mac)
 brew install beads
 
-# Atau via Go
+# Atau menggunakan Go
 go install github.com/steveyegge/beads/cmd/bd@latest
 ```
 
-### Inisialisasi Project
+### Langkah 2: Inisialisasi Project
+
 ```bash
-cd your-project
+# Masuk ke folder project
+cd nama-project-kamu
+
+# Inisialisasi Beads
 bd init
 
 # Mode stealth (hanya lokal, tidak commit ke repo)
 bd init --stealth
-
-# Mode contributor (untuk repo hasil fork)
-bd init --contributor
 ```
 
-### Setup Instruksi untuk Agent
+Setelah inisialisasi, folder `.beads/` akan dibuat di project kamu.
 
-Tambahkan ke `AGENTS.md` atau `CLAUDE.md`:
+### Langkah 3: Setup Instruksi untuk Agent
+
+Buat file `AGENTS.md` atau `CLAUDE.md` di root project dengan isi:
+
 ```markdown
-## Manajemen Tugas dengan Beads
+## Panduan Menggunakan Beads
 
-Gunakan 'bd' (beads) untuk semua pelacakan tugas:
-- Cek pekerjaan siap: bd ready
-- Buat tugas: bd create "Judul" -p 0
-- Hubungkan ketergantungan: bd dep add <child> <parent>
-- Lihat detail: bd show <id>
+Selalu gunakan perintah 'bd' untuk pelacakan tugas:
 
-Selalu catat pekerjaan yang ditemukan sebagai issue baru.
-Jangan pernah biarkan bug tidak tercatat.
+1. Cek tugas siap dikerjakan:
+   bd ready
+
+2. Buat tugas baru:
+   bd create "Judul tugas" -p 0
+
+3. Lihat detail tugas:
+   bd show <id-tugas>
+
+4. Update status tugas:
+   bd update <id-tugas> --status in_progress
+   bd update <id-tugas> --status done
+
+5. Hubungkan ketergantungan:
+   bd dep add <id-anak> --blocks <id-induk>
+
+Aturan Penting:
+- Selalu cek 'bd ready' sebelum mulai kerja
+- Setiap bug yang ditemukan harus dicatat sebagai issue baru
+- Gunakan --discovered-from saat menemukan pekerjaan baru saat coding
 ```
 
-## Perintah-perintah Penting
+### Langkah 4: Alur Kerja Dasar
 
-### Alur Kerja Dasar
+**Membuat dan Mengerjakan Tugas:**
+
 ```bash
-# Daftar tugas siap (tidak ada pemblokir)
-bd ready
+# 1. Lihat tugas yang siap dikerjakan
+$ bd ready
+bd-a1b2  P0  Implementasi login API
+bd-c3d4  P1  Setup database schema
 
-# Buat tugas baru
-bd create "Implement login API" -p 0
+# 2. Pilih tugas dan mulai mengerjakan
+$ bd update bd-a1b2 --status in_progress
 
-# Buat dengan deskripsi
-bd create "Fix auth bug" -p 1 --desc "Token validation fails on expiry"
+# 3. Saat coding, menemukan bug
+# Buat issue baru untuk bug tersebut
+$ bd create "Fix validasi token expired" \
+    --discovered-from bd-a1b2 \
+    -p 0
 
-# Lihat detail tugas
-bd show bd-a1b2
+# 4. Setelah selesai, tandai sebagai done
+$ bd update bd-a1b2 --status done
 
-# Update status
-bd update bd-a1b2 --status in_progress
-
-# Tandai selesai
-bd update bd-a1b2 --status done
+# 5. Commit perubahan ke git
+$ git add .beads/ && git commit -m "Update progress beads"
 ```
 
-### Manajemen Ketergantungan
+**Membuat Hierarki Tugas (Epic → Task → Sub-task):**
+
 ```bash
-# Tambah relasi parent-child
-bd dep add bd-a1b2.1 bd-a1b2
+# Buat Epic (tugas besar)
+$ bd create "Sistem Autentikasi User" -p 0
+# Output: bd-a3f8
 
-# Tambah ketergantungan yang memblokir
-bd dep add bd-c3d4 --blocks bd-a1b2
+# Buat Task di bawah Epic
+$ bd create "Implementasi JWT" -p 0 --parent bd-a3f8
+# Output: bd-a3f8.1
 
-# Tambah pekerjaan yang ditemukan
-bd create "Fix database connection" --discovered-from bd-a1b2
+# Buat Sub-task di bawah Task
+$ bd create "Validasi token" -p 0 --parent bd-a3f8.1
+# Output: bd-a3f8.1.1
+```
+
+**Mengelola Ketergantungan:**
+
+```bash
+# Task A harus selesai sebelum Task B
+$ bd dep add bd-task-b --blocks bd-task-a
 
 # Lihat grafik ketergantungan
-bd graph bd-a1b2
+$ bd graph bd-epic-001
+
+# Cek apa yang memblokir tugas
+$ bd show bd-task-b --blockers
 ```
 
-### Hierarki & Epics
+### Langkah 5: Koordinasi Multi-Agent
+
+**Agent 1 (Claude Desktop):**
 ```bash
-# Buat epic
-bd create "User Authentication System" -p 0
-# Returns: bd-a3f8
+$ bd ready
+bd-a1b2  P0  Implementasi login API
 
-# Buat sub-task
-bd create "Implement JWT" -p 0 --parent bd-a3f8
-# Returns: bd-a3f8.1
-
-# Buat sub-task bersarang
-bd create "Token validation" -p 0 --parent bd-a3f8.1
-# Returns: bd-a3f8.1.1
+$ bd assign bd-a1b2 --assignee agent-claude
+$ bd update bd-a1b2 --status in_progress
 ```
 
-### Pencarian dan Filter
+**Agent 2 (Cursor):**
 ```bash
-# Cari berdasarkan judul
-bd search "auth"
+$ bd ready
+# bd-a1b2 tidak muncul karena sudah dikerjakan
+bd-c3d4  P1  Setup database schema
 
-# Filter berdasarkan status
-bd list --status open
-
-# Filter berdasarkan prioritas
-bd list --priority 0,1
-
-# Filter berdasarkan penerima tugas
-bd list --assignee claude
-
-# Filter gabungan
-bd list --status open --priority 0 --json
+$ bd assign bd-c3d4 --assignee agent-cursor
 ```
 
-## Fitur-fitur Lanjutan
+### Langkah 6: Integrasi dengan Git
 
-### 1. Koordinasi Multi-Agent
-
-Beads mendukung beberapa agent yang bekerja bersamaan:
+Karena Beads menggunakan git, kamu bisa:
 
 ```bash
-# Agent 1 mengklaim tugas
-bd assign bd-a1b2 --assignee agent-1
+# Commit perubahan beads
+$ git add .beads/
+$ git commit -m "Update: progress tugas autentikasi"
 
-# Agent 2 melihat sudah diklaim
-bd ready
-# (tidak menampilkan bd-a1b2 karena sudah in_progress)
+# Lihat history perubahan
+$ git log --oneline .beads/
 
-# Agent 2 kerjakan tugas siap lainnya
-bd assign bd-c3d4 --assignee agent-2
+# Branching untuk eksperimen
+$ git checkout -b fitur-baru
+$ bd create "Eksperimen fitur X" -p 0
+
+# Merge ke main
+$ git checkout main
+$ git merge fitur-baru
 ```
 
-**Konflik Merge:** AI melakukan penyelesaian konflik secara cerdas untuk edit bersamaan.
+## Keuntungan Menggunakan Beads
 
-### 2. Federasi (Multi-Repo)
+Steve Yegge melaporkan hasil setelah menggunakan Beads:
 
-Untuk organisasi besar:
+| Aspek | Sebelum Beads | Sesudah Beads |
+|-------|---------------|---------------|
+| Pekerjaan hilang | Sering | Berkurang 95% |
+| Tugas jangka panjang | Sulit dilacak | Mudah dikelola |
+| Koordinasi multi-agent | Berantakan | Lancar |
+| Kekacauan rencana | 605 file usang | Terorganisir |
 
-```bash
-# Setup federasi
-bd federation init
+## Kapan Sebaiknya Tidak Menggunakan Beads?
 
-# Hubungkan repo eksternal
-bd federation add github.com/org/repo
-
-# Ketergantungan antar-repo
-bd dep add bd-a1b2 --external github.com/org/repo#bd-x9y0
-```
-
-### 3. Compaction (Memory Decay)
-
-Tugas lama yang sudah ditutup di-ringkas untuk menghemat ruang konteks:
-
-```bash
-# Lihat history yang sudah di-ringkas
-bd show bd-a1b2 --history
-
-# Events:
-# 2026-01-29 10:00: Created
-# 2026-01-29 10:15: Assigned to claude
-# 2026-01-29 11:30: Status → in_progress
-# 2026-01-29 14:00: Status → done
-# [COMPACTED: 47 events summarized]
-```
-
-### 4. Hooks
-
-Aksi otomatis saat event terjadi:
-
-```bash
-# .beads-hooks/on-create
-#!/bin/bash
-echo "New task created: $1" | slack-notify
-
-# .beads-hooks/on-complete
-#!/bin/bash
-bd generate-report --since yesterday
-```
-
-## Integrasi dengan Coding Agents
-
-### Claude Code
-```bash
-# Tambahkan ke ~/.claude/CLAUDE.md
-When working on tasks:
-1. Run 'bd ready' to see available work
-2. Use 'bd show <id>' for context
-3. Create issues for discovered work
-4. Update status regularly
-5. File blocking issues immediately
-```
-
-### GitHub Copilot
-```bash
-# Copilot akan membaca AGENTS.md
-# dan otomatis menggunakan perintah bd
-
-# Contoh interaksi:
-# User: "Fix the auth bug"
-# Copilot: "I'll check beads for auth-related issues..."
-# Copilot: bd search "auth"
-# Copilot: "Found bd-x9y0: Token validation fails. Working on it."
-```
-
-### Sourcegraph Amp
-```bash
-# Integrasi Amp built-in
-amp beads sync
-amp beads ready
-```
-
-## Praktik Terbaik
-
-### 1. Tugas yang Terperinci
-Pecah tugas menjadi item-item kecil dan bisa dijalankan:
-
-```bash
-# ❌ Buruk
-bd create "Build entire app" -p 0
-
-# ✅ Bagus
-bd create "Setup project structure" -p 0
-bd create "Implement auth middleware" -p 0
-bd create "Create login endpoint" -p 0
-```
-
-### 2. Selalu Catat Pekerjaan yang Ditemukan
-```bash
-# Saat coding, agent menemukan bug
-# Jangan diabaikan!
-
-bd create "Fix database connection leak" \
-  --discovered-from bd-a1b2 \
-  -p 0
-```
-
-### 3. Perencanaan Berbasis Ketergantungan
-```bash
-# Buat grafik ketergantungan sebelum mulai
-bd create "Database Schema" -p 0  # bd-a1
-bd create "API Endpoints" -p 0     # bd-a2
-bd create "Frontend Components" -p 0  # bd-a3
-
-# Hubungkan ketergantungan
-bd dep add bd-a2 --blocks bd-a3
-bd dep add bd-a1 --blocks bd-a2
-
-# Sekarang bd-a3 tidak akan muncul di 'bd ready' sampai a1 dan a2 selesai
-```
-
-### 4. Alur Kerja Berbasis Sesi
-```bash
-# Mulai sesi
-bd ready
-bd assign bd-a1b2 --assignee claude-session-1
-
-# Kerjakan tugas
-# ... coding ...
-
-# Akhiri sesi
-bd update bd-a1b2 --status done
-
-# Sesi berikutnya
-bd ready  # Menampilkan tugas siap berikutnya
-```
-
-## Perbandingan dengan Tools Lain
-
-| Fitur | Beads | GitHub Issues | Jira | Markdown TODO |
-|---------|-------|---------------|------|---------------|
-| Git-backed | ✅ | ❌ | ❌ | ✅ |
-| Dioptimalkan untuk agent | ✅ | ❌ | ❌ | ❌ |
-| Grafik ketergantungan | ✅ | ⚠️ | ✅ | ❌ |
-| JSON API | ✅ | ⚠️ | ⚠️ | ❌ |
-| Multi-agent | ✅ | ❌ | ❌ | ❌ |
-| Zero config | ✅ | ❌ | ❌ | ✅ |
-| Cari tugas siap | ✅ | ❌ | ❌ | ❌ |
-
-## Dampak di Dunia Nyata
-
-Steve Yegge melaporkan setelah menggunakan Beads:
-- **Pengurangan 95%** dalam pekerjaan yang hilang
-- **Tugas jangka panjang** bisa ditangani dengan baik
-- **Koordinasi multi-agent** menjadi lancar
-- **Tidak ada lagi kekacauan rencana markdown**
-
-## Tools dan Integrasi
-
-### Official
-- **bd CLI**: Tool utama (Go)
-- **npm package**: `@beads/bd`
-- **Python package**: `beads-mcp`
-- **VS Code Extension**: Beads Explorer
-
-### Tools Komunitas
-- **Terminal UI**: `beads-tui`
-- **Web UI**: `beads-web`
-- **Mobile App**: `beads-mobile`
-- **Slack Integration**: `beads-slack`
-
-## Setup untuk Penggunaan Maksimal
-
-### 1. Integrasi IDE
-```bash
-# VS Code
-ext install beads.beads-explorer
-
-# Konfigurasi
-{
-  "beads.autoSync": true,
-  "beads.showDecorations": true,
-  "beads.defaultView": "graph"
-}
-```
-
-### 2. Git Hooks
-```bash
-# .git/hooks/pre-commit
-#!/bin/bash
-bd validate --strict
-```
-
-### 3. Integrasi CI/CD
-```yaml
-# .github/workflows/beads.yml
-name: Beads Validation
-on: [push]
-jobs:
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Validate beads
-        run: |
-          bd validate
-          bd check-orphaned
-```
-
-### 4. Monitoring
-```bash
-# Dashboard untuk melacak progress
-bd dashboard --port 8080
-
-# Metrics
-bd metrics --format prometheus
-```
-
-## Troubleshooting
-
-### Masalah: bd ready tidak menampilkan apa-apa
-```bash
-# Cek apakah semua tugas diblokir
-bd list --status open
-
-# Cek pemblokir
-bd show bd-a1b2 --blockers
-
-# Buka blokir jika perlu
-bd update bd-x9y0 --status done
-```
-
-### Masalah: Konflik merge
-```bash
-# Auto-resolve dengan AI
-bd merge --strategy ai
-
-# Atau manual
-bd conflicts list
-bd conflicts resolve bd-a1b2
-```
-
-### Masalah: Repo besar lambat
-```bash
-# Aktifkan caching
-bd config set cache.enabled true
-
-# Compaction
-bd compact --older-than 30d
-```
+Beads mungkin terlalu berlebihan untuk:
+- Script sekali pakai (one-off scripts)
+- Project eksperimen singkat
+- Project pribadi yang sangat sederhana
+- Tugas yang bisa selesai dalam satu sesi coding
 
 ## Kesimpulan
 
-Beads merevolusi cara kita melakukan vibe coding dengan menyediakan:
+Beads adalah solusi praktis untuk masalah umum dalam vibe coding dengan AI agents. Dengan menggunakan git sebagai database dan menyediakan antarmuka yang dioptimalkan untuk agents, Beads membantu:
 
-✅ **Memori Persisten** - Agents tidak lagi lupa antar sesi  
-✅ **Pelacakan Ketergantungan** - Grafik tugas kompleks dengan mudah  
-✅ **Penemuan Pekerjaan** - Tidak ada lagi pekerjaan yang hilang  
-✅ **Koordinasi Multi-Agent** - Kolaborasi tanpa hambatan  
-✅ **Integrasi Git** - Di-version-kan, branched, merged seperti kode  
+1. **Mengatasi lupa konteks** - Agents selalu ingat apa yang harus dikerjakan
+2. **Mencegah pekerjaan hilang** - Setiap bug dan improvement tercatat
+3. **Mengelola ketergantungan** - Tugas dikerjakan dalam urutan yang benar
+4. **Mendukung kolaborasi** - Multiple agents bisa bekerja bersamaan
 
-**Status 2026:** Siap produksi, digunakan oleh ribuan developer  
-**Direkomendasikan untuk:** Semua alur kerja vibe coding, terutama tugas jangka panjang  
-**Tidak untuk:** Script sekali pakai sederhana (terlalu berlebihan)
+Steve Yegge menyebut Beads sebagai **"langkah terbesar dalam coding dengan agent sejak MCP+Playwright."**
 
-Dengan Beads, agents menjadi **10x lebih produktif** dan **100x lebih sedikit membuat frustrasi**. Steve Yegge menyebutnya **"langkah terbesar dalam coding dengan agent sejak MCP+Playwright."**
+Untuk project besar dengan banyak sesi coding, Beads adalah investasi waktu yang sangat berharga. Setup awal membutuhkan waktu 15-30 menit, tapi akan menghemat berjam-jam waktu yang terbuang karena agents yang lupa konteks atau pekerjaan yang hilang.
 
-Selamat vibe coding dengan Beads! 🎯✨
+Selamat mencoba Beads! 🎯✨
