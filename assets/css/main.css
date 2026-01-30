@@ -1,5 +1,22 @@
-/* Self-hosted Google Fonts - loaded from local files for better performance */
-@import "./fonts.css";
+/* Google Fonts dengan font-display: swap */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap');
+
+/* Font face fallback dengan swap */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: local('Inter');
+}
+
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: local('Source Serif 4');
+}
 
 @import "tailwindcss";
 
