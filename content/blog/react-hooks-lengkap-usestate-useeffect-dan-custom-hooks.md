@@ -226,7 +226,17 @@ Dependency array menentukan kapan effect harus dijalankan ulang:
 
 ### Contoh Penggunaan useEffect
 
-#### 1. Mengambil Data dari API
+#### ⚠️ CATATAN PENTING 2026: Data Fetching Best Practices
+
+**Menggunakan `useEffect` untuk data fetching sudah tidak lagi direkomendasikan sebagai best practice.** Untuk aplikasi modern 2026, gunakan:
+
+1. **React Server Components** (Next.js App Router) - Data fetching di server
+2. **TanStack Query (React Query)** - Library khusus untuk server state management
+3. **Suspense dengan data fetching libraries**
+
+Namun, untuk pemahaman konsep, berikut adalah contoh useEffect untuk data fetching:
+
+#### 1. Mengambil Data dari API (Educational Purpose)
 
 ```jsx
 function UserList() {

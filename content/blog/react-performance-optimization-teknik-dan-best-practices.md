@@ -32,6 +32,20 @@ Sebelum masuk ke teknik, mari kita pahami mengapa optimasi performa sangat penti
 
 `React.memo` adalah Higher Order Component yang mencegah re-render komponen jika props tidak berubah.
 
+### ⚠️ CATATAN PENTING 2026: React Compiler
+
+**React Compiler (sebelumnya React Forget)** adalah compiler optimasi yang secara otomatis menambahkan memoization tanpa perlu manual `React.memo`, `useMemo`, atau `useCallback`.
+
+**Status 2026:**
+- React Compiler masih dalam tahap experimental/preview
+- Untuk proyek production, manual optimization masih diperlukan
+- Setelah React Compiler stabil, manual memoization akan menjadi obsolete
+
+**Rekomendasi:**
+- Gunakan manual optimization untuk proyek production sekarang
+- Monitor perkembangan React Compiler
+- Siapkan codebase untuk migrasi ke React Compiler di masa depan
+
 ### Basic Usage
 
 ```jsx

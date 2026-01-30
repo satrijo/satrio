@@ -45,26 +45,43 @@ node --version
 npm --version
 ```
 
-### Membuat Proyek React Baru
+### Membuat Proyek React Baru (2026 Best Practices)
 
-Cara termudah untuk memulai proyek React adalah menggunakan Create React App, tool official dari tim React yang mengkonfigurasi semua pengaturan yang diperlukan secara otomatis.
+**⚠️ PENTING: Create React App (CRA) sudah deprecated dan tidak direkomendasikan untuk proyek baru.** CRA tidak lagi dikelola secara aktif dan memiliki dependencies yang outdated.
 
-```bash
-npx create-react-app aplikasi-pertama-saya
-cd aplikasi-pertama-saya
-npm start
-```
+#### Rekomendasi untuk 2026:
 
-Perintah di atas akan membuat struktur proyek React lengkap dengan konfigurasi build, development server, dan testing tools. Setelah menjalankan `npm start`, browser akan otomatis terbuka di `http://localhost:3000` menampilkan aplikasi React default.
-
-Alternatifnya, Anda bisa menggunakan Vite untuk setup yang lebih cepat dan ringan:
+**1. Vite (Recommended untuk SPA)**
+Vite adalah build tool modern yang menggunakan ESbuild dan Rolldown, memberikan hot reload yang instan dan build time yang jauh lebih cepat dibandingkan CRA.
 
 ```bash
+# Menggunakan npm
 npm create vite@latest aplikasi-pertama-saya -- --template react
+
+# Menggunakan TypeScript (Recommended)
+npm create vite@latest aplikasi-pertama-saya -- --template react-ts
+
 cd aplikasi-pertama-saya
 npm install
 npm run dev
 ```
+
+**2. Next.js (Recommended untuk Full-Stack)**
+Next.js adalah framework React yang menjadi standar industri dengan fitur Server Components, API routes, dan Partial Prerendering.
+
+```bash
+npx create-next-app@latest aplikasi-pertama-saya
+# Pilih opsi TypeScript, Tailwind CSS, dan App Router
+```
+
+**3. React Router 7 (Remix)**
+Untuk aplikasi yang fokus pada routing dan data mutations.
+
+```bash
+npx create-react-router@latest aplikasi-pertama-saya
+```
+
+**Catatan:** Untuk tutorial ini, kita akan menggunakan **Vite dengan TypeScript** sebagai standar modern 2026.
 
 ## Memahami JSX
 
