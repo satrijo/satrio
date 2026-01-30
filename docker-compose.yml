@@ -1,45 +1,21 @@
 version: '3.8'
 
 services:
-  db:
-    image: postgres:15-alpine
-    container_name: satrio-db
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: satrio
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
-    ports:
-      - "5432:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
   satrio-dev:
     build: .
     container_name: satrio-dev
     restart: unless-stopped
     ports:
       - "3000:3000"
+    env_file:
+      - .env
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/satrio
     volumes:
       - ./content:/app/content:ro
       - ./scripts:/app/scripts:ro
-    depends_on:
-      db:
-        condition: service_healthy
     networks:
       - satrio-network
-
-volumes:
-  postgres_data:
 
 networks:
   satrio-network:
