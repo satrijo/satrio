@@ -34,8 +34,8 @@ trigger_reload() {
     echo "🔄 Triggering content reload..."
     # Remove database to force rebuild on next request
     rm -f "$DATA_DIR/content.sqlite"
-    # Make a request to trigger rebuild
-    curl -s http://localhost:3000/api/_content/query > /dev/null 2>&1 || true
+    # Make a request to trigger rebuild (use /blog page to trigger content build)
+    curl -s http://localhost:3000/blog > /dev/null 2>&1 || true
     echo "✅ Content reload triggered"
 }
 
