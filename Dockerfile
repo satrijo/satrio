@@ -35,8 +35,8 @@ FROM node:20-alpine AS runner
 
 WORKDIR /app
 
-# Install runtime dependencies for better-sqlite3
-RUN apk add --no-cache sqlite-dev
+# Install runtime dependencies for better-sqlite3 and file watching
+RUN apk add --no-cache sqlite-dev curl
 
 # Create non-root user for security
 RUN addgroup --system --gid 1001 nodejs && \
