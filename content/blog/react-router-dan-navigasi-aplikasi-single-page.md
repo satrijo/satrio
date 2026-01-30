@@ -12,6 +12,8 @@ programming_language: javascript
 
 React Router adalah library de facto untuk menangani routing di aplikasi React. Dengan React Router, Anda dapat membuat aplikasi single-page (SPA) dengan navigasi yang mulus tanpa reload halaman. Artikel ini akan membahas React Router v6 secara komprehensif, mulai dari konsep dasar hingga pattern routing yang advanced.
 
+> **Prasyarat:** Artikel ini mengasumsikan Anda sudah memahami React Hooks dan Context API. Jika Anda belum familiar dengan Hooks, silakan baca [React Hooks Lengkap: useState, useEffect, dan Custom Hooks](/blog/react-hooks-lengkap-usestate-useeffect-dan-custom-hooks) terlebih dahulu.
+
 ## Apa itu React Router?
 
 React Router adalah library routing yang memungkinkan kita membuat navigasi di aplikasi React. Ia menyinkronkan UI dengan URL, memungkinkan user untuk menggunakan tombol back/forward browser, bookmark halaman, dan berbagi link.
@@ -862,3 +864,7 @@ React Router v6 membawa banyak perubahan dan peningkatan yang membuat routing di
 5. **Relative links** membuat navigasi lebih predictable
 
 Dengan memahami konsep-konsep ini, Anda dapat membangun aplikasi single-page dengan navigasi yang mulus, performa yang optimal, dan user experience yang baik. Ingatlah untuk selalu mempertimbangkan code splitting untuk aplikasi yang besar dan menggunakan protected routes untuk mengamankan halaman-halaman sensitif.
+
+## Artikel Selanjutnya
+
+Setelah memahami React Router, lanjutkan pembelajaran Anda dengan membaca [React Forms dan Validasi: Modern React Hook Form dan Zod](/blog/react-forms-dan-validasi-modern-react-hook-form-zod).

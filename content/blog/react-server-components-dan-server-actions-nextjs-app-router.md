@@ -10,7 +10,9 @@ programming_language: typescript
 
 # React Server Components dan Server Actions: Deep Dive ke Next.js App Router
 
-Setelah mempelajari dasar-dasar React, Hooks, Context API, React Router, dan teknik optimasi performa, saatnya kita menjelajahi evolusi terbaru dalam ekosistem React: **React Server Components (RSC)** dan **Server Actions**. Fitur-fitur ini, yang diimplementasikan secara penuh dalam Next.js App Router, merepresentasikan paradigma baru dalam pengembangan aplikasi React yang mengubah cara kita memikirkan data fetching, rendering, dan interaktivitas.
+Artikel ini akan menjelajahi evolusi terbaru dalam ekosistem React: **React Server Components (RSC)** dan **Server Actions**. Fitur-fitur ini, yang diimplementasikan secara penuh dalam Next.js App Router, merepresentasikan paradigma baru dalam pengembangan aplikasi React yang mengubah cara kita memikirkan data fetching, rendering, dan interaktivitas.
+
+> **Prasyarat:** Artikel ini mengasumsikan Anda sudah memahami React Hooks dan TypeScript. Jika Anda belum familiar dengan Hooks, silakan baca [React Hooks Lengkap: useState, useEffect, dan Custom Hooks](/blog/react-hooks-lengkap-usestate-useeffect-dan-custom-hooks) dan [React dengan TypeScript: Advanced Patterns dan Type Safety](/blog/react-dengan-typescript-advanced-patterns-dan-type-safety) terlebih dahulu.
 
 ## Evolusi Arsitektur React
 
@@ -1044,3 +1046,7 @@ Poin-poin kunci yang perlu diingat:
 - **Validasi input**: Selalu validasi input di Server Actions
 
 Dengan menguasai App Router dan Server Components, Anda siap membangun aplikasi React modern yang scalable, performant, dan maintainable di tahun 2026 dan seterusnya.
+
+## Artikel Selanjutnya
+
+Setelah memahami React Server Components dan Server Actions, lanjutkan pembelajaran Anda dengan membaca [React Deployment dan DevOps: CI/CD, Docker, dan Cloud](/blog/react-deployment-dan-devops-cicd-docker-dan-cloud).

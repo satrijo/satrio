@@ -10,6 +10,8 @@ programming_language: javascript
 
 Performa adalah aspek krusial dalam pengembangan aplikasi React. Aplikasi yang lambat dapat mengakibatkan pengalaman pengguna yang buruk, bounce rate tinggi, dan konversi yang rendah. Dalam tutorial ini, kita akan membahas berbagai teknik optimasi performa React secara mendalam, mulai dari yang paling dasar hingga teknik lanjutan.
 
+> **Prasyarat:** Artikel ini mengasumsikan Anda sudah memahami React Hooks. Jika Anda belum familiar dengan Hooks, silakan baca [React Hooks Lengkap: useState, useEffect, dan Custom Hooks](/blog/react-hooks-lengkap-usestate-useeffect-dan-custom-hooks) terlebih dahulu.
+
 ## Mengapa Optimasi Performa Penting?
 
 Sebelum masuk ke teknik, mari kita pahami mengapa optimasi performa sangat penting:
@@ -1001,5 +1003,9 @@ Ingat: **Premature optimization is the root of all evil**. Optimize hanya setela
 3. List virtualization
 4. Memoization (React.memo, useMemo, useCallback)
 5. State management optimization
+
+## Artikel Selanjutnya
+
+Setelah memahami Performance Optimization di React, lanjutkan pembelajaran Anda dengan membaca [React Testing Lengkap: Unit, Integration, dan E2E](/blog/react-testing-lengkap-unit-integration-dan-e2e).
 
 Selamat mengoptimalkan! 🚀

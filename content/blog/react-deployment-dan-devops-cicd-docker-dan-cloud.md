@@ -8,7 +8,9 @@ ai_generated: ai
 programming_language: javascript
 ---
 
-Setelah membangun aplikasi React yang solid dengan TypeScript, testing, dan optimasi performa, langkah selanjutnya adalah deployment ke production. Deployment yang baik bukan hanya tentang mengupload file, tetapi tentang setup yang reliable, scalable, dan maintainable. Dalam artikel ini, kita akan membahas deployment React modern dengan pendekatan DevOps.
+Deployment yang baik bukan hanya tentang mengupload file, tetapi tentang setup yang reliable, scalable, dan maintainable. Dalam artikel ini, kita akan membahas deployment React modern dengan pendekatan DevOps.
+
+> **Prasyarat:** Artikel ini mengasumsikan Anda sudah memahami React Hooks, Testing, dan Server Components. Jika Anda belum familiar dengan Server Components, silakan baca [React Server Components dan Server Actions dengan Next.js App Router](/blog/react-server-components-dan-server-actions-nextjs-app-router) terlebih dahulu.
 
 ## Arsitektur Deployment Modern
 

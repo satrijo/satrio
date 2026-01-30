@@ -565,3 +565,7 @@ console.log(produk);
 Object adalah komponen fundamental dalam JavaScript yang memungkinkan kita memodelkan data dan perilaku dalam program. Memahami berbagai cara membuat, mengakses, dan memanipulasi object sangat penting untuk menjadi developer JavaScript yang handal. Dengan menguasai konsep prototype, class, destructuring, dan method object, Anda dapat menulis kode yang lebih terstruktur, modular, dan mudah dipelihara.
 
 Pemahaman mendalam tentang object juga menjadi dasar penting sebelum mempelajari konsep lebih lanjut seperti module, design pattern, dan framework JavaScript modern seperti React, Vue, atau Angular.
+
+## Artikel Selanjutnya
+
+Setelah memahami Object dalam JavaScript, lanjutkan pembelajaran Anda dengan membaca [Function di JavaScript: Declaration, Expression, dan Arrow Function](/blog/javascript-function-declaration-expression-arrow).

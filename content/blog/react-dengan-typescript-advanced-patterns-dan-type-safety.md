@@ -10,6 +10,8 @@ programming_language: typescript
 
 Setelah mempelajari dasar-dasar React dan Hooks, saatnya kita meningkatkan kemampuan dengan TypeScript. TypeScript bukan hanya tentang menambahkan tipe data, tetapi tentang membuat aplikasi yang lebih aman, maintainable, dan scalable. Dalam artikel ini, kita akan menjelajahi pattern-pattern advanced TypeScript untuk React yang digunakan oleh developer profesional.
 
+> **Prasyarat:** Artikel ini mengasumsikan Anda sudah memahami dasar-dasar TypeScript dan React Hooks. Jika Anda belum familiar dengan TypeScript, silakan baca [TypeScript Dasar: Dari JavaScript ke TypeScript](/blog/typescript-dasar-dari-javascript-ke-typescript) dan [TypeScript dengan React: Best Practices dan Pattern](/blog/typescript-dengan-react-best-practices-dan-pattern) terlebih dahulu.
+
 ## Mengapa TypeScript untuk React?
 
 TypeScript memberikan value yang signifikan untuk aplikasi React:
@@ -771,5 +773,9 @@ TypeScript dengan React memberikan fondasi yang kuat untuk aplikasi yang scalabl
 3. Gunakan branded types untuk mencegah bugs
 4. Hindari `any` - gunakan `unknown` atau tipe spesifik
 5. Manfaatkan utility types bawaan TypeScript
+
+## Artikel Selanjutnya
+
+Setelah memahami Advanced TypeScript Patterns di React, lanjutkan pembelajaran Anda dengan membaca [React Server Components dan Server Actions dengan Next.js App Router](/blog/react-server-components-dan-server-actions-nextjs-app-router).
 
 Selamat coding dengan TypeScript! 🚀

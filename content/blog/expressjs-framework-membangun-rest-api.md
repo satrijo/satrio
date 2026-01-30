@@ -12,6 +12,8 @@ programming_language: javascript
 
 Express.js adalah framework web yang minimalis dan fleksibel untuk Node.js. Framework ini menyediakan serangkaian fitur yang kuat untuk aplikasi web dan mobile, dan telah menjadi standar de facto untuk membangun REST API dengan Node.js.
 
+> **Prasyarat:** Artikel ini mengasumsikan Anda sudah memahami dasar-dasar Node.js. Jika Anda baru memulai dengan Node.js, silakan baca [Node.js Dasar: Memulai dengan JavaScript di Server](/blog/nodejs-dasar-memulai-dengan-javascript-di-server) terlebih dahulu.
+
 ## Mengapa Express.js?
 
 Express.js dipilih oleh jutaan pengembang karena beberapa alasan:
@@ -460,6 +462,10 @@ curl -X DELETE http://localhost:3000/api/books/1
 
 Express.js menyediakan fondasi yang solid untuk membangun REST API dengan Node.js. Dengan sistem routing yang fleksibel, middleware yang powerful, dan kemudahan integrasi dengan berbagai tools, Express menjadi pilihan utama untuk pengembangan backend.
 
-Dengan memahami konsep-konsep dalam artikel ini, Anda sudah siap membangun API yang scalable dan maintainable. Selanjutnya, Anda dapat mengeksplorasi integrasi dengan database, authentication, dan deployment ke production environment.
+Dengan memahami konsep-konsep dalam artikel ini, Anda sudah siap membangun API yang scalable dan maintainable.
+
+## Artikel Selanjutnya
+
+Untuk mempelajari lebih lanjut tentang middleware dan error handling di Express.js, baca artikel [Middleware dan Error Handling di Express](/blog/middleware-dan-error-handling-di-express).
 
 Selamat membangun API!

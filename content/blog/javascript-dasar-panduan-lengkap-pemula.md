@@ -427,4 +427,8 @@ Ini adalah fondasi yang kuat. Di tutorial berikutnya, kita akan membahas array, 
 3. Jangan hanya membaca, tulis kode sendiri
 4. Gunakan debugger untuk memahami flow program
 
+## Artikel Selanjutnya
+
+Setelah memahami dasar-dasar JavaScript, lanjutkan pembelajaran Anda dengan membaca [Array JavaScript: Manipulasi Data dengan Efisien](/blog/javascript-array-manipulasi-data-dengan-efisien).
+
 Selamat coding! 🚀

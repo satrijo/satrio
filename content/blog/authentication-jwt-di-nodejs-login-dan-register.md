@@ -12,6 +12,8 @@ programming_language: javascript
 
 Authentication adalah aspek krusial dalam pengembangan aplikasi modern. JSON Web Token (JWT) telah menjadi standar industri untuk implementasi authentication yang stateless dan scalable. Artikel ini akan membimbing Anda membangun sistem authentication lengkap dengan Node.js dan Express.
 
+> **Prasyarat:** Artikel ini mengasumsikan Anda sudah memahami dasar-dasar Express.js dan middleware. Jika Anda belum familiar dengan Express, silakan baca [Express.js Framework: Membangun REST API](/blog/expressjs-framework-membangun-rest-api) dan [Middleware dan Error Handling di Express](/blog/middleware-dan-error-handling-di-express) terlebih dahulu.
+
 ## Apa Itu JWT?
 
 JWT (JSON Web Token) adalah standar terbuka (RFC 7519) yang mendefinisikan cara kompak dan self-contained untuk mengirimkan informasi antar pihak sebagai objek JSON. Token ini dapat diverifikasi dan dipercaya karena ditandatangani secara digital.
@@ -667,5 +669,9 @@ curl -X POST http://localhost:3000/api/auth/logout \
 JWT authentication memberikan solusi yang scalable dan stateless untuk aplikasi Node.js. Dengan memahami konsep access token dan refresh token, Anda dapat membangun sistem authentication yang aman dan user-friendly.
 
 Implementasi yang baik mencakup validasi input, password hashing, token rotation, dan proper error handling. Dengan mengikuti best practices keamanan, Anda dapat melindungi aplikasi dari ancaman umum.
+
+## Artikel Selanjutnya
+
+Setelah memahami authentication dengan JWT, lanjutkan pembelajaran Anda dengan membaca [Database dengan Node.js: MongoDB dan Mongoose](/blog/database-dengan-nodejs-mongodb-dan-mongoose).
 
 Selamat mengamankan aplikasi Anda!

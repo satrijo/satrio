@@ -10,6 +10,8 @@ programming_language: typescript
 
 TypeScript telah menjadi bahasa pemrograman yang sangat populer di kalangan developer web modern. Sebagai superset dari JavaScript, TypeScript menambahkan sistem tipe statis yang kuat ke dalam JavaScript, membantu developer menangkap bug lebih awal dan meningkatkan kualitas kode secara signifikan. Artikel ini akan membahas dasar-dasar TypeScript secara komprehensif, cocok untuk developer JavaScript yang ingin memulai perjalanan mereka dengan TypeScript.
 
+> **Prasyarat:** Artikel ini mengasumsikan Anda sudah memahami dasar-dasar JavaScript. Jika Anda baru memulai dengan JavaScript, silakan baca [Panduan Lengkap JavaScript untuk Pemula](/blog/javascript-dasar-panduan-lengkap-pemula) terlebih dahulu.
+
 ## Apa itu TypeScript?
 
 TypeScript adalah bahasa pemrograman open-source yang dikembangkan oleh Microsoft. Dirilis pertama kali pada tahun 2012, TypeScript dirancang sebagai superset dari JavaScript yang menambahkan fitur typing statis opsional. Ini berarti bahwa setiap kode JavaScript yang valid juga merupakan kode TypeScript yang valid, tetapi TypeScript memberikan kemampuan tambahan untuk mendefinisikan tipe data secara eksplisit.
@@ -742,4 +744,10 @@ TypeScript adalah investasi yang sangat berharga untuk developer JavaScript. Den
 
 Mulailah dengan dasar-dasar yang telah dibahas dalam artikel ini: type annotations, interfaces, functions, dan objects. Seiring waktu, Anda akan merasa lebih nyaman dengan fitur-fitur lanjutan seperti generics, decorators, dan utility types.
 
-Ingatlah bahwa TypeScript adalah alat untuk membantu Anda, bukan menghalangi Anda. Gunakan fitur-fiturnya secara bijaksana dan sesuaikan dengan kebutuhan proyek Anda. Selamat belajar TypeScript!
+Ingatlah bahwa TypeScript adalah alat untuk membantu Anda, bukan menghalangi Anda. Gunakan fitur-fiturnya secara bijaksana dan sesuaikan dengan kebutuhan proyek Anda.
+
+## Artikel Selanjutnya
+
+Setelah memahami dasar-dasar TypeScript, lanjutkan pembelajaran Anda dengan membaca [TypeScript Configuration: Panduan Lengkap tsconfig.json](/blog/typescript-configuration-panduan-lengkap-tsconfig-json).
+
+Selamat belajar TypeScript!

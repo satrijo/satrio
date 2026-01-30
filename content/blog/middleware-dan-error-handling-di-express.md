@@ -12,6 +12,8 @@ programming_language: javascript
 
 Middleware adalah konsep fundamental dalam Express.js yang memungkinkan Anda memodifikasi request dan response objects, mengakhiri request-response cycle, atau memanggil middleware function berikutnya. Pemahaman yang baik tentang middleware dan error handling sangat penting untuk membangun aplikasi Express yang scalable dan maintainable.
 
+> **Prasyarat:** Artikel ini mengasumsikan Anda sudah memahami dasar-dasar Express.js. Jika Anda baru memulai dengan Express, silakan baca [Express.js Framework: Membangun REST API](/blog/expressjs-framework-membangun-rest-api) terlebih dahulu.
+
 ## Apa Itu Middleware?
 
 Middleware adalah function yang dieksekusi selama request-response cycle. Middleware memiliki akses ke:
@@ -620,5 +622,9 @@ describe('Authentication Middleware', () => {
 Middleware adalah inti dari Express.js yang memberikan fleksibilitas dan modularitas. Dengan memahami berbagai jenis middleware dan patterns error handling, Anda dapat membangun aplikasi yang robust, secure, dan maintainable.
 
 Pemahaman yang baik tentang execution order, error propagation, dan best practices akan membantu Anda menghindari common pitfalls dan membuat kode yang lebih bersih.
+
+## Artikel Selanjutnya
+
+Setelah memahami middleware dan error handling di Express.js, lanjutkan pembelajaran Anda dengan membaca [Authentication JWT di Node.js: Login dan Register](/blog/authentication-jwt-di-nodejs-login-dan-register).
 
 Selamat mengembangkan!

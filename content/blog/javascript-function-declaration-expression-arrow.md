@@ -667,3 +667,7 @@ Memahami perbedaan antara Function Declaration, Function Expression, dan Arrow F
 - **Arrow Function**: Pilihan terbaik untuk callback sederhana dan saat perlu mempertahankan konteks `this`
 
 Pemilihan jenis function yang tepat bergantung pada kebutuhan spesifik kode Anda, termasuk hoisting, konteks `this`, dan readability. Dengan menguasai ketiga jenis function ini, Anda akan lebih fleksibel dalam menyelesaikan berbagai masalah pemrograman dengan JavaScript.
+
+## Artikel Selanjutnya
+
+Setelah memahami Function dalam JavaScript, lanjutkan pembelajaran Anda dengan membaca [Asynchronous JavaScript: Callback, Promise, dan Async/Await](/blog/javascript-asynchronous-callback-promise-async-await).

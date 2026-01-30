@@ -12,6 +12,8 @@ programming_language: javascript
 
 Mengelola state adalah salah satu aspek paling penting dalam pengembangan aplikasi React. Seiring bertambahnya kompleksitas aplikasi, mengelola state yang tersebar di berbagai komponen menjadi semakin menantang. Artikel ini akan membahas berbagai solusi state management di React, mulai dari Context API bawaan React, Redux yang populer, hingga Zustand yang ringan dan modern.
 
+> **Prasyarat:** Artikel ini mengasumsikan Anda sudah memahami React Hooks. Jika Anda belum familiar dengan Hooks, silakan baca [React Hooks Lengkap: useState, useEffect, dan Custom Hooks](/blog/react-hooks-lengkap-usestate-useeffect-dan-custom-hooks) terlebih dahulu.
+
 ## Masalah Prop Drilling
 
 Sebelum membahas solusi state management, penting untuk memahami masalah yang ingin dipecahkan. Prop drilling adalah situasi di mana data perlu melewati banyak komponen perantara yang sebenarnya tidak membutuhkan data tersebut, hanya untuk mencapai komponen yang membutuhkan.
@@ -815,3 +817,7 @@ State management adalah aspek krusial dalam pengembangan aplikasi React. Setiap 
 - **Zustand** memberikan keseimbangan antara kesederhanaan dan fitur, ideal untuk aplikasi modern yang ingin menghindari boilerplate.
 
 Pilihlah solusi yang paling sesuai dengan kebutuhan aplikasi Anda. Ingatlah bahwa tidak ada solusi yang sempurna untuk semua kasus, dan seringkali kombinasi dari beberapa pendekatan adalah yang terbaik. Yang terpenting adalah memahami konsep-konsep fundamental state management dan menerapkannya dengan konsisten di seluruh codebase Anda.
+
+## Artikel Selanjutnya
+
+Setelah memahami Context API dan State Management, lanjutkan pembelajaran Anda dengan membaca [React Router dan Navigasi Aplikasi Single Page](/blog/react-router-dan-navigasi-aplikasi-single-page).

@@ -10,6 +10,8 @@ programming_language: typescript
 
 React dan TypeScript adalah kombinasi yang sangat powerful untuk membangun aplikasi web modern. TypeScript memberikan type safety yang membantu menangkap bug lebih awal, sementara React menyediakan cara yang efisien untuk membangun user interface. Dalam artikel ini, kita akan membahas best practices menggunakan TypeScript dengan React.
 
+> **Prasyarat:** Artikel ini mengasumsikan Anda sudah memahami dasar-dasar [TypeScript](/blog/typescript-dasar-dari-javascript-ke-typescript) dan [React](/blog/reactjs-dasar-panduan-lengkap-untuk-pemula). Pastikan Anda sudah membaca kedua artikel tersebut sebelum melanjutkan.
+
 ## Kenapa TypeScript dengan React?
 
 TypeScript memberikan banyak keuntungan ketika digunakan dengan React:

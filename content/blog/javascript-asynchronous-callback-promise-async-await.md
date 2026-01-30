@@ -12,6 +12,8 @@ programming_language: javascript
 
 JavaScript adalah bahasa pemrograman single-threaded yang berarti hanya dapat mengeksekusi satu tugas pada satu waktu. Namun, dengan kemampuan asynchronous programming, JavaScript dapat menangani operasi yang membutuhkan waktu (seperti request API, membaca file, atau timer) tanpa memblokir eksekusi kode lainnya. Artikel ini akan membahas tiga pendekatan utama dalam penanganan operasi asynchronous: Callback, Promise, dan Async/Await.
 
+> **Prasyarat:** Artikel ini mengasumsikan Anda sudah memahami dasar-dasar JavaScript. Jika Anda baru memulai dengan JavaScript, silakan baca [Panduan Lengkap JavaScript untuk Pemula](/blog/javascript-dasar-panduan-lengkap-pemula) terlebih dahulu.
+
 ## Memahami JavaScript Asynchronous
 
 ### Synchronous vs Asynchronous

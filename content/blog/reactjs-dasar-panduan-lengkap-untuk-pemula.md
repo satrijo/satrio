@@ -12,6 +12,8 @@ programming_language: javascript
 
 React.js telah menjadi salah satu library JavaScript paling populer untuk membangun antarmuka pengguna yang interaktif dan dinamis. Dikembangkan oleh Facebook (sekarang Meta), React telah merevolusi cara pengembang membangun aplikasi web modern dengan pendekatan berbasis komponen yang efisien dan mudah dipelihara. Artikel ini akan membimbing Anda dari nol hingga memahami konsep-konsep fundamental React.js yang menjadi fondasi penting dalam pengembangan aplikasi web modern.
 
+> **Prasyarat:** Artikel ini mengasumsikan Anda sudah memahami dasar-dasar JavaScript. Jika Anda baru memulai dengan JavaScript, silakan baca [Panduan Lengkap JavaScript untuk Pemula](/blog/javascript-dasar-panduan-lengkap-pemula) terlebih dahulu.
+
 ## Apa itu React.js?
 
 React.js adalah library JavaScript open-source yang digunakan untuk membangun antarmuka pengguna, khususnya untuk aplikasi single-page yang memerlukan pembaruan data secara real-time. React memungkinkan pengembang untuk membuat komponen UI yang dapat digunakan kembali, mengelola state aplikasi dengan efisien, dan merender perubahan dengan performa optimal melalui Virtual DOM.
@@ -935,3 +937,7 @@ Dalam artikel ini, kita telah mempelajari fundamental React.js yang menjadi dasa
 Dengan memahami konsep-konsep ini, Anda telah membangun fondasi yang kuat untuk melanjutkan perjalanan belajar React. Konsep-konsep ini akan menjadi dasar untuk memahami topik yang lebih advanced seperti Hooks, Context API, Routing, dan State Management yang akan dibahas dalam artikel-artikel berikutnya.
 
 Praktik terbaik untuk menguasai React adalah dengan membangun proyek nyata. Cobalah membuat aplikasi sederhana seperti todo list, kalkulator, atau aplikasi cuaca untuk mengaplikasikan pengetahuan yang telah dipelajari. Ingatlah bahwa pemrograman adalah keterampilan yang memerlukan praktik konsisten, jadi teruslah belajar dan membangun!
+
+## Artikel Selanjutnya
+
+Setelah memahami dasar-dasar React, lanjutkan pembelajaran Anda dengan membaca [React Hooks Lengkap: useState, useEffect, dan Custom Hooks](/blog/react-hooks-lengkap-usestate-useeffect-dan-custom-hooks).

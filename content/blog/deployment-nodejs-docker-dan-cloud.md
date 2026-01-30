@@ -12,6 +12,8 @@ programming_language: javascript
 
 Deployment adalah tahap krusial dalam software development lifecycle. Artikel ini akan membimbing Anda melalui proses deployment aplikasi Node.js menggunakan Docker untuk containerization dan berbagai layanan cloud untuk hosting production.
 
+> **Prasyarat:** Artikel ini mengasumsikan Anda sudah memahami dasar-dasar Node.js dan Express.js. Jika Anda belum familiar dengan Node.js, silakan baca [Node.js Dasar: Memulai dengan JavaScript di Server](/blog/nodejs-dasar-memulai-dengan-javascript-di-server) dan [Express.js Framework: Membangun REST API](/blog/expressjs-framework-membangun-rest-api) terlebih dahulu.
+
 ## Mengapa Containerization?
 
 Docker dan containerization telah merevolusi cara kita deploy aplikasi:

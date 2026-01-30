@@ -12,6 +12,8 @@ programming_language: javascript
 
 Node.js telah merevolusi cara pengembang membangun aplikasi web dengan memungkinkan JavaScript berjalan di sisi server. Artikel ini akan membimbing Anda dari nol hingga mampu membangun aplikasi Node.js pertama Anda.
 
+> **Prasyarat:** Artikel ini mengasumsikan Anda sudah memahami dasar-dasar JavaScript. Jika Anda baru memulai dengan JavaScript, silakan baca [Panduan Lengkap JavaScript untuk Pemula](/blog/javascript-dasar-panduan-lengkap-pemula) terlebih dahulu.
+
 ## Apa Itu Node.js?
 
 Node.js adalah runtime environment yang memungkinkan eksekusi kode JavaScript di luar browser. Dibangun di atas mesin V8 JavaScript milik Google Chrome, Node.js menyediakan arsitektur event-driven dan non-blocking I/O yang membuatnya ringan dan efisien.
@@ -266,6 +268,10 @@ Berikut beberapa best practices saat mengembangkan dengan Node.js:
 
 Node.js membuka dunia baru bagi pengembang JavaScript dengan memungkinkan eksekusi di sisi server. Dengan memahami konsep dasar seperti module system, event loop, dan non-blocking I/O, Anda telah membangun fondasi yang kuat untuk pengembangan aplikasi yang lebih kompleks.
 
-Langkah selanjutnya adalah mempelajari framework seperti Express.js untuk membangun REST API, berinteraksi dengan database, dan mengimplementasikan authentication. Tetapi dengan pemahaman dasar yang kuat dari artikel ini, Anda sudah siap untuk mengeksplorasi lebih jauh.
+Langkah selanjutnya adalah mempelajari framework seperti Express.js untuk membangun REST API, berinteraksi dengan database, dan mengimplementasikan authentication.
+
+## Artikel Selanjutnya
+
+Setelah memahami dasar-dasar Node.js, lanjutkan pembelajaran Anda dengan membaca [Express.js Framework: Membangun REST API](/blog/expressjs-framework-membangun-rest-api).
 
 Selamat coding!

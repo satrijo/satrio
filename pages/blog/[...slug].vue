@@ -155,7 +155,7 @@
         </div>
       </footer>
 
-      <!-- Related posts -->
+      <!-- Related posts by category -->
       <div v-if="relatedPosts.length > 0" class="related-section">
         <h3 class="related-title">More from Satrio</h3>
         <div class="related-grid">
@@ -170,6 +170,9 @@
           </NuxtLink>
         </div>
       </div>
+
+      <!-- Related Articles by Keywords -->
+      <RelatedArticles :current-slug="currentSlug" />
 
       <!-- AI Chat Assistant -->
       <ArticleAIChat
@@ -191,6 +194,13 @@ const ArticleAIChat = defineAsyncComponent(() => import('~/components/ArticleAIC
 const route = useRoute()
 const baseUrl = 'https://satrio.dev'
 const { isPostVisible } = usePostVisibility()
+
+// Extract slug from path for interlinking
+const currentSlug = computed(() => {
+  const path = route.path
+  const match = path.match(/\/blog\/(.+)$/)
+  return match ? match[1].replace(/\//g, '-') : ''
+})
 
 // Fetch current post
 const { data: post, pending, error, refresh } = await useAsyncData(

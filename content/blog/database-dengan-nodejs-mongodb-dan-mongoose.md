@@ -12,6 +12,8 @@ programming_language: javascript
 
 MongoDB adalah database NoSQL yang populer untuk aplikasi Node.js karena fleksibilitasnya dalam menyimpan data dalam format JSON-like (BSON). Ketika dikombinasikan dengan Mongoose sebagai Object Data Modeling (ODM) library, pengembangan menjadi lebih terstruktur dan powerful.
 
+> **Prasyarat:** Artikel ini mengasumsikan Anda sudah memahami dasar-dasar Node.js dan Express.js. Jika Anda belum familiar dengan Node.js, silakan baca [Node.js Dasar: Memulai dengan JavaScript di Server](/blog/nodejs-dasar-memulai-dengan-javascript-di-server) dan [Express.js Framework: Membangun REST API](/blog/expressjs-framework-membangun-rest-api) terlebih dahulu.
+
 ## Mengapa MongoDB?
 
 MongoDB menawarkan beberapa keunggulan untuk aplikasi modern:
@@ -708,5 +710,9 @@ module.exports = router;
 MongoDB dan Mongoose memberikan kombinasi yang powerful untuk pengembangan aplikasi Node.js. Dengan schema yang fleksibel, rich query language, dan fitur-fitur advanced seperti aggregation dan transactions, Anda dapat membangun aplikasi yang scalable dan maintainable.
 
 Pemahaman yang kuat tentang CRUD operations, relationships, validation, dan best practices akan membantu Anda membangun aplikasi dengan data layer yang robust dan efisien.
+
+## Artikel Selanjutnya
+
+Setelah memahami database dengan MongoDB dan Mongoose, lanjutkan pembelajaran Anda dengan membaca [Deployment Node.js: Docker dan Cloud](/blog/deployment-nodejs-docker-dan-cloud).
 
 Selamat mengembangkan!

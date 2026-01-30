@@ -12,6 +12,8 @@ programming_language: javascript
 
 React Hooks diperkenalkan dalam React 16.8 dan telah merevolusi cara kita menulis komponen React. Sebelum Hooks, state dan lifecycle methods hanya tersedia di class components. Dengan Hooks, kita dapat menggunakan state dan fitur React lainnya di function components, membuat kode lebih sederhana, lebih mudah dibaca, dan lebih mudah diuji. Artikel ini akan membahas secara komprehensif tentang React Hooks, mulai dari Hooks dasar seperti useState dan useEffect, hingga pembuatan Custom Hooks sendiri.
 
+> **Prasyarat:** Artikel ini mengasumsikan Anda sudah memahami dasar-dasar React. Jika Anda baru memulai dengan React, silakan baca [React.js Dasar: Panduan Lengkap untuk Pemula](/blog/reactjs-dasar-panduan-lengkap-untuk-pemula) terlebih dahulu.
+
 ## Apa itu React Hooks?
 
 Hooks adalah fungsi spesial yang memungkinkan Anda "mengaitkan" ke fitur-fitur React seperti state dan lifecycle methods dari function components. Hooks tidak bekerja di dalam class components - mereka memungkinkan Anda menggunakan React tanpa class.
@@ -186,6 +188,8 @@ function Form() {
 ## useEffect Hook
 
 `useEffect` adalah Hook untuk melakukan side effects di function components. Side effects adalah operasi yang memengaruhi sesuatu di luar komponen, seperti mengambil data dari API, berlangganan ke event, atau memanipulasi DOM secara manual.
+
+> **Catatan:** Jika Anda belum familiar dengan konsep asynchronous programming di JavaScript, disarankan untuk membaca [Asynchronous JavaScript: Callback, Promise, dan Async/Await](/blog/javascript-asynchronous-callback-promise-async-await) terlebih dahulu.
 
 ### Sintaks Dasar useEffect
 
@@ -1199,3 +1203,7 @@ Beberapa tips untuk menggunakan Hooks secara efektif:
 - Hindari premature optimization dengan useMemo dan useCallback kecuali benar-benar diperlukan
 
 Dengan memahami Hooks secara mendalam, Anda telah membuka pintu untuk menulis aplikasi React yang lebih modern, efisien, dan mudah dipelihara. Teruslah berlatih dan membangun proyek untuk menguasai konsep-konsep ini secara praktis.
+
+## Artikel Selanjutnya
+
+Setelah memahami React Hooks, lanjutkan pembelajaran Anda dengan membaca [React Context API dan State Management](/blog/react-context-api-dan-state-management).

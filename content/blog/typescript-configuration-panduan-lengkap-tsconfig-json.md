@@ -10,6 +10,8 @@ programming_language: typescript
 
 File `tsconfig.json` adalah jantung dari setiap project TypeScript. File ini mengontrol bagaimana TypeScript compiler (tsc) mengcompile kode, melakukan type checking, dan mengatur berbagai aspek project. Dalam artikel ini, kita akan membahas semua aspek konfigurasi TypeScript secara mendalam.
 
+> **Prasyarat:** Artikel ini mengasumsikan Anda sudah memahami dasar-dasar TypeScript. Jika Anda baru memulai dengan TypeScript, silakan baca [TypeScript Dasar: Dari JavaScript ke TypeScript](/blog/typescript-dasar-dari-javascript-ke-typescript) terlebih dahulu.
+
 ## Apa itu tsconfig.json?
 
 `tsconfig.json` adalah file konfigurasi JSON yang menentukan root directory dari project TypeScript dan mengatur compiler options. Keberadaan file ini di directory menandakan bahwa directory tersebut adalah root dari project TypeScript.
@@ -548,5 +550,9 @@ Konfigurasi TypeScript yang baik adalah fondasi untuk project yang maintainable.
 - [ ] Source maps untuk development
 - [ ] Path aliases dikonfigurasi
 - [ ] Include/exclude patterns benar
+
+## Artikel Selanjutnya
+
+Setelah menguasai konfigurasi TypeScript, lanjutkan pembelajaran Anda dengan membaca [TypeScript dengan React: Best Practices dan Pattern](/blog/typescript-dengan-react-best-practices-dan-pattern).
 
 Selamat mengkonfigurasi! 🚀

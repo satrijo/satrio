@@ -10,7 +10,9 @@ programming_language: typescript
 
 # React Testing Lengkap: Unit, Integration, dan E2E Testing
 
-Testing adalah aspek fundamental dalam pengembangan perangkat lunak modern, dan di ekosistem React, kita memiliki ekosistem testing yang sangat kuat dan matang. Setelah memahami React dasar, Hooks, Context, Router, dan optimasi performa, langkah logis berikutnya adalah memastikan aplikasi kita bekerja dengan benar melalui testing yang komprehensif. Artikel ini akan membahas secara mendalam tentang testing di React, mulai dari unit testing dengan Jest dan React Testing Library, hingga end-to-end testing dengan Playwright.
+Testing adalah aspek fundamental dalam pengembangan perangkat lunak modern, dan di ekosistem React, kita memiliki ekosistem testing yang sangat kuat dan matang. Artikel ini akan membahas secara mendalam tentang testing di React, mulai dari unit testing dengan Jest dan React Testing Library, hingga end-to-end testing dengan Playwright.
+
+> **Prasyarat:** Artikel ini mengasumsikan Anda sudah memahami React Hooks dan Performance Optimization. Jika Anda belum familiar dengan Hooks, silakan baca [React Hooks Lengkap: useState, useEffect, dan Custom Hooks](/blog/react-hooks-lengkap-usestate-useeffect-dan-custom-hooks) dan [React Performance Optimization: Teknik dan Best Practices](/blog/react-performance-optimization-teknik-dan-best-practices) terlebih dahulu.
 
 ## Mengapa Testing Penting?
 
@@ -1024,3 +1026,7 @@ Ingatlah prinsip-prinsip penting:
 - Integrasikan testing dalam CI/CD pipeline
 
 Dengan menguasai testing, Anda tidak hanya menjadi developer React yang lebih baik, tetapi juga memastikan aplikasi yang Anda bangun robust, maintainable, dan siap untuk scale.
+
+## Artikel Selanjutnya
+
+Setelah memahami Testing di React, lanjutkan pembelajaran Anda dengan membaca [React dengan TypeScript: Advanced Patterns dan Type Safety](/blog/react-dengan-typescript-advanced-patterns-dan-type-safety).
