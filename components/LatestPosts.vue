@@ -53,13 +53,14 @@ const { filterVisiblePosts } = usePostVisibility()
 
 const { data: allPosts, pending } = await useAsyncData(
   'latest-posts',
-  () => queryCollection('blog').order('date', 'DESC').limit(6).all()
+  () => queryCollection('blog').order('date', 'DESC').all()
 )
 
-// Filter out future posts and limit to 3
+// Filter out future posts first, then take top 3
 const posts = computed(() => {
   if (!allPosts.value) return []
-  return filterVisiblePosts(allPosts.value).slice(0, 3)
+  const visiblePosts = filterVisiblePosts(allPosts.value)
+  return visiblePosts.slice(0, 3)
 })
 
 const formatDate = (date: Date | string | undefined) => {
