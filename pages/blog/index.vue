@@ -19,7 +19,7 @@
     </div>
     
     <!-- Empty state -->
-    <div v-else-if="!allPosts?.length" class="empty-state">
+    <div v-else-if="!visiblePosts?.length" class="empty-state">
       <Icon name="mdi:file-document-outline" class="w-16 h-16 text-muted mx-auto mb-4" />
       <h3 class="text-heading text-lg font-semibold mb-2">No posts yet</h3>
       <p class="text-muted">Check back soon for new content.</p>
@@ -110,6 +110,7 @@
 const baseUrl = 'https://satrio.dev'
 const route = useRoute()
 const router = useRouter()
+const { filterVisiblePosts } = usePostVisibility()
 
 const postsPerPage = 10
 const currentPage = ref(Number(route.query.page) || 1)
@@ -142,9 +143,15 @@ const { data: allPosts, pending } = await useAsyncData(
   () => queryCollection('blog').order('date', 'DESC').all()
 )
 
+// Filter out future posts
+const visiblePosts = computed(() => {
+  if (!allPosts.value) return []
+  return filterVisiblePosts(allPosts.value)
+})
+
 const totalPages = computed(() => {
-  if (!allPosts.value) return 0
-  return Math.ceil(allPosts.value.length / postsPerPage)
+  if (!visiblePosts.value) return 0
+  return Math.ceil(visiblePosts.value.length / postsPerPage)
 })
 
 const startIndex = computed(() => {
@@ -152,8 +159,8 @@ const startIndex = computed(() => {
 })
 
 const paginatedPosts = computed(() => {
-  if (!allPosts.value) return []
-  return allPosts.value.slice(startIndex.value, startIndex.value + postsPerPage)
+  if (!visiblePosts.value) return []
+  return visiblePosts.value.slice(startIndex.value, startIndex.value + postsPerPage)
 })
 
 const goToPage = (page: number) => {

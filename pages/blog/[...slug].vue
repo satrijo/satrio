@@ -190,11 +190,21 @@ const ArticleAIChat = defineAsyncComponent(() => import('~/components/ArticleAIC
 
 const route = useRoute()
 const baseUrl = 'https://satrio.dev'
+const { isPostVisible } = usePostVisibility()
 
 // Fetch current post
 const { data: post, pending, error, refresh } = await useAsyncData(
   `blog-${route.path}`,
-  () => queryCollection('blog').path(route.path).first()
+  async () => {
+    const result = await queryCollection('blog').path(route.path).first()
+    
+    // Check if post exists and is visible (not future-dated)
+    if (result && !isPostVisible(result)) {
+      return null // Return null to show "not found" state
+    }
+    
+    return result
+  }
 )
 
 // Handle errors
@@ -325,10 +335,12 @@ const readingTime = computed(() => {
   return time > 0 ? time : 1
 })
 
+const { filterVisiblePosts } = usePostVisibility()
+
  // Related posts
  const relatedPosts = computed(() => {
    if (!post.value || !allPosts.value?.length) return []
-   return allPosts.value
+   return filterVisiblePosts(allPosts.value)
      .filter((p) => p.path !== post.value!.path)
      .filter(
        (p) =>
