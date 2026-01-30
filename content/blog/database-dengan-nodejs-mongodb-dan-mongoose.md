@@ -49,10 +49,9 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    // Catatan 2026: useNewUrlParser dan useUnifiedTopology sudah deprecated
+    // karena sekarang menjadi default behavior di Mongoose 6+
+    const conn = await mongoose.connect(process.env.MONGODB_URI);
     
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
