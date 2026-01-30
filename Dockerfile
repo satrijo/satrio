@@ -35,8 +35,8 @@ FROM node:20-alpine AS runner
 
 WORKDIR /app
 
-# Install runtime dependencies for better-sqlite3 and file watching
-RUN apk add --no-cache sqlite-dev curl
+# Install runtime dependencies for better-sqlite3, file watching, and su command
+RUN apk add --no-cache sqlite-dev curl util-linux
 
 # Create non-root user for security
 RUN addgroup --system --gid 1001 nodejs && \
@@ -56,8 +56,8 @@ ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 ENV PORT=3000
 
-# Switch to non-root user
-USER nuxtjs
+# Note: Don't switch to nuxtjs here - entrypoint needs to run as root for chown
+# The application will run as nuxtjs via su in CMD
 
 # Expose port
 EXPOSE 3000
@@ -67,8 +67,9 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:3000/ || exit 1
 
 # Start script that rebuilds content database on startup
-COPY --chown=nuxtjs:nodejs docker-entrypoint.sh /app/
+# Copy as root so entrypoint can run as root (for chown)
+COPY docker-entrypoint.sh /app/
 RUN chmod +x /app/docker-entrypoint.sh
 
 ENTRYPOINT ["/app/docker-entrypoint.sh"]
-CMD ["node", ".output/server/index.mjs"]
+CMD ["su", "-s", "/bin/sh", "-c", "exec node .output/server/index.mjs", "nuxtjs"]

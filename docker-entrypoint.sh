@@ -7,9 +7,12 @@ echo "🚀 Starting Nuxt application with content watcher..."
 CONTENT_DIR="/app/content"
 DATA_DIR="/app/.data"
 
-# Create data directory with correct permissions
+# Create data directory with correct permissions (run as root)
 mkdir -p "$DATA_DIR"
 mkdir -p "$DATA_DIR/content"
+
+# Fix ownership for the data directory to match the nuxtjs user
+chown -R nuxtjs:nodejs "$DATA_DIR"
 
 # Check if content directory exists
 if [ -d "$CONTENT_DIR" ]; then
