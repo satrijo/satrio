@@ -15,8 +15,8 @@ services:
       - ./content:/app/content:ro
       - ./scripts:/app/scripts:ro
     networks:
-      - satrio-network
+      - integrate
 
 networks:
-  satrio-network:
-    driver: bridge
+  integrate:
+    external: true
