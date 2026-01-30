@@ -45,8 +45,11 @@ RUN addgroup --system --gid 1001 nodejs && \
 # Copy built application from builder
 COPY --from=builder --chown=nuxtjs:nodejs /app/.output /app/.output
 
-# Create content directory (will be mounted as volume)
-RUN mkdir -p /app/content && chown -R nuxtjs:nodejs /app/content
+# Copy content from builder (fallback if volume not mounted)
+COPY --from=builder --chown=nuxtjs:nodejs /app/content /app/content
+
+# Create data directory for SQLite database (persisted volume)
+RUN mkdir -p /app/.data && chown -R nuxtjs:nodejs /app/.data
 
 # Set environment variables
 ENV NODE_ENV=production
@@ -63,5 +66,9 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:3000/ || exit 1
 
-# Start the application
+# Start script that rebuilds content database on startup
+COPY --chown=nuxtjs:nodejs docker-entrypoint.sh /app/
+RUN chmod +x /app/docker-entrypoint.sh
+
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
 CMD ["node", ".output/server/index.mjs"]

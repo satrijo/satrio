@@ -10,6 +10,8 @@ services:
     volumes:
       # Mount content folder so you can git pull without rebuild
       - ./content:/app/content:ro
+      # Mount data directory to persist SQLite database
+      - ./.data:/app/.data
     networks:
       - integrate
     deploy:

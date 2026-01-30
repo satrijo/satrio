@@ -7,7 +7,7 @@ export default defineContentConfig({
             type: 'page',
             schema: z.object({
                 title: z.string().min(1).max(100),
-                date: z.date(),
+                date: z.union([z.date(), z.string()]),
                 description: z.string().optional(),
                 category: z.string().optional(),
                 ai_generated: z.string().optional(),
