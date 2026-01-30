@@ -18,6 +18,11 @@
       </div>
     </div>
     
+    <!-- Empty state -->
+    <div v-else-if="!posts?.length" class="empty-state">
+      <p class="text-muted">No posts available yet.</p>
+    </div>
+    
     <!-- Posts list -->
     <div v-else class="posts-list">
       <article 

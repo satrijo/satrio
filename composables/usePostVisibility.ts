@@ -6,11 +6,22 @@ export function usePostVisibility() {
     const postDate = new Date(post.date)
     const now = new Date()
     
-    // Set both dates to midnight for accurate comparison
-    postDate.setHours(0, 0, 0, 0)
-    now.setHours(0, 0, 0, 0)
+    // Get date parts only (year, month, day) for comparison
+    // This ensures articles published today are visible
+    const postYear = postDate.getFullYear()
+    const postMonth = postDate.getMonth()
+    const postDay = postDate.getDate()
     
-    return postDate <= now
+    const nowYear = now.getFullYear()
+    const nowMonth = now.getMonth()
+    const nowDay = now.getDate()
+    
+    // Compare dates: post date should be <= today
+    if (postYear < nowYear) return true
+    if (postYear > nowYear) return false
+    if (postMonth < nowMonth) return true
+    if (postMonth > nowMonth) return false
+    return postDay <= nowDay
   }
 
   const filterVisiblePosts = <T extends { date?: Date | string }>(posts: T[]): T[] => {
