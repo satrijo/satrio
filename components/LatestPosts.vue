@@ -44,10 +44,18 @@
 </template>
 
 <script setup lang="ts">
-const { data: posts, pending } = await useAsyncData(
+const { filterVisiblePosts } = usePostVisibility()
+
+const { data: allPosts, pending } = await useAsyncData(
   'latest-posts',
-  () => queryCollection('blog').order('date', 'DESC').limit(3).all()
+  () => queryCollection('blog').order('date', 'DESC').limit(6).all()
 )
+
+// Filter out future posts and limit to 3
+const posts = computed(() => {
+  if (!allPosts.value) return []
+  return filterVisiblePosts(allPosts.value).slice(0, 3)
+})
 
 const formatDate = (date: Date | string | undefined) => {
   if (!date) return ''
