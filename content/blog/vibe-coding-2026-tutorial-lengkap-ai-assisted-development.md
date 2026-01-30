@@ -1,6 +1,6 @@
 ---
 title: "Vibe Coding 2026: Tutorial Lengkap AI-Assisted Development"
-date: 2026-01-30T00:00:00.000Z
+date: 2026-01-29T00:00:00.000Z
 description: "Pelajari Vibe Coding di era 2026. Tutorial lengkap menggunakan AI agents, natural language programming, dan best practices untuk development modern."
 category: React
 article_language: indonesian
