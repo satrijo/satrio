@@ -22,25 +22,19 @@ if [ -d "$CONTENT_DIR" ]; then
     MD_COUNT=$(find "$CONTENT_DIR" -name "*.md" | wc -l)
     echo "📄 Found $MD_COUNT markdown files"
     
-    # Remove old SQLite database to force rebuild (correct path for @nuxt/content v3)
-    if [ -f "$DATA_DIR/content/contents.sqlite" ]; then
-        echo "🗑️  Removing old database..."
-        rm -f "$DATA_DIR/content/contents.sqlite"
-    fi
-    
     echo "✅ Content ready - database will be rebuilt on first request"
 else
     echo "⚠️  Content directory not found, using built-in content"
 fi
 
-# Function to trigger content reload
-trigger_reload() {
-    echo "🔄 Triggering content reload..."
-    # Remove database to force rebuild on next request (correct path)
-    rm -f "$DATA_DIR/content/contents.sqlite"
-    # Make a request to trigger rebuild (use /blog page to trigger content build)
-    curl -s http://localhost:3000/blog > /dev/null 2>&1 || true
-    echo "✅ Content reload triggered"
+# Function to restart server (only way to rebuild @nuxt/content database)
+restart_server() {
+    echo "🔄 Restarting server to rebuild content..."
+    # Send SIGTERM to node process (graceful shutdown)
+    pkill -f "node .output/server/index.mjs" 2>/dev/null || true
+    sleep 2
+    # Server will auto-restart via docker restart policy or manual restart
+    echo "✅ Server restart triggered"
 }
 
 # Start file watcher in background
@@ -64,9 +58,9 @@ trigger_reload() {
             NEW_COUNT=$(find "$CONTENT_DIR" -name "*.md" | wc -l)
             echo "📄 New file count: $NEW_COUNT"
             
-            # Trigger reload
+            # Trigger server restart to rebuild content
             sleep 2  # Wait for file writes to complete
-            trigger_reload
+            restart_server
         fi
     done
 ) &
