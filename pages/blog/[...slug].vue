@@ -185,7 +185,8 @@
 
 <script setup lang="ts">
 import LoadingSpinner from '~/components/ui/LoadingSpinner.vue'
-import ArticleAIChat from '~/components/ArticleAIChat.vue'
+// Lazy load AI Chat component to reduce initial bundle size
+const ArticleAIChat = defineAsyncComponent(() => import('~/components/ArticleAIChat.vue'))
 
 const route = useRoute()
 const baseUrl = 'https://satrio.dev'
@@ -206,11 +207,14 @@ watch(() => route.path, () => {
   refresh()
 })
 
-// Fetch all posts for related posts (lazy load)
+// Fetch all posts for related posts (lazy load - only when needed)
 const { data: allPosts } = await useAsyncData(
   'all-blog-posts',
   () => queryCollection('blog').all(),
-  
+  {
+    lazy: true, // Don't block rendering
+    server: false // Only fetch on client to reduce SSR payload
+  }
 )
 
 // Language icons

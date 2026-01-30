@@ -65,11 +65,15 @@ export default defineNuxtConfig({
   },
 
   // Nitro configuration for Node.js server (Docker/Kubernetes)
-  // Pure SSR mode - render on-demand, no prerender
+  // Hybrid mode - prerender static pages, SSR for dynamic content
   nitro: {
     preset: 'node-server',
     compressPublicAssets: true,
-    sourceMap: false
+    sourceMap: false,
+    prerender: {
+      routes: ['/sitemap.xml'],
+      crawlLinks: true
+    }
   },
 
   // Disable source maps in production to reduce memory
@@ -150,7 +154,12 @@ export default defineNuxtConfig({
         { name: 'twitter:creator', content: '@lensatrio' }
       ],
       link: [
-        { rel: 'canonical', href: 'https://satrio.dev' }
+        { rel: 'canonical', href: 'https://satrio.dev' },
+        // Resource hints for external domains
+        { rel: 'preconnect', href: 'https://ui-avatars.com' },
+        { rel: 'dns-prefetch', href: 'https://ui-avatars.com' },
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
+        { rel: 'dns-prefetch', href: 'https://fonts.gstatic.com' }
       ]
     }
   }
