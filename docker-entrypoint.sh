@@ -27,14 +27,15 @@ else
     echo "⚠️  Content directory not found, using built-in content"
 fi
 
-# Function to restart server (only way to rebuild @nuxt/content database)
-restart_server() {
-    echo "🔄 Restarting server to rebuild content..."
-    # Send SIGTERM to node process (graceful shutdown)
-    pkill -f "node .output/server/index.mjs" 2>/dev/null || true
-    sleep 2
-    # Server will auto-restart via docker restart policy or manual restart
-    echo "✅ Server restart triggered"
+# Function to trigger content rebuild
+# @nuxt/content v3 rebuilds database on first request after detecting changes
+rebuild_content() {
+    echo "🔄 Triggering content rebuild..."
+    # Remove old database to force fresh build
+    rm -f "$DATA_DIR/content/contents.sqlite"
+    # Wait a moment for file system
+    sleep 1
+    echo "✅ Content rebuild triggered - access any page to build database"
 }
 
 # Start file watcher in background
@@ -58,9 +59,9 @@ restart_server() {
             NEW_COUNT=$(find "$CONTENT_DIR" -name "*.md" | wc -l)
             echo "📄 New file count: $NEW_COUNT"
             
-            # Trigger server restart to rebuild content
+            # Trigger content rebuild (database will be rebuilt on next request)
             sleep 2  # Wait for file writes to complete
-            restart_server
+            rebuild_content
         fi
     done
 ) &
