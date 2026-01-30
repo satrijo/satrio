@@ -18,11 +18,14 @@ if [ -d "$CONTENT_DIR" ]; then
     MD_COUNT=$(find "$CONTENT_DIR" -name "*.md" | wc -l)
     echo "📄 Found $MD_COUNT markdown files"
     
-    # Remove old SQLite database to force rebuild
-    if [ -f "$DATA_DIR/content.sqlite" ]; then
+    # Remove old SQLite database to force rebuild (correct path for @nuxt/content v3)
+    if [ -f "$DATA_DIR/content/contents.sqlite" ]; then
         echo "🗑️  Removing old database..."
-        rm -f "$DATA_DIR/content.sqlite"
+        rm -f "$DATA_DIR/content/contents.sqlite"
     fi
+    
+    # Ensure content directory exists
+    mkdir -p "$DATA_DIR/content"
     
     echo "✅ Content ready - database will be rebuilt on first request"
 else
@@ -32,8 +35,8 @@ fi
 # Function to trigger content reload
 trigger_reload() {
     echo "🔄 Triggering content reload..."
-    # Remove database to force rebuild on next request
-    rm -f "$DATA_DIR/content.sqlite"
+    # Remove database to force rebuild on next request (correct path)
+    rm -f "$DATA_DIR/content/contents.sqlite"
     # Make a request to trigger rebuild (use /blog page to trigger content build)
     curl -s http://localhost:3000/blog > /dev/null 2>&1 || true
     echo "✅ Content reload triggered"

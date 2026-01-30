@@ -138,6 +138,14 @@ export default defineNuxtConfig({
     '/api/**': { cors: true, headers: { 'Cache-Control': 'no-cache' } }
   },
 
+  // Content configuration for SQLite database
+  content: {
+    database: {
+      type: 'sqlite',
+      filename: '.data/content/contents.sqlite'
+    }
+  },
+
   // SEO Configuration
   app: {
     head: {
