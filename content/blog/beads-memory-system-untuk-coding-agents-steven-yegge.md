@@ -1,55 +1,56 @@
 ---
-title: "Beads: Memory System untuk Coding Agents oleh Steve Yegge"
+title: "Beads: Sistem Memori untuk Coding Agents oleh Steve Yegge"
 date: 2026-01-29T00:00:00.000Z
-description: "Pelajari Beads, sistem memory untuk AI coding agents dari Steve Yegge. Solusi untuk agent dementia, long-horizon planning, dan work tracking dalam vibe coding."
+description: "Kenalan dengan Beads, sistem memori untuk AI coding agents dari Steve Yegge. Solusi untuk masalah agent lupa konteks, perencanaan jangka panjang, dan tracking pekerjaan dalam vibe coding."
 category: JavaScript
 article_language: indonesian
 ai_generated: ai
 programming_language: javascript
 ---
 
-**Beads** adalah sistem memory untuk coding agents yang dikembangkan oleh **Steve Yegge** (ex-Google, ex-Amazon, ex-Sourcegraph). Setelah 40 hari straight vibe coding dan menghasilkan 350k LOC yang akhirnya harus di-burn karena architectural flaws, Steve menciptakan Beads sebagai solusi untuk masalah fundamental dalam agentic coding: **agent dementia** dan **lost work**.
+**Beads** adalah sistem memori untuk coding agents yang dibuat oleh **Steve Yegge** (mantan Google, Amazon, dan Sourcegraph). Setelah 40 hari non-stop vibe coding dan menghasilkan 350 ribu baris kode yang akhirnya harus dibuang karena masalah arsitektur, Steve membuat Beads sebagai solusi untuk masalah utama dalam coding dengan AI: **agent yang lupa konteks** dan **pekerjaan yang hilang**.
 
-## Masalah yang Diselesaikan Beads
+## Masalah yang Diatasi Beads
 
-### 1. Agent Dementia (The Memento Problem)
+### 1. Agent Sering Lupa (Masalah Memento)
 
-Coding agents seperti Claude, GPT-4, dan Copilot memiliki **tidak ada memory antar session**. Setiap session hanya berlangsung ~10 menit, lalu agent "reboot" dengan memory kosong.
+Coding agents seperti Claude, GPT-4, dan Copilot **tidak punya memori antar sesi**. Setiap sesi hanya berlangsung sekitar 10 menit, lalu agent "restart" dengan memori kosong.
 
 **Yang terjadi:**
-- Agent mulai project dengan 6 fase
-- Setelah 2 fase + beberapa compaction, agent lupa konteks
-- Agent membuat plan baru: "Oh wow, ini big project, saya akan buat 5 fase"
-- Agent bekerja pada fase 1 (dari 5) dari fase 3 (dari 6) - nested tanpa sadar
-- Agent declare: "Project DONE! 🎉" padahal baru 30% selesai
+- Agent mulai project dengan 6 tahap
+- Setelah 2 tahap + beberapa kali compaction, agent lupa konteks
+- Agent buat rencana baru: "Wah, project ini besar, saya akan buat 5 tahap"
+- Agent kerjakan tahap 1 (dari 5) dari tahap 3 (dari 6) - tanpa sadar bersarang
+- Agent bilang: "Project SELESAI! 🎉" padahal baru 30% jadi
 
-Steve menyebut ini **"Descent Into Madness"** - agent meander secara intelligen tapi buta, gradually losing their way.
+Steve menyebut ini **"Descent Into Madness"** - agent berjalan dengan pintar tapi buta, lambat laun kehilangan arah.
 
-### 2. Lost Work / Work Disavowal
+### 2. Pekerjaan Hilang / Tidak Diakui
 
-Agents sering menemukan masalah saat coding, tapi karena pressed for context space, mereka:
-- Mengabaikan bug dengan alasan "not my work"
-- Tidak mencatat discovered work
-- Menulis TODO di markdown yang segera obsolete
+Agents sering menemukan masalah saat coding, tapi karena terbatas ruang konteks, mereka:
+- Mengabaikan bug dengan alasan "bukan kerjaan saya"
+- Tidak mencatat pekerjaan yang ditemukan
+- Menulis TODO di markdown yang cepat usang
 
-Steve menemukan **605 markdown plan files** yang partly implemented, partly obsolete, 100% useless.
+Steve menemukan **605 file rencana markdown** yang sebagian dikerjakan, sebagian usang, 100% tidak berguna.
 
-### 3. Markdown Plan Chaos
+### 3. Kekacauan Rencana Markdown
 
-Traditional markdown TODO lists:
-- Write-only memory untuk agents
-- Tidak bisa query untuk ready work
-- Tidak ada dependency tracking
-- Tidak ada audit trail
+Daftar TODO markdown tradisional:
+- Memori hanya-baca-tulis untuk agents
+- Tidak bisa mencari pekerjaan yang siap dikerjakan
+- Tidak ada pelacakan ketergantungan (dependency)
+- Tidak ada jejak audit
 
 ## Apa itu Beads?
 
-Beads adalah **distributed, git-backed graph issue tracker** yang dirancang khusus untuk AI agents.
+Beads adalah **issue tracker berbasis grafis dan git** yang dirancang khusus untuk AI agents.
 
-### Core Concepts
+### Konsep Utama
 
-#### 1. Git as Database
-Issues disimpan sebagai **JSONL** di folder `.beads/`, versioned seperti code:
+#### 1. Git sebagai Database
+
+Issues disimpan sebagai **JSONL** di folder `.beads/`, di-version-kan seperti kode:
 
 ```
 .beads/
@@ -59,18 +60,18 @@ Issues disimpan sebagai **JSONL** di folder `.beads/`, versioned seperti code:
 │   └── bd-c3d4.jsonl
 └── events/
     └── 2026-01-29/
-        └── events.jsonl   # Audit trail
+        └── events.jsonl   # Jejak audit
 ```
 
 **Keuntungan:**
-- ✅ Versioned dengan git
-- ✅ Branching dan merging
-- ✅ Multi-agent coordination
-- ✅ No database setup
+- ✅ Di-version-kan dengan git
+- ✅ Bisa branching dan merging
+- ✅ Koordinasi multi-agent
+- ✅ Tidak perlu setup database
 
-#### 2. Graph Structure (The Bead Chain)
+#### 2. Struktur Grafis (Rantai Beads)
 
-Issues linked seperti beads on a chain:
+Issues saling terhubung seperti manik-manik dalam rantai:
 
 ```
 [Epic bd-a3f8]
@@ -80,16 +81,16 @@ Issues linked seperti beads on a chain:
             └── discovered-from → [Bug bd-x9y0]
 ```
 
-**Dependency Types:**
+**Jenis Ketergantungan:**
 - `blocks`: Issue A harus selesai sebelum B
-- `blocked-by`: Issue B blocked oleh A
+- `blocked-by`: Issue B diblokir oleh A
 - `parent-child`: Epic → Task → Sub-task
-- `discovered-from`: Work discovered saat implementasi
-- `related`: Related tapi tidak blocking
+- `discovered-from`: Pekerjaan ditemukan saat implementasi
+- `related`: Terkait tapi tidak memblokir
 
-#### 3. Agent-Optimized Interface
+#### 3. Antarmuka yang Dioptimalkan untuk Agent
 
-**JSON Output untuk Machine Parsing:**
+**Output JSON untuk Parsing Mesin:**
 ```bash
 $ bd ready --json
 [
@@ -104,17 +105,17 @@ $ bd ready --json
 ]
 ```
 
-**Auto-Ready Detection:**
+**Deteksi Otomatis Pekerjaan Siap:**
 ```bash
 $ bd ready
 bd-a1b2  P0  Implement user authentication
 bd-c3d4  P1  Setup database schema
 ```
-Hanya menampilkan issues dengan **no open blockers**.
+Hanya menampilkan issues dengan **tidak ada pemblokir yang terbuka**.
 
 ## Instalasi dan Setup
 
-### Quick Install
+### Instalasi Cepat
 ```bash
 # Install bd CLI
 curl -fsSL https://raw.githubusercontent.com/steveyegge/beads/main/scripts/install.sh | bash
@@ -129,146 +130,146 @@ brew install beads
 go install github.com/steveyegge/beads/cmd/bd@latest
 ```
 
-### Initialize Project
+### Inisialisasi Project
 ```bash
 cd your-project
 bd init
 
-# Stealth mode (local only, tidak commit ke repo)
+# Mode stealth (hanya lokal, tidak commit ke repo)
 bd init --stealth
 
-# Contributor mode (forked repos)
+# Mode contributor (untuk repo hasil fork)
 bd init --contributor
 ```
 
-### Setup Agent Instructions
+### Setup Instruksi untuk Agent
 
 Tambahkan ke `AGENTS.md` atau `CLAUDE.md`:
 ```markdown
-## Task Management with Beads
+## Manajemen Tugas dengan Beads
 
-Use 'bd' (beads) for all task tracking:
-- Check ready work: bd ready
-- Create tasks: bd create "Title" -p 0
-- Link dependencies: bd dep add <child> <parent>
-- View details: bd show <id>
+Gunakan 'bd' (beads) untuk semua pelacakan tugas:
+- Cek pekerjaan siap: bd ready
+- Buat tugas: bd create "Judul" -p 0
+- Hubungkan ketergantungan: bd dep add <child> <parent>
+- Lihat detail: bd show <id>
 
-Always file discovered work as new issues.
-Never leave bugs unrecorded.
+Selalu catat pekerjaan yang ditemukan sebagai issue baru.
+Jangan pernah biarkan bug tidak tercatat.
 ```
 
-## Essential Commands
+## Perintah-perintah Penting
 
-### Basic Workflow
+### Alur Kerja Dasar
 ```bash
-# List ready tasks (no blockers)
+# Daftar tugas siap (tidak ada pemblokir)
 bd ready
 
-# Create new task
+# Buat tugas baru
 bd create "Implement login API" -p 0
 
-# Create with description
+# Buat dengan deskripsi
 bd create "Fix auth bug" -p 1 --desc "Token validation fails on expiry"
 
-# Show task details
+# Lihat detail tugas
 bd show bd-a1b2
 
 # Update status
 bd update bd-a1b2 --status in_progress
 
-# Complete task
+# Tandai selesai
 bd update bd-a1b2 --status done
 ```
 
-### Dependency Management
+### Manajemen Ketergantungan
 ```bash
-# Add parent-child relationship
+# Tambah relasi parent-child
 bd dep add bd-a1b2.1 bd-a1b2
 
-# Add blocking dependency
+# Tambah ketergantungan yang memblokir
 bd dep add bd-c3d4 --blocks bd-a1b2
 
-# Add discovered work
+# Tambah pekerjaan yang ditemukan
 bd create "Fix database connection" --discovered-from bd-a1b2
 
-# View dependency graph
+# Lihat grafik ketergantungan
 bd graph bd-a1b2
 ```
 
-### Hierarchy & Epics
+### Hierarki & Epics
 ```bash
-# Create epic
+# Buat epic
 bd create "User Authentication System" -p 0
 # Returns: bd-a3f8
 
-# Create sub-task
+# Buat sub-task
 bd create "Implement JWT" -p 0 --parent bd-a3f8
 # Returns: bd-a3f8.1
 
-# Create nested sub-task
+# Buat sub-task bersarang
 bd create "Token validation" -p 0 --parent bd-a3f8.1
 # Returns: bd-a3f8.1.1
 ```
 
-### Search dan Filter
+### Pencarian dan Filter
 ```bash
-# Search by title
+# Cari berdasarkan judul
 bd search "auth"
 
-# Filter by status
+# Filter berdasarkan status
 bd list --status open
 
-# Filter by priority
+# Filter berdasarkan prioritas
 bd list --priority 0,1
 
-# Filter by assignee
+# Filter berdasarkan penerima tugas
 bd list --assignee claude
 
-# Combined filters
+# Filter gabungan
 bd list --status open --priority 0 --json
 ```
 
-## Advanced Features
+## Fitur-fitur Lanjutan
 
-### 1. Multi-Agent Coordination
+### 1. Koordinasi Multi-Agent
 
-Beads supports multiple agents working simultaneously:
+Beads mendukung beberapa agent yang bekerja bersamaan:
 
 ```bash
-# Agent 1 claims task
+# Agent 1 mengklaim tugas
 bd assign bd-a1b2 --assignee agent-1
 
-# Agent 2 sees it's claimed
+# Agent 2 melihat sudah diklaim
 bd ready
 # (tidak menampilkan bd-a1b2 karena sudah in_progress)
 
-# Agent 2 works on different ready task
+# Agent 2 kerjakan tugas siap lainnya
 bd assign bd-c3d4 --assignee agent-2
 ```
 
-**Merge Conflicts:** AI melakukan intelligent collision resolution untuk concurrent edits.
+**Konflik Merge:** AI melakukan penyelesaian konflik secara cerdas untuk edit bersamaan.
 
-### 2. Federation (Multi-Repo)
+### 2. Federasi (Multi-Repo)
 
-Untuk large organizations:
+Untuk organisasi besar:
 
 ```bash
-# Setup federation
+# Setup federasi
 bd federation init
 
-# Link external repos
+# Hubungkan repo eksternal
 bd federation add github.com/org/repo
 
-# Cross-repo dependencies
+# Ketergantungan antar-repo
 bd dep add bd-a1b2 --external github.com/org/repo#bd-x9y0
 ```
 
 ### 3. Compaction (Memory Decay)
 
-Old closed tasks di-summarize untuk save context window:
+Tugas lama yang sudah ditutup di-ringkas untuk menghemat ruang konteks:
 
 ```bash
-# View compacted history
+# Lihat history yang sudah di-ringkas
 bd show bd-a1b2 --history
 
 # Events:
@@ -281,7 +282,7 @@ bd show bd-a1b2 --history
 
 ### 4. Hooks
 
-Automated actions pada event:
+Aksi otomatis saat event terjadi:
 
 ```bash
 # .beads-hooks/on-create
@@ -293,7 +294,7 @@ echo "New task created: $1" | slack-notify
 bd generate-report --since yesterday
 ```
 
-## Integration dengan Coding Agents
+## Integrasi dengan Coding Agents
 
 ### Claude Code
 ```bash
@@ -309,7 +310,7 @@ When working on tasks:
 ### GitHub Copilot
 ```bash
 # Copilot akan membaca AGENTS.md
-# dan otomatis menggunakan bd commands
+# dan otomatis menggunakan perintah bd
 
 # Contoh interaksi:
 # User: "Fix the auth bug"
@@ -320,108 +321,108 @@ When working on tasks:
 
 ### Sourcegraph Amp
 ```bash
-# Amp integration built-in
+# Integrasi Amp built-in
 amp beads sync
 amp beads ready
 ```
 
-## Best Practices
+## Praktik Terbaik
 
-### 1. Fine-Grained Tasks
-Split tasks menjadi small, actionable items:
+### 1. Tugas yang Terperinci
+Pecah tugas menjadi item-item kecil dan bisa dijalankan:
 
 ```bash
-# ❌ Bad
+# ❌ Buruk
 bd create "Build entire app" -p 0
 
-# ✅ Good
+# ✅ Bagus
 bd create "Setup project structure" -p 0
 bd create "Implement auth middleware" -p 0
 bd create "Create login endpoint" -p 0
 ```
 
-### 2. Always File Discovered Work
+### 2. Selalu Catat Pekerjaan yang Ditemukan
 ```bash
 # Saat coding, agent menemukan bug
-# Jangan ignore!
+# Jangan diabaikan!
 
 bd create "Fix database connection leak" \
   --discovered-from bd-a1b2 \
   -p 0
 ```
 
-### 3. Dependency-First Planning
+### 3. Perencanaan Berbasis Ketergantungan
 ```bash
-# Buat dependency graph sebelum mulai
+# Buat grafik ketergantungan sebelum mulai
 bd create "Database Schema" -p 0  # bd-a1
 bd create "API Endpoints" -p 0     # bd-a2
 bd create "Frontend Components" -p 0  # bd-a3
 
-# Link dependencies
+# Hubungkan ketergantungan
 bd dep add bd-a2 --blocks bd-a3
 bd dep add bd-a1 --blocks bd-a2
 
-# Now bd-a3 won't show in 'bd ready' until a1 and a2 done
+# Sekarang bd-a3 tidak akan muncul di 'bd ready' sampai a1 dan a2 selesai
 ```
 
-### 4. Session-Based Workflow
+### 4. Alur Kerja Berbasis Sesi
 ```bash
-# Start session
+# Mulai sesi
 bd ready
 bd assign bd-a1b2 --assignee claude-session-1
 
-# Work on task
+# Kerjakan tugas
 # ... coding ...
 
-# End session
+# Akhiri sesi
 bd update bd-a1b2 --status done
 
-# Next session
-bd ready  # Shows next available task
+# Sesi berikutnya
+bd ready  # Menampilkan tugas siap berikutnya
 ```
 
-## Comparison dengan Tools Lain
+## Perbandingan dengan Tools Lain
 
-| Feature | Beads | GitHub Issues | Jira | Markdown TODO |
+| Fitur | Beads | GitHub Issues | Jira | Markdown TODO |
 |---------|-------|---------------|------|---------------|
 | Git-backed | ✅ | ❌ | ❌ | ✅ |
-| Agent-optimized | ✅ | ❌ | ❌ | ❌ |
-| Dependency graph | ✅ | ⚠️ | ✅ | ❌ |
+| Dioptimalkan untuk agent | ✅ | ❌ | ❌ | ❌ |
+| Grafik ketergantungan | ✅ | ⚠️ | ✅ | ❌ |
 | JSON API | ✅ | ⚠️ | ⚠️ | ❌ |
 | Multi-agent | ✅ | ❌ | ❌ | ❌ |
 | Zero config | ✅ | ❌ | ❌ | ✅ |
-| Query ready tasks | ✅ | ❌ | ❌ | ❌ |
+| Cari tugas siap | ✅ | ❌ | ❌ | ❌ |
 
-## Real-World Impact
+## Dampak di Dunia Nyata
 
 Steve Yegge melaporkan setelah menggunakan Beads:
-- **95% reduction** dalam lost work
-- **Long-horizon tasks** bisa di-handle dengan baik
-- **Multi-agent coordination** menjadi seamless
-- **No more markdown plan chaos**
+- **Pengurangan 95%** dalam pekerjaan yang hilang
+- **Tugas jangka panjang** bisa ditangani dengan baik
+- **Koordinasi multi-agent** menjadi lancar
+- **Tidak ada lagi kekacauan rencana markdown**
 
 ## Tools dan Integrasi
 
 ### Official
-- **bd CLI**: Core tool (Go)
+- **bd CLI**: Tool utama (Go)
 - **npm package**: `@beads/bd`
 - **Python package**: `beads-mcp`
 - **VS Code Extension**: Beads Explorer
 
-### Community Tools
+### Tools Komunitas
 - **Terminal UI**: `beads-tui`
 - **Web UI**: `beads-web`
 - **Mobile App**: `beads-mobile`
 - **Slack Integration**: `beads-slack`
 
-## Setup untuk Maksimal Penggunaan
+## Setup untuk Penggunaan Maksimal
 
-### 1. IDE Integration
+### 1. Integrasi IDE
 ```bash
 # VS Code
 ext install beads.beads-explorer
 
-# Configuration
+# Konfigurasi
 {
   "beads.autoSync": true,
   "beads.showDecorations": true,
@@ -436,7 +437,7 @@ ext install beads.beads-explorer
 bd validate --strict
 ```
 
-### 3. CI/CD Integration
+### 3. Integrasi CI/CD
 ```yaml
 # .github/workflows/beads.yml
 name: Beads Validation
@@ -454,7 +455,7 @@ jobs:
 
 ### 4. Monitoring
 ```bash
-# Dashboard untuk track progress
+# Dashboard untuk melacak progress
 bd dashboard --port 8080
 
 # Metrics
@@ -463,19 +464,19 @@ bd metrics --format prometheus
 
 ## Troubleshooting
 
-### Issue: bd ready shows nothing
+### Masalah: bd ready tidak menampilkan apa-apa
 ```bash
-# Check if all tasks blocked
+# Cek apakah semua tugas diblokir
 bd list --status open
 
-# Check blockers
+# Cek pemblokir
 bd show bd-a1b2 --blockers
 
-# Unblock if needed
+# Buka blokir jika perlu
 bd update bd-x9y0 --status done
 ```
 
-### Issue: Merge conflicts
+### Masalah: Konflik merge
 ```bash
 # Auto-resolve dengan AI
 bd merge --strategy ai
@@ -485,9 +486,9 @@ bd conflicts list
 bd conflicts resolve bd-a1b2
 ```
 
-### Issue: Large repo slow
+### Masalah: Repo besar lambat
 ```bash
-# Enable caching
+# Aktifkan caching
 bd config set cache.enabled true
 
 # Compaction
@@ -498,16 +499,16 @@ bd compact --older-than 30d
 
 Beads merevolusi cara kita melakukan vibe coding dengan menyediakan:
 
-✅ **Persistent Memory** - Agents tidak lagi dementia antar session  
-✅ **Dependency Tracking** - Complex task graphs dengan mudah  
-✅ **Work Discovery** - Tidak ada lagi lost work  
-✅ **Multi-Agent Coordination** - Seamless collaboration  
-✅ **Git Integration** - Versioned, branched, merged seperti code  
+✅ **Memori Persisten** - Agents tidak lagi lupa antar sesi  
+✅ **Pelacakan Ketergantungan** - Grafik tugas kompleks dengan mudah  
+✅ **Penemuan Pekerjaan** - Tidak ada lagi pekerjaan yang hilang  
+✅ **Koordinasi Multi-Agent** - Kolaborasi tanpa hambatan  
+✅ **Integrasi Git** - Di-version-kan, branched, merged seperti kode  
 
-**Status 2026:** Production-ready, digunakan oleh thousands of developers  
-**Recommended for:** All vibe coding workflows, especially long-horizon tasks  
-**Not for:** Simple one-off scripts (overkill)
+**Status 2026:** Siap produksi, digunakan oleh ribuan developer  
+**Direkomendasikan untuk:** Semua alur kerja vibe coding, terutama tugas jangka panjang  
+**Tidak untuk:** Script sekali pakai sederhana (terlalu berlebihan)
 
-Dengan Beads, agents menjadi **10x more productive** dan **100x less frustrating**. Steve Yegge menyebutnya **"the biggest step forward in agentic coding since MCP+Playwright."**
+Dengan Beads, agents menjadi **10x lebih produktif** dan **100x lebih sedikit membuat frustrasi**. Steve Yegge menyebutnya **"langkah terbesar dalam coding dengan agent sejak MCP+Playwright."**
 
 Selamat vibe coding dengan Beads! 🎯✨
