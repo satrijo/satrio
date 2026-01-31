@@ -163,6 +163,8 @@ export default defineNuxtConfig({
         { name: 'twitter:creator', content: '@lensatrio' }
       ],
       link: [
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap' },
         { rel: 'canonical', href: 'https://satrio.dev' },
         // Resource hints for external domains
         { rel: 'preconnect', href: 'https://ui-avatars.com' },
