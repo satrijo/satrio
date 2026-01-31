@@ -603,10 +603,10 @@ body {
   /* Table styles */
   .prose table {
     font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: 0.9rem;
-    width: max-content;
-    min-width: 100%;
+    font-size: 0.875rem;
+    width: 100%;
     border-collapse: collapse;
+    table-layout: auto;
   }
 
   .prose thead {
@@ -627,6 +627,27 @@ body {
     font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
     padding: 0.75rem 1rem;
     border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-body);
+  }
+
+  .prose tr:last-child td {
+    border-bottom: none;
+  }
+
+  .prose tr:hover {
+    background-color: var(--color-surface);
+  }
+
+  /* Mobile table adjustments */
+  @media (max-width: 640px) {
+    .prose table {
+      font-size: 0.8125rem;
+    }
+    
+    .prose th,
+    .prose td {
+      padding: 0.5rem 0.75rem;
+    }
   }
 
   .prose ul {
