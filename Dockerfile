@@ -56,44 +56,10 @@ COPY --from=builder --chown=nuxtjs:nodejs /app/content /app/content
 
 # Copy scripts and node_modules needed for sync-articles.js
 COPY --from=builder --chown=nuxtjs:nodejs /app/scripts /app/scripts
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/pg /app/node_modules/pg
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/gray-matter /app/node_modules/gray-matter
-# Copy gray-matter dependencies
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/js-yaml /app/node_modules/js-yaml
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/argparse /app/node_modules/argparse
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/toml /app/node_modules/toml
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/section-matter /app/node_modules/section-matter
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/strip-bom-string /app/node_modules/strip-bom-string
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/kind-of /app/node_modules/kind-of
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/extend-shallow /app/node_modules/extend-shallow
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/is-extendable /app/node_modules/is-extendable
-# Copy pg dependencies
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/pg-pool /app/node_modules/pg-pool
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/pg-protocol /app/node_modules/pg-protocol
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/pg-types /app/node_modules/pg-types
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/pg-int8 /app/node_modules/pg-int8
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/pg-numeric /app/node_modules/pg-numeric
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/pgpass /app/node_modules/pgpass
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/postgres-array /app/node_modules/postgres-array
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/postgres-bytea /app/node_modules/postgres-bytea
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/postgres-date /app/node_modules/postgres-date
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/postgres-interval /app/node_modules/postgres-interval
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/postgres-range /app/node_modules/postgres-range
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/split2 /app/node_modules/split2
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/xtend /app/node_modules/xtend
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/buffer-writer /app/node_modules/buffer-writer
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/packet-reader /app/node_modules/packet-reader
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/ws /app/node_modules/ws
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/obuf /app/node_modules/obuf
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/through2 /app/node_modules/through2
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/readable-stream /app/node_modules/readable-stream
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/safe-buffer /app/node_modules/safe-buffer
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/string_decoder /app/node_modules/string_decoder
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/util-deprecate /app/node_modules/util-deprecate
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/inherits /app/node_modules/inherits
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/core-util-is /app/node_modules/core-util-is
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/isarray /app/node_modules/isarray
-COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules/process-nextick-args /app/node_modules/process-nextick-args
+
+# Copy only production dependencies needed for runtime
+# This includes pg, gray-matter and their dependencies
+COPY --from=deps --chown=nuxtjs:nodejs /app/node_modules /app/node_modules
 
 # Create data directory for SQLite database (persisted volume)
 RUN mkdir -p /app/.data && chown -R nuxtjs:nodejs /app/.data
