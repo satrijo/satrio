@@ -1,7 +1,17 @@
 <template>
-  <div v-if="relatedArticles.length > 0" class="related-articles">
+  <div class="related-articles">
     <h3 class="related-title">Artikel Terkait</h3>
-    <div class="related-grid">
+    
+    <!-- Loading skeleton -->
+    <div v-if="pending" class="related-grid">
+      <div v-for="n in 3" :key="n" class="related-card-skeleton">
+        <div class="skeleton h-3 w-20 mb-2"></div>
+        <div class="skeleton h-4 w-full"></div>
+      </div>
+    </div>
+    
+    <!-- Related articles -->
+    <div v-else-if="relatedArticles.length > 0" class="related-grid">
       <NuxtLink
         v-for="article in relatedArticles"
         :key="article.path"
@@ -12,6 +22,9 @@
         <h4 class="related-card-title">{{ article.title }}</h4>
       </NuxtLink>
     </div>
+    
+    <!-- Empty state -->
+    <p v-else class="text-muted">Tidak ada artikel terkait.</p>
   </div>
 </template>
 
@@ -19,9 +32,12 @@
 interface Props {
   currentPost: any
   allPosts: any[]
+  pending?: boolean
 }
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  pending: false
+})
 
 const { getRelatedArticles } = useArticleInterlinking()
 
