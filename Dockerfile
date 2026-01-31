@@ -12,9 +12,9 @@ RUN apk add --no-cache python3 make g++ sqlite-dev
 COPY package*.json ./
 
 # Install dependencies with cache mounts for faster rebuilds
-# Use npm ci for faster, reproducible installs in production
+# Using npm install (not ci) due to dependency version conflicts
 RUN --mount=type=cache,target=/root/.npm \
-    npm ci --prefer-offline --no-audit --no-fund
+    npm install --prefer-offline --no-audit --no-fund
 
 # Stage 2: Build
 FROM node:20-alpine AS builder
