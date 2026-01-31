@@ -346,10 +346,10 @@ const readingTime = computed(() => {
 
 const { filterVisiblePosts } = usePostVisibility()
 
-  // Related posts
+  // Related posts - use data from optimized endpoint
   const relatedPosts = computed(() => {
-    if (!post.value || !allPosts.value?.length) return []
-    return filterVisiblePosts(allPosts.value)
+    if (!post.value || !relatedArticles.value?.length) return []
+    return filterVisiblePosts(relatedArticles.value)
       .filter((p) => p.slug !== post.value!.slug)
       .filter(
         (p) =>
