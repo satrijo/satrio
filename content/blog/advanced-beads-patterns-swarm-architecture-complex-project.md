@@ -6,6 +6,8 @@ category: JavaScript
 article_language: indonesian
 ai_generated: ai
 programming_language: javascript
+series: beads-vibe-coding
+series_order: 3
 ---
 
 Setelah menguasai dasar-dasar Beads dan implementasi workflow praktis, saatnya naik level. Artikel ini membahas **advanced patterns** yang digunakan Steve Yegge dan developer berpengalaman lainnya untuk menangani project kompleks dengan multiple agents, complex dependencies, dan long-term planning.
@@ -552,6 +554,20 @@ Steve Yegge menyebutkan bahwa dengan patterns ini, agents menjadi **"10x more pr
 5. **Scale gradually** - Dari 2 agents ke 3, dst
 
 Dengan advanced patterns yang tepat, vibe coding akan berubah dari eksperimen yang chaotic menjadi **proses development yang scalable dan predictable**.
+
+---
+
+## Seri Artikel Beads untuk Vibe Coding
+
+Ini adalah **Part 3** dari seri 3 artikel tentang Beads:
+
+1. [Mengapa Kamu Perlu Beads untuk Vibe Coding?](/blog/mengapa-kamu-perlu-beads-untuk-vibe-coding)
+2. [Implementasi Praktis Beads: Workflow Vibe Coding yang Efektif](/blog/implementasi-praktis-beads-workflow-vibe-coding-efektif)
+3. **Advanced Beads Patterns: Swarm Architecture dan Complex Project Management** (artikel ini)
+
+[← Part 2 - Implementasi Praktis Beads](/blog/implementasi-praktis-beads-workflow-vibe-coding-efektif) | [Kembali ke Part 1 →](/blog/mengapa-kamu-perlu-beads-untuk-vibe-coding)
+
+---
 
 ## Referensi
 

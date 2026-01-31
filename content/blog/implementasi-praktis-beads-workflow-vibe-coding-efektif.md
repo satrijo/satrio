@@ -6,6 +6,8 @@ category: JavaScript
 article_language: indonesian
 ai_generated: ai
 programming_language: javascript
+series: beads-vibe-coding
+series_order: 2
 ---
 
 Di artikel sebelumnya, kita sudah memahami **mengapa** Beads penting untuk vibe coding. Sekarang kita akan belajar **bagaimana** mengimplementasikannya dalam praktik sehari-hari.
@@ -531,6 +533,20 @@ Implementasi Beads bukan hanya tentang menggunakan tool baru, tapi tentang **men
 6. **Regular Maintenance** - `bd doctor` dan `bd cleanup` secara rutin
 
 Dengan workflow yang tepat, Beads akan mengubah vibe coding dari "Descent Into Madness" menjadi proses yang **terstruktur, predictable, dan highly productive**.
+
+---
+
+## Seri Artikel Beads untuk Vibe Coding
+
+Ini adalah **Part 2** dari seri 3 artikel tentang Beads:
+
+1. [Mengapa Kamu Perlu Beads untuk Vibe Coding?](/blog/mengapa-kamu-perlu-beads-untuk-vibe-coding)
+2. **Implementasi Praktis Beads: Workflow Vibe Coding yang Efektif** (artikel ini)
+3. [Advanced Beads Patterns: Swarm Architecture dan Complex Project Management](/blog/advanced-beads-patterns-swarm-architecture-complex-project)
+
+[← Part 1 - Mengapa Kamu Perlu Beads](/blog/mengapa-kamu-perlu-beads-untuk-vibe-coding) | [Part 3 - Advanced Beads Patterns →](/blog/advanced-beads-patterns-swarm-architecture-complex-project)
+
+---
 
 ## Referensi
 

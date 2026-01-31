@@ -6,6 +6,8 @@ category: JavaScript
 article_language: indonesian
 ai_generated: ai
 programming_language: javascript
+series: beads-vibe-coding
+series_order: 1
 ---
 
 Kalau kamu sudah mulai menggunakan AI coding agents seperti Claude, Cursor, atau GitHub Copilot untuk development sehari-hari, pasti pernah mengalami situasi seperti ini:
@@ -322,6 +324,20 @@ Dengan Beads:
 Dalam dunia di mana AI agents menjadi semakin pintar, yang membedakan hasil yang bagus dan biasa-biasa saja bukan lagi kecerdasan agents-nya, tapi **bagaimana kita mengelola dan mengarahkan mereka**.
 
 Beads memberikan struktur yang dibutuhkan agents untuk bekerja secara efektif—seperti memberikan peta dan kompas kepada navigator yang pintar tapi sering lupa arah.
+
+---
+
+## Seri Artikel Beads untuk Vibe Coding
+
+Ini adalah **Part 1** dari seri 3 artikel tentang Beads:
+
+1. **Mengapa Kamu Perlu Beads untuk Vibe Coding?** (artikel ini)
+2. [Implementasi Praktis Beads: Workflow Vibe Coding yang Efektif](/blog/implementasi-praktis-beads-workflow-vibe-coding-efektif)
+3. [Advanced Beads Patterns: Swarm Architecture dan Complex Project Management](/blog/advanced-beads-patterns-swarm-architecture-complex-project)
+
+**Selanjutnya:** [Part 2 - Implementasi Praktis Beads →](/blog/implementasi-praktis-beads-workflow-vibe-coding-efektif)
+
+---
 
 ## Referensi
 
