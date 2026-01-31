@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 # Stage 1: Dependencies (cached)
 FROM node:20-alpine AS deps
 
@@ -9,8 +11,10 @@ RUN apk add --no-cache python3 make g++ sqlite-dev
 # Copy package files only
 COPY package*.json ./
 
-# Install dependencies (cached jika package.json tidak berubah)
-RUN npm install
+# Install dependencies with cache mounts for faster rebuilds
+# Use npm ci for faster, reproducible installs in production
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci --prefer-offline --no-audit --no-fund
 
 # Stage 2: Build
 FROM node:20-alpine AS builder
@@ -27,8 +31,10 @@ COPY --from=deps /app/package*.json ./
 # Copy source code
 COPY . .
 
-# Build the application
-RUN npm run build
+# Build the application with cache mounts
+ENV NODE_ENV=production
+RUN --mount=type=cache,target=/app/.nuxt/cache \
+    npm run build
 
 # Stage 3: Production
 FROM node:20-alpine AS runner
@@ -55,6 +61,7 @@ RUN mkdir -p /app/.data && chown -R nuxtjs:nodejs /app/.data
 ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 ENV PORT=3000
+ENV NITRO_PRESET=node-server
 
 # Note: Don't switch to nuxtjs here - entrypoint needs to run as root for chown
 # The application will run as nuxtjs via su in CMD

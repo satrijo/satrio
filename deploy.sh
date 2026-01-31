@@ -31,7 +31,11 @@ log_error() {
 
 build_image() {
     log_info "Building Docker image: ${FULL_IMAGE}"
-    docker build -t "${FULL_IMAGE}" .
+    # Enable BuildKit for faster builds with cache mounts
+    DOCKER_BUILDKIT=1 docker build \
+        --build-arg BUILDKIT_INLINE_CACHE=1 \
+        --cache-from "${FULL_IMAGE}" \
+        -t "${FULL_IMAGE}" .
     log_info "Build complete!"
 }
 
