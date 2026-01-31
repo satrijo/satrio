@@ -1,285 +1,369 @@
 ---
 title: "Advanced Beads Patterns: Swarm Architecture dan Complex Project Management"
 date: 2026-01-31T00:00:00.000Z
-description: "Pelajari advanced patterns untuk Beads: swarm architecture, epic decomposition strategies, dependency resolution algorithms, dan complex project management untuk large-scale vibe coding."
+description: "Pelajari advanced patterns untuk Beads: swarm architecture, Merge Wall problem, Agent UX, Zero Framework Cognition, dan strategi untuk large-scale vibe coding projects."
 category: JavaScript
 article_language: indonesian
 ai_generated: ai
 programming_language: javascript
 ---
 
-# Advanced Beads Patterns: Swarm Architecture dan Complex Project Management
+Setelah menguasai dasar-dasar Beads dan implementasi workflow praktis, saatnya naik level. Artikel ini membahas **advanced patterns** yang digunakan Steve Yegge dan developer berpengalaman lainnya untuk menangani project kompleks dengan multiple agents, complex dependencies, dan long-term planning.
 
-## Pengantar: Naik Level dengan Beads
+## Swarm Architecture: Multiple Agents Bekerja Bersamaan
 
-Setelah menguasai dasar-dasar Beads dan implementasi workflow praktis, saatnya kita naik level. Artikel ini membahas **advanced patterns** yang digunakan Steve Yegge dan developer berpengalaman lainnya untuk menangani proyek kompleks dengan multiple agents, complex dependencies, dan long-term planning.
+**Swarm architecture** adalah arsitektur di mana multiple AI agents bekerja bersamaan seperti kawanan lebah—masing-masing mengerjakan bagian yang berbeda, tapi terkoordinasi menuju satu tujuan.
 
-## The Swarm Architecture
+Steve Yegge pernah menjalankan "selusin concurrent agents" secara bersamaan. Meskipun dia akhirnya mengurangi ke 1-3 agents untuk sustainability, pengalaman tersebut memberikan insight berharga.
 
-Steve Yegge pernah menjalankan "dozen concurrent agents" secara bersamaan. Meskipun dia akhirnya mengurangi ke 1-3 agents untuk sustainabilitas, pengalaman tersebut memberikan insight berharga tentang swarm architecture.
+### Pattern 1: The Orchestrator
 
-### Pattern 1: The Orchestrator Pattern
+Dalam pattern ini, ada satu "orchestrator" (bisa manusia atau agent senior) yang membagi pekerjaan:
 
 ```bash
-# Struktur swarm dengan orchestrator
-
-# Orchestrator Agent (Human atau AI Lead)
+# Orchestrator membuat high-level structure
 $ bd create "Project: E-Commerce Platform" -p 0
-# Returns: bd-epic-001
+# Returns: bd-ecom
 
-# Decompose into major components
-$ bd create "Backend API" -p 0 --parent bd-epic-001
-$ bd create "Frontend Web" -p 0 --parent bd-epic-001
-$ bd create "Mobile App" -p 0 --parent bd-epic-001
-$ bd create "Database Design" -p 0 --parent bd-epic-001
-$ bd create "DevOps/Infrastructure" -p 0 --parent bd-epic-001
+# Decompose menjadi major components
+$ bd create "Backend API" -p 0 --parent bd-ecom
+$ bd create "Frontend Web" -p 0 --parent bd-ecom
+$ bd create "Mobile App" -p 0 --parent bd-ecom
+$ bd create "Database Design" -p 0 --parent bd-ecom
 
-# Setiap component punya lead agent
-$ bd assign bd-epic-001.1 --assignee orchestrator
-$ bd assign bd-epic-001.2 --assignee frontend-lead
-$ bd assign bd-epic-001.3 --assignee mobile-lead
+# Assign setiap component ke lead agent berbeda
+$ bd assign bd-ecom.1 --assignee agent-backend
+$ bd assign bd-ecom.2 --assignee agent-frontend
+$ bd assign bd-ecom.3 --assignee agent-mobile
 ```
 
-**Cara Kerja:**
-1. Orchestrator membuat high-level plan
-2. Component leads mengambil ownership masing-masing
-3. Component leads membuat sub-tasks dan meng-assign ke worker agents
-4. Semua komunikasi melalui Beads (tidak ada direct coordination)
+**Cara kerja:**
 
-### Pattern 2: The Pipeline Pattern
+1. Orchestrator membuat high-level plan dan struktur
+2. Component leads mengambil ownership masing-masing area
+3. Component leads bisa membuat sub-tasks dan assign ke worker agents
+4. Semua komunikasi melalui Beads—tidak ada koordinasi langsung antar agents
+
+### Pattern 2: The Pipeline
+
+Workflow sequential di mana output satu stage menjadi input stage berikutnya:
 
 ```bash
-# Workflow: Design → Implement → Review → Test → Deploy
+# Design → Implement → Review → Test → Deploy
 
 # Stage 1: Design
-$ bd create "Design Auth System" -p 0 --label stage:design
+$ bd create "Design: Auth System" -p 0 --label stage:design
 
 # Stage 2: Implementation (blocked by design)
-$ bd create "Implement Auth API" -p 0 --label stage:implement
-$ bd dep add bd-auth-impl --blocks bd-auth-design
+$ bd create "Implement: Auth API" -p 0 --label stage:implement
+$ bd dep add bd-impl --blocks bd-design
 
 # Stage 3: Review (blocked by implementation)
-$ bd create "Review Auth Implementation" -p 0 --label stage:review
-$ bd dep add bd-auth-review --blocks bd-auth-impl
+$ bd create "Review: Auth code" -p 0 --label stage:review
+$ bd dep add bd-review --blocks bd-impl
 
 # Stage 4: Testing
-$ bd create "Test Auth System" -p 0 --label stage:test
-$ bd dep add bd-auth-test --blocks bd-auth-review
-
-# Stage 5: Deployment
-$ bd create "Deploy Auth System" -p 0 --label stage:deploy
-$ bd dep add bd-auth-deploy --blocks bd-auth-test
+$ bd create "Test: Auth integration" -p 0 --label stage:test
+$ bd dep add bd-test --blocks bd-review
 
 # Query by stage
 $ bd list --label stage:design --status open
 $ bd list --label stage:implement --status ready
 ```
 
-### Pattern 3: The Specialist Pattern
+### Pattern 3: The Specialist
+
+Assign agents berdasarkan keahlian mereka:
 
 ```bash
-# Assign agents berdasarkan specialization
+# Database specialist
+$ bd create "Optimize: Query performance" -p 0 --label specialist:database
+$ bd assign bd-opt --assignee agent-db-specialist
 
-# Database Specialist
-$ bd create "Optimize query performance" -p 0 --label specialist:database
-$ bd assign bd-opt-001 --assignee agent-database-specialist
+# Security specialist
+$ bd create "Audit: Authentication flow" -p 0 --label specialist:security
+$ bd assign bd-audit --assignee agent-security
 
-# Security Specialist
-$ bd create "Audit authentication flow" -p 0 --label specialist:security
-$ bd assign bd-sec-001 --assignee agent-security-specialist
+# UI specialist
+$ bd create "Redesign: Login page" -p 0 --label specialist:ui
+$ bd assign bd-redesign --assignee agent-ui-specialist
 
-# UI/UX Specialist
-$ bd create "Redesign login page" -p 0 --label specialist:frontend
-$ bd assign bd-ui-001 --assignee agent-frontend-specialist
-
-# Query by specialist
+# Query tasks untuk specialist tertentu
 $ bd list --label specialist:database --status ready
 ```
 
-## Epic Decomposition Strategies
+## The Merge Wall: Tantangan Utama Swarming
 
-### Strategy 1: Vertical Slicing
+Ketika menjalankan multiple agents, ada satu masalah besar yang disebut **Merge Wall**—tembok yang menghalangi saat mencoba menggabungkan hasil kerja semua agents.
 
-Memecah epic berdasarkan user journey/end-to-end features.
+### Apa itu Merge Wall?
 
+Bayangkan 3 agents bekerja bersamaan dari commit yang sama:
+
+- **Agent A**: Mengubah logging system
+- **Agent B**: Mengubah database API  
+- **Agent C**: Mengubah client-server protocol
+
+Semua mulai dari baseline yang sama. Tapi setelah selesai:
+
+1. Agent A merge duluan ✅
+2. Agent B merge, tapi harus rebase dengan perubahan A (sedikit effort)
+3. Agent C selesai, tapi codebase sudah **sangat berbeda** karena perubahan A dan B
+
+Agent C mungkin harus **redesign dan reimplementasi ulang** karena sistem sudah berubah fundamental.
+
+### Solusi untuk Merge Wall
+
+**1. Serialize pekerjaan yang overlap:**
 ```bash
-# Epic: User Authentication System
+# Jika ada dependency antara tasks, jangan parallel
+$ bd dep add bd-logging --blocks bd-database
+$ bd dep add bd-database --blocks bd-protocol
 
-# Vertical Slice 1: Registration Flow
-$ bd create "Registration: Email validation" -p 0 --parent bd-auth-epic
-$ bd create "Registration: Password requirements" -p 0 --parent bd-auth-epic
-$ bd create "Registration: Email confirmation" -p 0 --parent bd-auth-epic
-
-# Vertical Slice 2: Login Flow
-$ bd create "Login: Credentials validation" -p 0 --parent bd-auth-epic
-$ bd create "Login: Session management" -p 0 --parent bd-auth-epic
-$ bd create "Login: Remember me feature" -p 0 --parent bd-auth-epic
-
-# Vertical Slice 3: Password Recovery
-$ bd create "Recovery: Request reset" -p 0 --parent bd-auth-epic
-$ bd create "Recovery: Token generation" -p 0 --parent bd-auth-epic
-$ bd create "Recovery: Password update" -p 0 --parent bd-auth-epic
-
-# Keuntungan: Setiap slice bisa deliver value independently
+# Sekarang hanya satu yang ready pada satu waktu
+$ bd ready
+bd-logging  P0  Update logging system  # Hanya ini yang ready
 ```
 
-### Strategy 2: Horizontal Slicing
+**2. Gunakan git worktrees:**
+```bash
+# Setiap agent bekerja di folder terpisah
+$ git worktree add ../agent-a-work feature-a
+$ git worktree add ../agent-b-work feature-b
 
-Memecah berdasarkan architectural layers.
+# Merge ke main secara sequential
+```
+
+**3. Pause saat refactoring besar:**
+
+Jika ada pekerjaan yang mengubah struktur fundamental (rename packages, restructure folders, major API changes), **pause semua agents lain** sampai pekerjaan tersebut selesai dan di-merge.
+
+**4. Use a merge queue:**
+
+Serialize proses merge—satu agent merge, yang lain menunggu dan rebase setelahnya.
+
+### Kapan Swarming Efektif vs Tidak
+
+| Situasi | Swarming? |
+|---------|-----------|
+| Tasks independen (frontend vs backend) | ✅ Ya |
+| Semua modify file yang sama | ❌ Tidak |
+| Refactoring arsitektur | ❌ Tidak |
+| Menulis tests untuk modules berbeda | ✅ Ya |
+| Major version upgrade | ❌ Serialize |
+
+## Agent UX: Membuat Tools yang AI-Friendly
+
+Salah satu alasan Beads sukses adalah karena **Agent UX** yang baik—Beads dirancang agar AI mudah dan senang menggunakannya.
+
+### Prinsip Agent UX
+
+**1. Familiar patterns:**
+
+Beads menggunakan pattern mirip GitHub Issues, yang sudah dipahami AI dari training data mereka. Makanya agents langsung "ngerti" cara pakai Beads.
+
+**2. Forgiving input:**
+
+```bash
+# Kedua command ini bekerja
+$ bd create "Task" --body "Description"
+$ bd create "Task" --description "Description"
+
+# AI sering tertukar antara --body dan --description
+# Beads menerima keduanya
+```
+
+**3. Clear error messages:**
+
+Error yang jelas membantu AI memperbaiki kesalahan mereka. Beads memberikan error messages yang descriptive, bukan cryptic codes.
+
+**4. Queryable state:**
+
+AI bisa bertanya "apa yang harus dikerjakan?" dan dapat jawaban yang jelas dan structured, bukan wall of text.
+
+### Kenapa AI Menyukai Beads
+
+Steve Yegge menyarankan: tanya langsung agent kamu apakah mereka mau pakai Beads. Mereka biasanya antusias karena:
+
+- **Sesuai cara berpikir mereka** - AI agents suka tracking dan organizing
+- **Mengurangi cognitive load** - Data terstruktur, tidak perlu parse markdown
+- **Provenance tracking** - Mereka bisa melacak origin setiap task
+- **Dependencies jelas** - Tidak perlu inferensi dari teks
+
+## Zero Framework Cognition (ZFC)
+
+Steve Yegge memperkenalkan konsep **ZFC (Zero Framework Cognition)**: jangan buat logika kompleks di code untuk memutuskan sesuatu—biarkan AI yang memutuskan.
+
+### Apa itu ZFC?
+
+**Contoh buruk (ZFC Violation):**
+```javascript
+// ❌ Jangan lakukan ini
+function isTaskComplete(output) {
+  // Heuristic matching - fragile!
+  if (output.includes('done') || 
+      output.includes('completed') ||
+      output.includes('finished')) {
+    return true
+  }
+  return false
+}
+```
+
+Masalah dengan pendekatan ini:
+- Bagaimana kalau output dalam bahasa Indonesia?
+- Bagaimana kalau pakai kata "selesai" atau "kelar"?
+- Bagaimana kalau ada edge case yang tidak terpikirkan?
+
+**Contoh baik (ZFC Compliant):**
+```javascript
+// ✅ Biarkan AI yang memutuskan
+async function isTaskComplete(output) {
+  const decision = await askAI({
+    prompt: `Analyze this output and determine if the task is complete: ${output}`,
+    responseFormat: { isComplete: 'boolean', reason: 'string' }
+  })
+  return decision.isComplete
+}
+```
+
+### Prinsip ZFC
+
+**✅ Yang boleh di-code (orchestration):**
+- Read/write files
+- Parse JSON, serialize data
+- Schema validation
+- Rate limiting, timeout handling
+- State management
+
+**❌ Yang harus di-delegate ke AI:**
+- Ranking atau scoring
+- Keputusan tentang ordering atau dependencies
+- Semantic analysis
+- Menentukan "apa yang harus dilakukan selanjutnya"
+- Quality judgment
+
+### Kenapa ZFC Penting untuk Beads?
+
+Beads sendiri adalah contoh ZFC-compliant system:
+- Beads hanya menyimpan dan query data (orchestration)
+- Keputusan tentang prioritas dan ordering? Agent yang tentukan
+- Keputusan task mana yang ready? Computed dari dependencies, bukan heuristics
+
+## Epic Decomposition Strategies
+
+### Strategy 1: Vertical Slicing (Pemotongan Vertikal)
+
+Memecah epic berdasarkan **user journey atau end-to-end features**. Setiap slice memberikan value yang bisa di-deliver secara independen.
+
+```bash
+# Epic: User Authentication
+
+# Slice 1: Registration (full flow)
+$ bd create "Reg: Form validation" --parent bd-auth
+$ bd create "Reg: Email confirmation" --parent bd-auth
+$ bd create "Reg: Welcome email" --parent bd-auth
+
+# Slice 2: Login (full flow)
+$ bd create "Login: Credential check" --parent bd-auth
+$ bd create "Login: Session creation" --parent bd-auth
+$ bd create "Login: Remember me" --parent bd-auth
+
+# Slice 3: Password Recovery (full flow)
+$ bd create "Recovery: Request form" --parent bd-auth
+$ bd create "Recovery: Email token" --parent bd-auth
+$ bd create "Recovery: Reset form" --parent bd-auth
+```
+
+**Keuntungan:** Setiap slice bisa di-release dan memberikan value secara independen.
+
+### Strategy 2: Horizontal Slicing (Pemotongan Horizontal)
+
+Memecah berdasarkan **architectural layers**:
 
 ```bash
 # Epic: Payment System
 
-# Layer 1: Database
-$ bd create "Payment: Database schema" -p 0 --parent bd-payment-epic --label layer:data
+# Layer 1: Data
+$ bd create "Payment: Database schema" --label layer:data
 
-# Layer 2: Backend API
-$ bd create "Payment: API endpoints" -p 0 --parent bd-payment-epic --label layer:api
-$ bd dep add bd-payment-api --blocks bd-payment-data
+# Layer 2: API (blocked by data)
+$ bd create "Payment: REST endpoints" --label layer:api
+$ bd dep add bd-api --blocks bd-data
 
-# Layer 3: Business Logic
-$ bd create "Payment: Transaction processing" -p 0 --parent bd-payment-epic --label layer:logic
-$ bd dep add bd-payment-logic --blocks bd-payment-api
+# Layer 3: Business Logic (blocked by API)
+$ bd create "Payment: Transaction processing" --label layer:logic
+$ bd dep add bd-logic --blocks bd-api
 
-# Layer 4: Frontend
-$ bd create "Payment: Checkout UI" -p 0 --parent bd-payment-epic --label layer:ui
-$ bd dep add bd-payment-ui --blocks bd-payment-logic
-
-# Layer 5: Integration
-$ bd create "Payment: Third-party gateway" -p 0 --parent bd-payment-epic --label layer:integration
-$ bd dep add bd-payment-integration --blocks bd-payment-logic
+# Layer 4: UI (blocked by logic)
+$ bd create "Payment: Checkout form" --label layer:ui
+$ bd dep add bd-ui --blocks bd-logic
 ```
+
+**Keuntungan:** Dependencies jelas, natural untuk development flow.
 
 ### Strategy 3: Risk-Based Decomposition
 
-Mengerjakan bagian paling berisiko dulu.
+Mengerjakan **bagian paling berisiko atau uncertain duluan**:
 
 ```bash
-# Epic: Real-time Chat System
+# Epic: Real-time Chat
 
-# High Risk: WebSocket connection stability
-$ bd create "Chat: WebSocket connection handling" -p 0 --parent bd-chat-epic --label risk:high
+# High Risk - kerjakan duluan
+$ bd create "Chat: WebSocket stability" --label risk:high -p 0
+$ bd create "Chat: Message persistence" --label risk:high -p 0
 
-# High Risk: Message persistence
-$ bd create "Chat: Message storage and retrieval" -p 0 --parent bd-chat-epic --label risk:high
+# Medium Risk
+$ bd create "Chat: Typing indicators" --label risk:medium -p 1
 
-# Medium Risk: Typing indicators
-$ bd create "Chat: Typing status feature" -p 0 --parent bd-chat-epic --label risk:medium
+# Low Risk - paling akhir
+$ bd create "Chat: Emoji reactions" --label risk:low -p 2
 
-# Low Risk: Emoji reactions
-$ bd create "Chat: Emoji reaction system" -p 0 --parent bd-chat-epic --label risk:low
-
-# Priority berdasarkan risk
+# Query by risk
 $ bd list --label risk:high --status ready
 ```
 
-## Advanced Dependency Patterns
+**Keuntungan:** Fail fast—kalau ada yang tidak feasible, ketahuan lebih awal.
 
-### Pattern: Conditional Dependencies
+## Software is Now Throwaway
 
-```bash
-# Task A bisa dikerjakan, tapi ada opsional improvement
-$ bd create "Implement basic search" -p 0
-# Returns: bd-search-001
+Salah satu insight paling mengejutkan dari Steve Yegge: **software sekarang punya shelf life kurang dari 1 tahun**.
 
-$ bd create "Add fuzzy search capability" -p 1
-# Returns: bd-search-002
+### Implikasi untuk Development
 
-$ bd create "Implement search UI" -p 0
-# Returns: bd-search-ui
+1. **Jangan terlalu attached dengan code** - Code adalah means to an end, bukan karya seni yang harus dipertahankan selamanya
 
-# UI bisa dikerjakan dengan basic search
-$ bd dep add bd-search-ui --blocks bd-search-001
+2. **Rewriting seringkali lebih mudah daripada fixing** - Untuk AI, generate fresh code lebih mudah daripada understand dan fix legacy code
 
-# Tapi kalau fuzzy search selesai dulu, UI harus update
-$ bd dep add bd-search-ui --related bd-search-002
+3. **Unit tests rusak setelah refactor besar?** - Kadang lebih efisien hapus dan generate baru daripada fix satu per satu
 
-# Query: task yang blocked tapi ada related work
-$ bd list --has-related --status open
-```
+4. **Legacy code?** - Pertimbangkan recreate dengan spec yang sama tapi architecture baru
 
-### Pattern: Alternative Paths
+### Bagaimana Beads Membantu?
+
+Beads menyimpan **intent dan spec**, bukan code:
 
 ```bash
-# Epic dengan multiple implementation options
-
-$ bd create "Image Processing: Option A - Sharp library" -p 0 --parent bd-image-epic
-$ bd create "Image Processing: Option B - Jimp library" -p 0 --parent bd-image-epic
-$ bd create "Image Processing: Option C - Custom implementation" -p 0 --parent bd-image-epic
-
-# Hanya satu yang akan dipilih
-$ bd update bd-image-opt-a --status in_progress
-$ bd update bd-image-opt-b --status cancelled
-$ bd update bd-image-opt-c --status cancelled
+$ bd show bd-auth.1
+ID: bd-auth.1
+Title: Implement JWT authentication
+Description: 
+- Support access token (15 min expiry)
+- Support refresh token (7 day expiry)  
+- Store in httpOnly cookies
+Status: done
 ```
 
-### Pattern: Cyclic Dependency Resolution
+Ketika code perlu ditulis ulang:
+- Issues di Beads masih relevan sebagai spec
+- History tersimpan di git, bisa di-reconstruct
+- Agent baru bisa re-implement dari spec yang sama
 
-```bash
-# Cek circular dependencies
-$ bd check-circular-deps
+## Event-Driven Workflows dengan Hooks
 
-# Output:
-# Circular dependency detected:
-# bd-auth-middleware → bd-user-model → bd-auth-middleware
+Beads mendukung hooks untuk automation:
 
-# Solusi: Introduce abstraction layer
-$ bd create "Abstract User Interface" -p 0
-$ bd dep add bd-auth-middleware --blocks bd-user-interface
-$ bd dep add bd-user-model --blocks bd-user-interface
-
-# Update existing dependencies
-$ bd dep remove bd-auth-middleware bd-user-model
-$ bd dep add bd-auth-middleware --blocks bd-user-interface
-```
-
-## Complex Query Patterns
-
-### Query 1: Critical Path Analysis
-
-```bash
-# Temukan task yang blocking banyak work lainnya
-$ bd query "SELECT id, title, COUNT(blocked_by) as blocker_count 
-  FROM issues 
-  WHERE status = 'open' 
-  GROUP BY id 
-  ORDER BY blocker_count DESC"
-
-# Atau dengan CLI
-$ bd list --is-blocker-for-count > 3
-```
-
-### Query 2: Bottleneck Detection
-
-```bash
-# Task yang sudah lama in_progress
-$ bd list --status in_progress --inactive-for 3d
-
-# Task dengan banyak blockers
-$ bd list --blocker-count > 2
-
-# Epic dengan progress paling lambat
-$ bd epic-progress --sort by-velocity
-```
-
-### Query 3: Resource Allocation
-
-```bash
-# Lihat workload per agent
-$ bd workload --by-assignee
-
-# Output:
-# agent-claude: 5 tasks (3 P0, 2 P1)
-# agent-cursor: 3 tasks (1 P0, 2 P2)
-# agent-copilot: 8 tasks (0 P0, 4 P1, 4 P2)
-
-# Rebalance workload
-$ bd assign bd-task-001 --assignee agent-cursor
-```
-
-## Event-Driven Workflows
-
-### Pattern: Auto-Assignment
+### Auto-Assignment Hook
 
 ```bash
 # .beads-hooks/on-create
@@ -288,18 +372,19 @@ ISSUE_ID=$1
 PRIORITY=$(bd show $ISSUE_ID --json | jq -r '.priority')
 LABELS=$(bd show $ISSUE_ID --json | jq -r '.labels[]')
 
+# Auto-assign P0 ke senior agent
 if [ "$PRIORITY" == "0" ]; then
-  # Auto-assign critical issues to senior agent
   bd assign $ISSUE_ID --assignee agent-senior
-  echo "🔴 Critical issue $ISSUE_ID auto-assigned to senior agent"
+  echo "Critical issue auto-assigned to senior"
 fi
 
+# Route by specialist
 if echo "$LABELS" | grep -q "specialist:database"; then
-  bd assign $ISSUE_ID --assignee agent-database-specialist
+  bd assign $ISSUE_ID --assignee agent-db
 fi
 ```
 
-### Pattern: Status Cascade
+### Status Cascade Hook
 
 ```bash
 # .beads-hooks/on-complete
@@ -308,17 +393,17 @@ ISSUE_ID=$1
 PARENT_ID=$(bd show $ISSUE_ID --json | jq -r '.parent')
 
 if [ "$PARENT_ID" != "null" ]; then
-  # Check if all siblings are done
-  SIBLINGS=$(bd list --parent $PARENT_ID --status open | wc -l)
+  # Check if all sibling tasks are done
+  REMAINING=$(bd list --parent $PARENT_ID --status open | wc -l)
   
-  if [ "$SIBLINGS" -eq 0 ]; then
+  if [ "$REMAINING" -eq 0 ]; then
     bd update $PARENT_ID --status ready
-    echo "✅ All subtasks complete, $PARENT_ID marked as ready"
+    echo "All subtasks complete, parent marked ready"
   fi
 fi
 ```
 
-### Pattern: Slack Integration
+### Notification Hook
 
 ```bash
 # .beads-hooks/on-block
@@ -326,166 +411,87 @@ fi
 ISSUE_ID=$1
 BLOCKER_ID=$2
 
-MESSAGE="🚫 Task *$ISSUE_ID* is now blocked by *$BLOCKER_ID*"
-curl -X POST -H 'Content-type: application/json' \
-  --data '{"text":"'$MESSAGE'"}' \
-  $SLACK_WEBHOOK_URL
-```
-
-## Federation dan Cross-Repo
-
-### Setup Federation
-
-```bash
-# Repo utama: my-org/platform
-$ bd federation init
-
-# Link repo lain
-$ bd federation add github.com/my-org/auth-service
-$ bd federation add github.com/my-org/payment-service
-$ bd federation add github.com/my-org/frontend-app
-
-# Cross-repo dependencies
-$ bd create "Update API contract" -p 0
-$ bd dep add bd-api-contract --external github.com/my-org/frontend-app#bd-fe-update
-```
-
-### Query Cross-Repo
-
-```bash
-# Lihat semua issues di federated repos
-$ bd federation list
-
-# Cek dependencies antar repo
-$ bd federation deps --graph
-
-# Sync status
-$ bd federation sync
+# Notify via Slack
+curl -X POST "$SLACK_WEBHOOK" \
+  -H 'Content-type: application/json' \
+  -d "{\"text\":\"Task $ISSUE_ID blocked by $BLOCKER_ID\"}"
 ```
 
 ## Performance Optimization
 
-### Large Repository Management
+### Untuk Repository Besar
 
 ```bash
-# Archive old completed issues
-$ bd archive --status done --older-than 30d --compress
+# Archive completed issues yang sudah lama
+$ bd archive --status done --older-than 30d
 
-# Partial loading
-$ bd config set load.strategy partial
-$ bd config set load.max-issues 1000
+# Limit berapa issues yang di-load
+$ bd config set load.max-issues 500
 
-# Lazy loading untuk dependencies
+# Enable lazy loading untuk dependencies
 $ bd config set dependencies.lazy-load true
 ```
 
-### Caching Strategies
+### Caching
 
 ```bash
 # Enable query cache
 $ bd config set cache.enabled true
-$ bd config set cache.ttl 300
+$ bd config set cache.ttl 300  # 5 minutes
 
-# Cache specific queries
-$ bd ready --cache-key "ready-tasks"
-
-# Invalidate cache
-$ bd cache invalidate --key "ready-tasks"
+# Invalidate jika perlu
+$ bd cache invalidate
 ```
 
-### Compaction Strategies
+### Regular Maintenance
 
 ```bash
-# Auto-compaction
-$ bd config set compaction.enabled true
-$ bd config set compaction.threshold 1000
-$ bd config set compaction.strategy summary
-
-# Manual compaction
-$ bd compact --older-than 14d --strategy archive
-$ bd compact --epic bd-old-epic --strategy full
+# Weekly routine
+$ bd doctor --fix        # Fix any issues
+$ bd cleanup --older-than 7d  # Remove old completed
+$ bd compact             # Optimize database
+$ bd sync               # Sync with git
 ```
 
-## Testing Strategies dengan Beads
+## Metrics dan Monitoring
 
-### Test-Driven Beads
+### Key Metrics untuk Tracking
 
 ```bash
-# Buat test task sebelum implementation
-$ bd create "Test: User registration flow" -p 0 --label type:test
-$ bd create "Implement: User registration" -p 0 --label type:implement
+# Lead time: dari created sampai done
+$ bd metrics --metric lead-time
 
-# Test harus selesai dulu (TDD)
-$ bd dep add bd-impl-reg --blocks bd-test-reg
+# Cycle time: dari in_progress sampai done
+$ bd metrics --metric cycle-time
 
-# Tapi bisa juga parallel dengan proper mocking
-$ bd dep add bd-impl-reg --related bd-test-reg
+# Blocked ratio: berapa % tasks yang blocked
+$ bd metrics --metric blocked-ratio
+
+# Discovery rate: rata-rata discovered work per task
+$ bd metrics --metric discovery-rate
 ```
 
-### Regression Testing Integration
-
-```bash
-# Saat bug ditemukan
-$ bd create "Fix: Login timeout bug" -p 0
-# Returns: bd-bug-001
-
-$ bd create "Test: Login timeout regression" -p 0 --label type:regression-test
-$ bd dep add bd-test-regression --blocks bd-bug-001
-
-# Mark as regression test
-$ bd update bd-test-regression --labels "regression,auth,timeout"
-
-# Query regression tests
-$ bd list --label regression --status done
-```
-
-## Metrics dan Analytics
-
-### Custom Metrics
-
-```bash
-# Lead time by priority
-$ bd metrics --metric lead-time --group-by priority
-
-# Cycle time trend
-$ bd metrics --metric cycle-time --time-series --interval weekly
-
-# Discovery rate
-$ bd metrics --metric discovery-rate --by-epic
-
-# Blocker resolution time
-$ bd metrics --metric blocker-resolution-time
-```
-
-### Dashboard Queries
+### Dashboard
 
 ```bash
 # Generate dashboard data
-$ bd dashboard-data --format json > dashboard.json
+$ bd dashboard --port 8080
 
-# Key metrics untuk dashboard:
-# - Velocity (issues completed per week)
-# - WIP (Work In Progress) count
-# - Blocked ratio
-# - Average lead time
-# - Discovery rate
-# - Agent utilization
+# Export metrics untuk monitoring external
+$ bd metrics --format prometheus > metrics.txt
 ```
 
 ### Predictive Analytics
 
 ```bash
-# Estimate completion time
-$ bd predict --epic bd-current-epic
+# Estimate waktu completion
+$ bd predict --epic bd-auth
 
 # Output:
-# Epic: User Authentication System
+# Epic: User Authentication
 # Estimated completion: 14 days
 # Confidence: 75%
 # Risk factors: 2 high-risk tasks, 1 external dependency
-
-# Identify at-risk tasks
-$ bd predict --at-risk --threshold 0.7
 ```
 
 ## Migration dari Tools Lain
@@ -493,14 +499,14 @@ $ bd predict --at-risk --threshold 0.7
 ### Dari Jira
 
 ```bash
-# Export Jira issues
+# Export dari Jira (JSON format)
 # Jira → Issues → Export → JSON
 
-# Convert ke format beads
-$ bd import --from-jira jira-export.json --mapping priority:Priority,assignee:Assignee
+# Import ke Beads
+$ bd import --from-jira export.json
 
-# Preserve Jira IDs sebagai external refs
-$ bd update bd-imported-001 --external-ref "JIRA-1234"
+# Preserve Jira IDs sebagai reference
+$ bd update bd-001 --external-ref "JIRA-1234"
 ```
 
 ### Dari Linear
@@ -509,48 +515,47 @@ $ bd update bd-imported-001 --external-ref "JIRA-1234"
 # Export dari Linear
 # Linear → Settings → Export
 
-# Import ke beads
-$ bd import --from-linear linear-export.json
-
-# Map cycles ke beads milestones
-$ bd milestone create "Cycle 1" --date 2026-02-01
-$ bd import --from-linear linear-export.json --mappings cycle:milestone
+# Import dengan cycle mapping
+$ bd import --from-linear export.json
+$ bd milestone create "Sprint 1" --date 2026-02-01
 ```
 
-### Dari Notion/Kanban
+### Dari Notion/Trello
 
 ```bash
-# Export CSV dari Notion/Kanban
+# Export sebagai CSV
 
-# Import ke beads
-$ bd import --from-csv kanban-export.csv --columns "Title,Status,Priority,Assignee"
-
-# Auto-generate dependencies berdasarkan status
-$ bd import --from-csv kanban.csv --auto-deps --rule "blocked:blocks=in-progress"
+# Import ke Beads
+$ bd import --from-csv board.csv \
+  --columns "Title,Status,Priority,Assignee"
 ```
 
 ## Kesimpulan
 
-Advanced Beads patterns memungkinkan kita untuk:
+Advanced Beads patterns memungkinkan kamu untuk:
 
-✅ **Scale ke multiple agents** dengan swarm architecture
-✅ **Manage complex projects** dengan proper decomposition
-✅ **Handle dependencies** secara sophisticated
-✅ **Optimize performance** untuk large repositories
-✅ **Integrate** dengan existing tools dan workflows
+- **Scale ke multiple agents** dengan swarm architecture yang terkoordinasi
+- **Handle Merge Wall** dengan strategi yang tepat
+- **Build AI-friendly tools** dengan prinsip Agent UX
+- **Simplify decision logic** dengan Zero Framework Cognition
+- **Manage complex projects** dengan proper epic decomposition
+- **Automate workflows** dengan hooks dan events
 
-Steve Yegge menyebutkan bahwa setelah menggunakan Beads dengan patterns ini, agents menjadi **"10x more productive"** dan **"100x less frustrating"**. Dengan swarm architecture yang tepat, kita bisa mencapai level produktivitas yang sebelumnya tidak mungkin dengan vibe coding tradisional.
+Steve Yegge menyebutkan bahwa dengan patterns ini, agents menjadi **"10x more productive"** dan **"100x less frustrating"**.
 
-**Next Steps:**
-1. Pilih pattern yang paling sesuai dengan project Anda
-2. Setup hooks dan automation
-3. Monitor metrics dan adjust workflow
-4. Scale gradually dari 1 agent ke multiple agents
+### Next Steps
 
-Selamat mencoba advanced patterns! 🚀✨
+1. **Mulai sederhana** - Master basic workflow dulu sebelum swarming
+2. **Experiment dengan 2 agents** - Lihat bagaimana mereka berkoordinasi
+3. **Setup hooks** - Automate repetitive tasks
+4. **Monitor metrics** - Track productivity dan adjust workflow
+5. **Scale gradually** - Dari 2 agents ke 3, dst
+
+Dengan advanced patterns yang tepat, vibe coding akan berubah dari eksperimen yang chaotic menjadi **proses development yang scalable dan predictable**.
 
 ## Referensi
 
+- [Six New Tips for Better Coding With Agents](https://steve-yegge.medium.com/six-new-tips-for-better-coding-with-agents-d4e9c86e42a9) - Steve Yegge
 - [Zero Framework Cognition](https://steve-yegge.medium.com/zero-framework-cognition-a-way-to-build-resilient-ai-applications-56b090ed3e69) - Steve Yegge
 - [Beads Best Practices](https://steve-yegge.medium.com/beads-best-practices-2db636b9760c) - Steve Yegge
-- [Six New Tips for Better Coding With Agents](https://steve-yegge.medium.com/six-new-tips-for-better-coding-with-agents-d4e9c86e42a9) - Steve Yegge
+- [Beads Blows Up](https://steve-yegge.medium.com/beads-blows-up-a0a61bb889b4) - Steve Yegge
