@@ -51,7 +51,8 @@ README.md
 .data
 k8s
 docs
-scripts
+# NOTE: scripts is needed for sync-articles.js in Docker
+# scripts
 .dockerignore
 Dockerfile
 docker-compose.yml
