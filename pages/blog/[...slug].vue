@@ -172,7 +172,7 @@
       </div>
 
       <!-- Related Articles by Keywords -->
-      <RelatedArticles :current-post="post" :all-posts="allPosts || []" />
+      <RelatedArticles :current-post="post" :all-posts="relatedArticles || []" :pending="relatedPending" />
 
       <!-- AI Chat Assistant -->
       <ArticleAIChat
@@ -226,15 +226,15 @@ watch(() => route.path, () => {
   refresh()
 })
 
-// Fetch all posts for related posts from PostgreSQL API
-const { data: allPostsResponse } = await useFetch('/api/articles', {
-  key: 'all-articles-related',
-  query: { limit: 100 },
+// Fetch related articles from optimized endpoint
+const { data: relatedArticlesResponse, pending: relatedPending } = await useFetch('/api/related-articles', {
+  key: `related-articles-${slug.value}`,
+  query: { slug: slug.value, limit: 5 },
   lazy: true,
   server: false
 })
 
-const allPosts = computed(() => allPostsResponse.value?.articles || [])
+const relatedArticles = computed(() => relatedArticlesResponse.value?.articles || [])
 
 // Language icons
 const languageIcons: Record<string, string> = {
