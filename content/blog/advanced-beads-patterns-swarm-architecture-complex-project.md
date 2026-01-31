@@ -1,6 +1,6 @@
 ---
 title: "Advanced Beads Patterns: Swarm Architecture dan Complex Project Management"
-date: 2026-01-30T00:00:00.000Z
+date: 2026-01-31T00:00:00.000Z
 description: "Pelajari advanced patterns untuk Beads: swarm architecture, epic decomposition strategies, dependency resolution algorithms, dan complex project management untuk large-scale vibe coding."
 category: JavaScript
 article_language: indonesian
@@ -8,7 +8,11 @@ ai_generated: ai
 programming_language: javascript
 ---
 
-Setelah menguasai dasar-dasar Beads dan implementasi workflow praktis, saatnya naik level. Artikel ini membahas **advanced patterns** yang digunakan Steve Yegge dan developer berpengalaman lainnya untuk menangani proyek kompleks dengan multiple agents, complex dependencies, dan long-term planning.
+# Advanced Beads Patterns: Swarm Architecture dan Complex Project Management
+
+## Pengantar: Naik Level dengan Beads
+
+Setelah menguasai dasar-dasar Beads dan implementasi workflow praktis, saatnya kita naik level. Artikel ini membahas **advanced patterns** yang digunakan Steve Yegge dan developer berpengalaman lainnya untuk menangani proyek kompleks dengan multiple agents, complex dependencies, dan long-term planning.
 
 ## The Swarm Architecture
 
@@ -544,3 +548,9 @@ Steve Yegge menyebutkan bahwa setelah menggunakan Beads dengan patterns ini, age
 4. Scale gradually dari 1 agent ke multiple agents
 
 Selamat mencoba advanced patterns! 🚀✨
+
+## Referensi
+
+- [Zero Framework Cognition](https://steve-yegge.medium.com/zero-framework-cognition-a-way-to-build-resilient-ai-applications-56b090ed3e69) - Steve Yegge
+- [Beads Best Practices](https://steve-yegge.medium.com/beads-best-practices-2db636b9760c) - Steve Yegge
+- [Six New Tips for Better Coding With Agents](https://steve-yegge.medium.com/six-new-tips-for-better-coding-with-agents-d4e9c86e42a9) - Steve Yegge

@@ -1,22 +1,26 @@
 ---
 title: "Implementasi Praktis Beads: Workflow Vibe Coding yang Efektif"
 date: 2026-01-30T00:00:00.000Z
-description: "Panduan praktis mengimplementasikan Beads dalam workflow vibe coding sehari-hari. Pelajari strategi session management, dependency mapping, dan multi-agent coordination untuk produktivitas maksimal."
+description: "Panduan lengkap mengimplementasikan Beads dalam workflow vibe coding sehari-hari. Pelajari session management, dependency mapping, dan best practices untuk produktivitas maksimal."
 category: JavaScript
 article_language: indonesian
 ai_generated: ai
 programming_language: javascript
 ---
 
-Setelah memahami konsep dasar **Beads** dari Steve Yegge, pertanyaan selanjutnya adalah: *Bagaimana cara menggunakannya dalam praktik sehari-hari?* Artikel ini adalah panduan implementasi praktis untuk developer yang ingin mengintegrasikan Beads ke dalam workflow vibe coding mereka.
+# Implementasi Praktis Beads: Workflow Vibe Coding yang Efektif
 
-## Mengapa Artikel Ini Penting?
+## Pengantar: Dari Teori ke Praktik
 
-Steve Yegge menceritakan bagaimana dia menghabiskan 40 hari straight vibe coding dan menghasilkan 350k LOC yang akhirnya harus di-burn. Masalah utamanya bukan pada agent-nya, tapi pada **cara kerja** yang tidak terstruktur. Beads adalah solusinya, tapi butuh strategi implementasi yang tepat.
+Di artikel sebelumnya, kita sudah memahami **mengapa** Beads penting untuk vibe coding. Sekarang kita akan belajar **bagaimana** mengimplementasikannya dalam praktik sehari-hari.
+
+Steve Yegge, pencipta Beads, menghabiskan 40 hari straight vibe coding dan menghasilkan 350k LOC yang akhirnya harus di-burn. Masalah utamanya bukan pada agent-nya, tapi pada **cara kerja** yang tidak terstruktur. Artikel ini adalah panduan implementasi praktis berdasarkan pengalaman nyata.
 
 ## Setup Awal: Foundation yang Kuat
 
 ### 1. Struktur Project dengan Beads
+
+Setelah menjalankan `bd init`, project kamu akan memiliki struktur seperti ini:
 
 ```
 my-project/
@@ -30,6 +34,10 @@ my-project/
 ```
 
 ### 2. Konfigurasi AGENTS.md yang Efektif
+
+File `AGENTS.md` adalah dokumentasi yang dibaca agent setiap kali mulai bekerja. Ini adalah tempat kamu memberikan instruksi tentang workflow Beads.
+
+**Contoh AGENTS.md:**
 
 ```markdown
 ## Workflow dengan Beads
@@ -59,13 +67,17 @@ my-project/
 
 ### Problem: Agent Dementia
 
-Steve Yegge menjelaskan fenomena "Descent Into Madness" - agent yang mulai dengan 6 fase, lupa setelah compaction, lalu membuat plan baru 5 fase, dan akhirnya declare "DONE! 🎉" padahal baru 30% selesai.
+Seperti yang dijelaskan Steve Yegge, agents mengalami "Descent Into Madness":
+- Mulai dengan 6 fase
+- Lupa setelah compaction
+- Buat plan baru 5 fase
+- Declare "DONE! 🎉" padahal baru 30% selesai
 
 ### Solusi: Session-Based Workflow
 
-```bash
-# Pattern: One Session, One Task
+**Pattern: One Session, One Task**
 
+```bash
 # 1. Start session - lihat apa yang ready
 $ bd ready
 bd-a1b2  P0  Implement JWT middleware
@@ -484,3 +496,8 @@ Implementasi Beads bukan hanya tentang menggunakan tool baru, tapi tentang **men
 Dengan workflow yang tepat, Beads akan mengubah vibe coding dari "Descent Into Madness" menjadi **orchestrated, predictable, dan highly productive** development process.
 
 Selamat mengimplementasikan! 🎯✨
+
+## Referensi
+
+- [Beads Best Practices](https://steve-yegge.medium.com/beads-best-practices-2db636b9760c) - Steve Yegge
+- [Six New Tips for Better Coding With Agents](https://steve-yegge.medium.com/six-new-tips-for-better-coding-with-agents-d4e9c86e42a9) - Steve Yegge
