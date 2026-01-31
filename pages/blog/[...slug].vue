@@ -230,8 +230,7 @@ watch(() => route.path, () => {
 const { data: relatedArticlesResponse, pending: relatedPending } = await useFetch('/api/related-articles', {
   key: `related-articles-${slug.value}`,
   query: { slug: slug.value, limit: 5 },
-  lazy: true,
-  server: false
+  lazy: true
 })
 
 const relatedArticles = computed(() => relatedArticlesResponse.value?.articles || [])
