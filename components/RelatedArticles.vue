@@ -11,11 +11,11 @@
     </div>
     
     <!-- Related articles -->
-    <div v-else-if="relatedArticles.length > 0" class="related-grid">
+    <div v-else-if="displayArticles.length > 0" class="related-grid">
       <NuxtLink
-        v-for="article in relatedArticles"
-        :key="article.path"
-        :to="article.path"
+        v-for="article in displayArticles"
+        :key="article.path || article.slug"
+        :to="article.path || `/blog/${article.slug}`"
         class="related-card"
       >
         <span class="related-category">{{ article.category }}</span>
@@ -39,11 +39,16 @@ const props = withDefaults(defineProps<Props>(), {
   pending: false
 })
 
-const { getRelatedArticles } = useArticleInterlinking()
-
-const relatedArticles = computed(() => {
-  if (!props.currentPost || !props.allPosts?.length) return []
-  return getRelatedArticles(props.currentPost, props.allPosts, 5)
+// Use allPosts directly - the API already returns filtered related articles
+// No need to run through getRelatedArticles() again
+const displayArticles = computed(() => {
+  if (!props.allPosts?.length) return []
+  
+  // Filter out current post if it somehow got included
+  const currentSlug = props.currentPost?.slug
+  return props.allPosts
+    .filter(article => article.slug !== currentSlug)
+    .slice(0, 5)
 })
 </script>
 
@@ -95,6 +100,13 @@ const relatedArticles = computed(() => {
   font-weight: 500;
   color: var(--color-text-heading);
   line-height: 1.4;
+}
+
+.related-card-skeleton {
+  padding: 1rem;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
 }
 
 @media (max-width: 640px) {

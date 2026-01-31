@@ -31,7 +31,13 @@ export default defineEventHandler(async (event) => {
       [slug, category, programming_language, parseInt(limit as string)]
     )
     
-    return { articles: relatedResult.rows }
+    // Transform to include path field for component compatibility
+    const articles = relatedResult.rows.map(article => ({
+      ...article,
+      path: `/blog/${article.slug}`
+    }))
+    
+    return { articles }
   } catch (error) {
     console.error('Database error:', error)
     return {
