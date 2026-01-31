@@ -109,7 +109,7 @@
 
       <!-- Article content -->
       <div class="prose prose-lg">
-        <ContentRenderer :value="post" />
+        <MDC :value="post.content" />
       </div>
 
       <!-- Article footer -->
@@ -161,8 +161,8 @@
         <div class="related-grid">
           <NuxtLink
             v-for="relatedPost in relatedPosts"
-            :key="relatedPost.path"
-            :to="relatedPost.path"
+            :key="relatedPost.slug"
+            :to="`/blog/${relatedPost.slug}`"
             class="related-card"
           >
             <h4 class="related-card-title">{{ relatedPost.title }}</h4>
@@ -195,20 +195,26 @@ const route = useRoute()
 const baseUrl = 'https://satrio.dev'
 const { isPostVisible } = usePostVisibility()
 
-// Fetch current post
-const { data: post, pending, error, refresh } = await useAsyncData(
-  `blog-${route.path}`,
-  async () => {
-    const result = await queryCollection('blog').path(route.path).first()
-    
-    // Check if post exists and is visible (not future-dated)
-    if (result && !isPostVisible(result)) {
-      return null // Return null to show "not found" state
-    }
-    
-    return result
-  }
-)
+// Extract slug from route path
+const slug = computed(() => {
+  const path = route.path
+  // Remove /blog/ prefix and any trailing slashes
+  return path.replace(/^\/blog\//, '').replace(/\/$/, '')
+})
+
+// Fetch current post from PostgreSQL API
+const { data: postResponse, pending, error, refresh } = await useFetch('/api/article', {
+  key: `article-${slug.value}`,
+  query: { slug: slug.value }
+})
+
+const post = computed(() => {
+  if (!postResponse.value?.article) return null
+  const article = postResponse.value.article
+  // Check if post is visible (not future-dated)
+  if (!isPostVisible(article)) return null
+  return article
+})
 
 // Handle errors
 if (error.value) {
@@ -220,15 +226,15 @@ watch(() => route.path, () => {
   refresh()
 })
 
-// Fetch all posts for related posts (lazy load - only when needed)
-const { data: allPosts } = await useAsyncData(
-  'all-blog-posts',
-  () => queryCollection('blog').all(),
-  {
-    lazy: true, // Don't block rendering
-    server: false // Only fetch on client to reduce SSR payload
-  }
-)
+// Fetch all posts for related posts from PostgreSQL API
+const { data: allPostsResponse } = await useFetch('/api/articles', {
+  key: 'all-articles-related',
+  query: { limit: 100 },
+  lazy: true,
+  server: false
+})
+
+const allPosts = computed(() => allPostsResponse.value?.articles || [])
 
 // Language icons
 const languageIcons: Record<string, string> = {
@@ -252,9 +258,9 @@ const shareButtons = [
 // SEO meta tags
 watchEffect(() => {
   if (post.value) {
-     const postUrl = `${baseUrl}${post.value.path || route.path}`
+     const postUrl = `${baseUrl}/blog/${post.value.slug}`
     const postDate = post.value.date ? new Date(post.value.date).toISOString() : ''
-    const description = post.value.description || post.value.body?.value?.[0]?.[2]?.substring(0, 160) || ''
+    const description = post.value.description || post.value.content?.substring(0, 160) || ''
 
     useHead({
       title: `${post.value.title} | Satrio's Blog`,
@@ -317,12 +323,12 @@ const articleTextContent = computed(() => {
     return ''
   }
   
-  let content = extractText(post.value.body)
-  
-  // Fallback to description
-  if (!content && post.value.description) {
-    content = String(post.value.description)
-  }
+  let content = extractText(post.value.content)
+   
+   // Fallback to description
+   if (!content && post.value.description) {
+     content = String(post.value.description)
+   }
   
   // Limit content length for API (max ~8000 chars)
   return content.slice(0, 8000)
@@ -340,18 +346,18 @@ const readingTime = computed(() => {
 
 const { filterVisiblePosts } = usePostVisibility()
 
- // Related posts
- const relatedPosts = computed(() => {
-   if (!post.value || !allPosts.value?.length) return []
-   return filterVisiblePosts(allPosts.value)
-     .filter((p) => p.path !== post.value!.path)
-     .filter(
-       (p) =>
-         (post.value!.category && p.category === post.value!.category) ||
-         (post.value!.programming_language && p.programming_language === post.value!.programming_language)
-     )
-     .slice(0, 3)
- })
+  // Related posts
+  const relatedPosts = computed(() => {
+    if (!post.value || !allPosts.value?.length) return []
+    return filterVisiblePosts(allPosts.value)
+      .filter((p) => p.slug !== post.value!.slug)
+      .filter(
+        (p) =>
+          (post.value!.category && p.category === post.value!.category) ||
+          (post.value!.programming_language && p.programming_language === post.value!.programming_language)
+      )
+      .slice(0, 3)
+  })
 
 // Format date
 const formatDate = (date: Date | string | undefined) => {
