@@ -22,7 +22,7 @@
   width: 100%;
   border-collapse: collapse;
   margin: 0;
-  table-layout: auto;
+  table-layout: fixed;
 }
 
 .table-wrapper :deep(thead) {
